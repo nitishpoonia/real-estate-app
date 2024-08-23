@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import CustomButton from '../../components/CustomButton';
 import {images} from '../../constants';
 import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
-const OnboardingScreenTemplate = () => {
+const OnboardingScreenTemplate = ({navigation}) => {
   const [index, setIndex] = useState(0);
 
   const details = [
@@ -32,7 +32,7 @@ const OnboardingScreenTemplate = () => {
       exiting={FadeOut.duration(300)}
       className="p-4 items-center flex-1 b">
       <View className="self-end">
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
           <Text className="text-green-500 text-xl text-right font-pregular">
             Skip
           </Text>
