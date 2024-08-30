@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  Pressable,
-  Image,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
+import {View, Text, Pressable, Image, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 import CustomTextInput from '../../components/CustomTextInput';
 import CustomButton from '../../components/CustomButton';
@@ -20,6 +13,7 @@ import {
 } from '../../redux/slices/formSlice';
 import {images} from '../../constants';
 import {signupUser} from '../../redux/slices/auth/authActions';
+
 const SignUp = ({navigation}) => {
   const [submitError, setSubmitError] = useState('');
   const [imageUri, setImageUri] = useState('');
@@ -89,7 +83,7 @@ const SignUp = ({navigation}) => {
     return true;
   };
 
-  const onSubmit = async () => {
+  const onSubmit = () => {
     setSubmitError('');
     if (validateForm()) {
       const data = new FormData();
@@ -105,20 +99,19 @@ const SignUp = ({navigation}) => {
         };
         data.append('avatar', image);
       }
-
       dispatch(signupUser(data));
     }
   };
 
   return (
-    <ScrollView className="flex-1 bg-white">
+    <View className="flex-1 bg-white justify-center">
       <View className="mt-5">
         <Text className="text-3xl text-black font-psemibold text-center">
-          Sign up for free
+          Sign up
         </Text>
       </View>
       <View>
-        <Pressable onPress={pickImage} className="items-center my-5">
+        <Pressable onPress={pickImage} className="items-center mt-5">
           {imageUri ? (
             <Image
               source={{uri: imageUri}}
@@ -133,7 +126,9 @@ const SignUp = ({navigation}) => {
             />
           )}
         </Pressable>
-
+        <Text className="text-black text-xl font-psemibold text-center mb-5">
+          Add Photo
+        </Text>
         <CustomTextInput
           placeholder={'Enter your full name'}
           onChangeText={text => handleInputChange('fullName', text)}
@@ -191,11 +186,11 @@ const SignUp = ({navigation}) => {
         </Text>
       </Pressable> */}
       <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-        <Text className="text-xl text-center mt-5 text-black font-pregular">
+        <Text className="text-lg text-center mt-5 text-black font-pregular">
           Already have an account? Sign In
         </Text>
       </TouchableOpacity>
-    </ScrollView>
+    </View>
   );
 };
 

@@ -24,7 +24,7 @@ const formSlice = createSlice({
   reducers: {
     checkEmail: (state, action) => {
       const email = action.payload;
-      state.email = email;
+      state.email = email.toLowerCase();
       state.emailError = validateEmail(email)
         ? ''
         : 'Please enter a valid email address.';

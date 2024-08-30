@@ -1,28 +1,12 @@
-import {View, Text, TouchableOpacity} from 'react-native';
-import React, {useState, useEffect} from 'react';
+import {View, Text, TouchableOpacity, Image} from 'react-native';
+import React, {useState} from 'react';
 import CustomTextInput from '../../components/CustomTextInput';
 import CustomButton from '../../components/CustomButton';
 import {useDispatch, useSelector} from 'react-redux';
 import {checkEmail, checkPassword} from '../../redux/slices/formSlice';
 import {loginUser} from '../../redux/slices/auth/authActions';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import {images} from '../../constants';
 const Login = ({navigation}) => {
-  useEffect(() => {
-    const checkToken = async () => {
-      try {
-        const token = await AsyncStorage.getItem('accessToken');
-        if (token) {
-          navigation.replace('ProductHomePage');
-        }
-      } catch (error) {
-        console.error('Error fetching token from AsyncStorage:', error);
-      }
-    };
-
-    checkToken();
-  }, [navigation]);
-
   const [submitError, setSubmitError] = useState('');
   const dispatch = useDispatch();
   const {email, password, passwordError, emailError} = useSelector(
@@ -56,20 +40,19 @@ const Login = ({navigation}) => {
   const onSubmit = async () => {
     if (validateForm()) {
       setSubmitError('');
-      dispatch(loginUser({email, password}))
-        .then(() => {
-          navigation.replace('ProductHomePage');
-        })
-        .catch(err => {
-          console.error('Login failed', err);
-        });
+      dispatch(loginUser({email, password}));
     }
   };
   return (
-    <View className="bg-white flex-1 justify-center">
-      <View className="mt-5">
+    <View className="bg-white flex-1 justify-center ">
+      <View className="mt-5 items-center">
+        <Image
+          source={images.logo2}
+          className="w-[120px] h-[120px] mb-3"
+          resizeMode="contain"
+        />
         <Text className="text-3xl text-black font-psemibold text-center mb-4">
-          Sign in to your account
+          Sign in
         </Text>
       </View>
       <View>
@@ -110,7 +93,7 @@ const Login = ({navigation}) => {
         />
       </View>
       <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-        <Text className="text-xl text-center mt-5 text-black font-pregular">
+        <Text className="text-lg text-center mt-5 text-black font-pregular">
           Don't have account? Sign up
         </Text>
       </TouchableOpacity>

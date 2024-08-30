@@ -1,8 +1,19 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Platform} from 'react-native';
+
+const getBaseURL = () => {
+  if (Platform.OS === 'android') {
+    return (
+    //   'http://10.0.2.2:6000/api/v1/users' ||
+      'http://192.168.0.246:6000/api/v1/users'
+    ); // Android emulator
+  } else if (Platform.OS === 'ios') {
+    return 'http://localhost:6000/api/v1/users';
+  }
+};
 const AuthApiManager = axios.create({
-    baseURL: 'http://10.0.2.2:6000/api/v1/users',
-//   baseURL: 'http://192.168.0.246/api/v1/users',
+  baseURL: getBaseURL(),
   headers: {
     'Content-Type': 'application/json',
   },
@@ -24,7 +35,6 @@ export const signIn = (email, password) => {
   return _post('/login', {email, password});
 };
 
-// try to implement the api call
 export const signOut = async () => {
   try {
     const success = true;

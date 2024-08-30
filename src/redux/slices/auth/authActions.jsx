@@ -1,22 +1,50 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {authStart, authSuccess, authFailure, logout} from './authSlice';
-import {createUser, signIn, signOut} from '../../../api/AuthApiManager';
+import {
+  authStart,
+  authSuccess,
+  authFailure,
+  logout,
+  authTokenFound,
+} from './authSlice';
+import {createUser, signIn, signOut} from '../../../app/api/AuthApiManager';
+import Toast from 'react-native-toast-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+export const checkLoggedIn = createAsyncThunk(
+  'auth/checkLoggedIn',
+  async (_, {dispatch}) => {
+    try {
+      dispatch(authStart());
+      const token = await AsyncStorage.getItem('accessToken');
+      const user = await AsyncStorage.getItem('user');
+      if (token) {
+        dispatch(authTokenFound(user));
+      } else {
+        dispatch(authFailure('No token found'));
+      }
+    } catch (error) {
+      dispatch(authFailure(error.response?.data?.message || error.message));
+    }
+  },
+);
 export const loginUser = createAsyncThunk(
   'auth/login',
   async ({email, password}, {dispatch}) => {
     try {
       dispatch(authStart());
       const response = await signIn(email, password);
-      const {user, refreshToken} = response.data.data;
-      console.log(response.data.data);
-
-      await AsyncStorage.setItem('accessToken', user);
-      await AsyncStorage.setItem('refreshToken', refreshToken);
       dispatch(authSuccess(response.data));
+      Toast.show({
+        type: 'success',
+        text1: 'Login Successful',
+      });
     } catch (error) {
       dispatch(authFailure(error.response?.data?.message || error.message));
+      Toast.show({
+        type: 'error',
+        text1: 'Login Failed',
+        text2: error.response?.data?.message || error.message,
+      });
     }
   },
 );
@@ -26,15 +54,20 @@ export const signupUser = createAsyncThunk(
   async (data, {dispatch}) => {
     try {
       dispatch(authStart());
-      const {email, password} = data;
-      console.log(data.email, data.password);
-
       const response = await createUser(data);
-      dispatch(loginUser(email, password));
-
       dispatch(authSuccess(response.data));
+      Toast.show({
+        type: 'success',
+        text1: 'Signup Successful',
+        text2: 'Your account has been created successfully!',
+      });
     } catch (error) {
       dispatch(authFailure(error.response?.data?.message || error.message));
+      Toast.show({
+        type: 'error',
+        text1: 'Signup Failed',
+        text2: error.response?.data?.message || error.message,
+      });
     }
   },
 );
