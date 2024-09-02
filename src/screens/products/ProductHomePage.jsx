@@ -59,7 +59,6 @@ const ProductHomePage = ({navigation}) => {
         <View>
           <Text className="font-psemibold text-white text-xl mt-2">
             Welcome, {user?.username}
-            {/* Welcome, Nitish */}
           </Text>
         </View>
         <View className="mt-3">

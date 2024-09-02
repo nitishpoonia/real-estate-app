@@ -20,6 +20,7 @@ import ViewAllImages from './screens/products/ViewAllImages';
 import SearchScreen from './screens/SearchScreen';
 import BasicProperties from './components/properties/BasicProperties';
 import {checkLoggedIn} from './redux/slices/auth/authActions';
+import ApScreen1 from './screens/addProduct/ApScreen1';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -80,6 +81,19 @@ const ProductStack = () => {
     </Stack.Navigator>
   );
 };
+
+const AddProductStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="ApScreen1"
+        component={ApScreen1}
+        options={{headerShown: false}}
+      />
+    </Stack.Navigator>
+  );
+};
+
 const MainApp = () => {
   return (
     <Tab.Navigator
@@ -106,6 +120,8 @@ const MainApp = () => {
               iconName = focused ? 'home' : 'home-outline';
             } else if (route.name === 'Profile') {
               iconName = focused ? 'person' : 'person-outline';
+            } else if ((route.name = 'AddProduct')) {
+              iconName = focused ? 'add-circle' : 'add-circle-outline';
             }
             return <Icon name={iconName} size={size} color={'#003366'} />;
           },
@@ -116,6 +132,11 @@ const MainApp = () => {
       <Tab.Screen
         name="Home"
         component={ProductStack}
+        options={{headerShown: false}}
+      />
+      <Tab.Screen
+        name="AddProduct"
+        component={AddProductStack}
         options={{headerShown: false}}
       />
       <Tab.Screen

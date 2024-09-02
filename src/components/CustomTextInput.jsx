@@ -9,24 +9,28 @@ const CustomTextInput = ({
   keyboardType = 'default',
   style,
   error,
+  multiline,
+  numberOfLines,
   ...props
 }) => {
   const [isFocused, setIsFocused] = useState(false);
 
   return (
-    <View className="mx-3 mb-3">
+    <View className="mb-3">
       <TextInput
         style={[style]}
         placeholder={placeholder}
+        multiline={multiline}
         value={value}
         onChangeText={onChangeText}
         secureTextEntry={secureTextEntry}
         keyboardType={keyboardType}
         placeholderTextColor="#AEAEB2"
+        numberOfLines={numberOfLines}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         {...props}
-        className={`border rounded-xl px-4 py-2 font-pregular bg-white h-[40px] ${
+        className={`border rounded-md px-4 py-2 font-pregular bg-white h-[40px] ${
           isFocused ? 'border-green-600' : 'border-gray-300'
         }`}
       />
