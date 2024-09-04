@@ -42,10 +42,19 @@ const ProductSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-
+      // Create Property
+      .addCase(createProperty.pending, state => {
+        state.loading = true;
+      })
       .addCase(createProperty.fulfilled, (state, action) => {
+        state.loading = false;
         state.properties.push(action.payload);
       })
+      .addCase(createProperty.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      // update property
       .addCase(updateProperty.fulfilled, (state, action) => {
         const index = state.properties.findIndex(
           prop => prop.id === action.payload.id,

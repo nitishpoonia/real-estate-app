@@ -1,5 +1,4 @@
 import {createSlice} from '@reduxjs/toolkit';
-
 const initialState = {
   title: '',
   titleError: '',
@@ -25,6 +24,7 @@ const initialState = {
   mainImageError: '',
   listedBy: '',
   listedByError: '',
+  carpetArea: '',
 };
 
 const addProductSlice = createSlice({
@@ -103,6 +103,13 @@ const addProductSlice = createSlice({
       state.listedBy = listedBy;
       state.listedByError = listedBy ? '' : 'Please select a listed by option';
     },
+    setCarpetArea: (state, action) => {
+      const carpetArea = action.payload;
+      state.carpetArea = carpetArea;
+    },
+    resetForm: state => {
+      Object.assign(state, initialState);
+    },
   },
 });
 
@@ -119,6 +126,8 @@ export const {
   setImages,
   setMainImage,
   setListedBy,
+  setCarpetArea,
+  resetForm,
 } = addProductSlice.actions;
 
 export default addProductSlice;

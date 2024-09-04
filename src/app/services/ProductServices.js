@@ -9,7 +9,11 @@ const PropertyService = {
   },
 
   createProperty: propertyData => {
-    return ProductApiManager.post('/register-property', propertyData);
+    return ProductApiManager.post('/register-property', propertyData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
   },
 
   updateProperty: (id, updatedData) => {

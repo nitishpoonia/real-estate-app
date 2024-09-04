@@ -73,14 +73,19 @@ const ProductHomePage = ({navigation}) => {
       </View>
       <View className="mx-2 mt-2">
         <Text className="font-psemibold text-xl mb-1 text-black">
-          What you are looking for?
+          You are looking to?
         </Text>
-        <View className="flex-row w-[45%] justify-between">
-          <Pressable className="border-2 px-3 py-1 rounded-xl border-[#16a34a]">
-            <Text className="font-pmedium text-[#16a34a] ">Buying</Text>
+        <View className="flex-row w-[55%] justify-between">
+          <Pressable
+            className="border-2 px-3 py-1 rounded-xl border-[#16a34a]"
+            onPress={() => navigation.navigate('SearchScreen')}>
+            <Text className="font-pmedium text-[#16a34a] ">Buy</Text>
           </Pressable>
           <Pressable className="border-2 px-3 py-1 rounded-xl border-[#16a34a]">
-            <Text className="font-pmedium text-[#16a34a]">Renting</Text>
+            <Text className="font-pmedium text-[#16a34a]">Rent</Text>
+          </Pressable>
+          <Pressable className="border-2 px-3 py-1 rounded-xl border-[#16a34a]">
+            <Text className="font-pmedium text-[#16a34a]">Sell</Text>
           </Pressable>
         </View>
       </View>
@@ -96,7 +101,7 @@ const ProductHomePage = ({navigation}) => {
           <BasicProperties navigation={navigation} />
         </View>
       </View>
-      {/* <View>
+      <View className="my-3">
         <View className="px-2 flex-row items-center justify-between mt-4">
           <Text className="text-xl text-black font-psemibold ">
             Recently Posted
@@ -105,29 +110,9 @@ const ProductHomePage = ({navigation}) => {
           <Text className="text-black font-psemibold text-sm ">View All</Text>
         </View>
         <View className="mx-2">
-          <SmallCard
-            name={'House 1'}
-            location={'New Location'}
-            price={'2,000,00'}
-            handleCardPress={() => navigation.navigate('ProductDetailPage')}
-            handleHeartPress={() => console.log('Heart Pressed')}
-          />
-          <SmallCard
-            name={'House 1'}
-            location={'New Location'}
-            price={'2,000,00'}
-            handleCardPress={() => navigation.navigate('ProductDetailPage')}
-            handleHeartPress={() => console.log('Heart Pressed')}
-          />
-          <SmallCard
-            name={'House 1'}
-            location={'New Location'}
-            price={'2,000,00'}
-            handleCardPress={() => navigation.navigate('ProductDetailPage')}
-            handleHeartPress={() => console.log('Heart Pressed')}
-          />
+          <BasicProperties navigation={navigation} useSorted={true} />
         </View>
-      </View> */}
+      </View>
     </ScrollView>
   );
 };

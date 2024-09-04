@@ -17,16 +17,21 @@ import SupportScreen from './screens/SupportScreen';
 import ProductDetailPage from './screens/products/ProductDetailPage';
 import BookingForm from './screens/products/BookingForm';
 import ViewAllImages from './screens/products/ViewAllImages';
-import SearchScreen from './screens/SearchScreen';
+import SearchScreen from './screens/search/SearchScreen';
 import BasicProperties from './components/properties/BasicProperties';
 import {checkLoggedIn} from './redux/slices/auth/authActions';
 import ApScreen1 from './screens/addProduct/ApScreen1';
-
+import UserTypeSelectionPage from './screens/UserTypeSelectionPage';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 const AuthStack = () => {
   return (
-    <Stack.Navigator initialRouteName="Login">
+    <Stack.Navigator initialRouteName="OnboardingScreenTemplate">
+      <Stack.Screen
+        name="OnboardingScreenTemplate"
+        component={OnboardingScreenTemplate}
+        options={{headerShown: false}}
+      />
       <Stack.Screen
         name="SignUp"
         component={SignUp}
@@ -37,17 +42,17 @@ const AuthStack = () => {
         component={Login}
         options={{headerShown: false}}
       />
-      <Stack.Screen
-        name="OnboardingScreenTemplate"
-        component={OnboardingScreenTemplate}
-        options={{headerShown: false}}
-      />
     </Stack.Navigator>
   );
 };
 const ProductStack = () => {
   return (
     <Stack.Navigator>
+      {/* <Stack.Screen
+        name="UserTypeSelectionPage"
+        component={UserTypeSelectionPage}
+        options={{headerShown: false}}
+      /> */}
       <Stack.Screen
         name="ProductHomePage"
         component={ProductHomePage}
@@ -98,29 +103,30 @@ const MainApp = () => {
   return (
     <Tab.Navigator
       screenOptions={({route}) => {
-        const routeName = getFocusedRouteNameFromRoute(route) ?? '';
+        // Get the name of the focused route
+        const routeName = getFocusedRouteNameFromRoute(route) ?? route.name;
+        const shouldHideTabBar = () => {
+          const hideRoutes = [
+            'SupportScreen',
+            'ProductDetailPage',
+            'BookingForm',
+            'UserTypeSelectionPage',
+          ];
+          return hideRoutes.includes(routeName);
+        };
 
         return {
-          tabBarStyle: (() => {
-            switch (routeName) {
-              case 'SupportScreen':
-                return {display: 'none'};
-              case 'ProductDetailPage':
-                return {display: 'none'};
-              case 'BookingForm':
-                return {display: 'none'};
-              default:
-                return {display: 'flex'};
-            }
-          })(),
-          // eslint-disable-next-line react/no-unstable-nested-components
+          tabBarStyle: {
+            display: shouldHideTabBar() ? 'none' : 'flex',
+          },
+          // Tab icon and other settings
           tabBarIcon: ({focused, color, size}) => {
             let iconName;
             if (route.name === 'Home') {
               iconName = focused ? 'home' : 'home-outline';
             } else if (route.name === 'Profile') {
               iconName = focused ? 'person' : 'person-outline';
-            } else if ((route.name = 'AddProduct')) {
+            } else if (route.name === 'AddProduct') {
               iconName = focused ? 'add-circle' : 'add-circle-outline';
             }
             return <Icon name={iconName} size={size} color={'#003366'} />;
@@ -147,6 +153,7 @@ const MainApp = () => {
     </Tab.Navigator>
   );
 };
+
 const SupportStack = () => {
   return (
     <Stack.Navigator>

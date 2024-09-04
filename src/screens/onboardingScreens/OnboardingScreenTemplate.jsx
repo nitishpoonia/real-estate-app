@@ -32,7 +32,7 @@ const OnboardingScreenTemplate = ({navigation}) => {
       exiting={FadeOut.duration(300)}
       className="p-4 items-center flex-1 b">
       <View className="self-end">
-        <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
           <Text className="text-green-500 text-xl text-right font-pregular">
             Skip
           </Text>
@@ -84,7 +84,7 @@ const OnboardingScreenTemplate = ({navigation}) => {
           title="Next"
           handlePress={() => {
             if (index > details.length - 2) {
-              setIndex(0);
+              navigation.navigate('Login');
               return;
             }
             setIndex(prevIndex => prevIndex + 1);

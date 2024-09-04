@@ -30,6 +30,8 @@ export const createProperty = createAsyncThunk(
   async (propertyData, {rejectWithValue}) => {
     try {
       const response = await ProductServices.createProperty(propertyData);
+      const data = await response.data;
+      console.log(data);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
