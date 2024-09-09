@@ -25,7 +25,9 @@ const BasicProperties = ({
   const data = useSorted ? sortedProperties : properties;
 
   if (loading) return <Text>Loading...</Text>;
-  if (error) return <Text>Error: {error}</Text>;
+  if (error)
+    return <Text>Error: {error.message || 'An unknown error occurred'}</Text>;
+
 
   return (
     <View>

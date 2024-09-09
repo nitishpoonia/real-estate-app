@@ -1,5 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, ScrollView, FlatList, Pressable, Image} from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  FlatList,
+  TouchableOpacity,
+  Image,
+  Alert,
+  Pressable,
+} from 'react-native';
 import Accordion from '../../components/Accordian';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import CustomTextInput from '../../components/CustomTextInput';
@@ -8,7 +17,10 @@ import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {createProperty} from '../../redux/slices/product/ProductThunk';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
+import Geolocation from 'react-native-geolocation-service';
+import Geocoder from 'react-native-geocoding';
 import * as Progress from 'react-native-progress';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 // States from add product slice
 import {
   setTitle,
@@ -37,6 +49,8 @@ const ApScreen1 = () => {
   const [selectedFurnishingIndex, setSelectedFurnishingIndex] = useState(null);
   const [submitError, setSubmitError] = useState(null);
   const {loading} = useSelector(state => state?.product);
+  const [readableAddress, setReadableAddress] = useState('');
+
   const dispatch = useDispatch();
   const {
     title,
@@ -72,7 +86,27 @@ const ApScreen1 = () => {
     numberOfBathrooms,
     numberOfBedrooms,
   } = propertyOptions;
-
+  const handleLocation = () => {
+    Geolocation.getCurrentPosition(
+      async position => {
+        try {
+          const {latitude, longitude} = position.coords;
+          const response = await Geocoder.from(latitude, longitude);
+          const addressComponent = response.results[0].formatted_address;
+          setReadableAddress(addressComponent);
+          dispatch(setLocation(addressComponent));
+          console.log('Address Component:', addressComponent);
+        } catch (error) {
+          console.warn('Error fetching address:', error);
+        }
+      },
+      error => {
+        console.log('Geolocation error:', error.code, error.message);
+        Alert.alert('Error', 'Failed to get location. Please try again.');
+      },
+      {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+    );
+  };
   const handlePress = (
     index,
     item,
@@ -187,6 +221,10 @@ const ApScreen1 = () => {
   }, []);
 
   const validateForm = () => {
+    // Check if all required fields are filled
+    if (category === 'Plot') {
+      console.log('plot');
+    }
     if (
       !title ||
       !description ||
@@ -194,16 +232,25 @@ const ApScreen1 = () => {
       !price ||
       !type ||
       !category ||
-      !bedrooms ||
-      !bathrooms ||
-      !furnished ||
       !mainImage ||
       !images
     ) {
       setSubmitError('All fields are required');
       return false;
     }
-    return true; // Add this to return true when validation passes
+
+    // Additional validation based on category
+    if (category !== 'Plot') {
+      // Check if `bedrooms`, `bathrooms`, and `furnished` are present if category is not 'plot'
+      if (!bedrooms || !bathrooms || !furnished) {
+        setSubmitError(
+          'Please provide all details for bedrooms, bathrooms, and furnishing',
+        );
+        return false;
+      }
+    }
+
+    return true; // Return true when all validations pass
   };
 
   const submitDetails = () => {
@@ -217,10 +264,13 @@ const ApScreen1 = () => {
       data.append('location', location.toLowerCase());
       data.append('type', type.toLowerCase());
       data.append('category', category.toLowerCase());
-      data.append('bedrooms', bedrooms);
-      data.append('bathrooms', bathrooms);
-      data.append('furnished', furnished.toLowerCase());
       data.append('carpetArea', carpetArea);
+
+      if (category !== 'Plot') {
+        data.append('bedrooms', bedrooms);
+        data.append('bathrooms', bathrooms);
+        data.append('furnished', furnished.toLowerCase());
+      }
 
       if (mainImage) {
         data.append('mainImage', {
@@ -245,6 +295,8 @@ const ApScreen1 = () => {
       dispatch(createProperty(data))
         .unwrap()
         .then(responseData => {
+          console.log(responseData);
+
           Toast.show({
             type: 'success',
             text1: 'Property Added',
@@ -253,6 +305,8 @@ const ApScreen1 = () => {
           dispatch(resetForm());
         })
         .catch(error => {
+          console.log(error);
+
           Toast.show({
             type: 'error',
             text1: 'Error',
@@ -261,6 +315,7 @@ const ApScreen1 = () => {
         });
     }
   };
+
 
   return (
     <SafeAreaView className="flex-1">
@@ -292,12 +347,22 @@ const ApScreen1 = () => {
               error={priceError}
               keyboardType="numeric"
             />
-            <CustomTextInput
-              placeholder={'Location'}
-              onChangeText={text => dispatch(setLocation(text))}
-              value={location}
-              error={locationError}
-            />
+            <View>
+              <CustomTextInput
+                placeholder={'Location'}
+                onChangeText={text => dispatch(setLocation(text))}
+                value={location}
+                error={locationError}
+              />
+              <TouchableOpacity
+                className="flex-row items-center"
+                onPress={handleLocation}>
+                <Icon name={'my-location'} size={20} color={'blue'} />
+                <Text className="text-blue-800 text-lg ml-2">
+                  Use Current Location
+                </Text>
+              </TouchableOpacity>
+            </View>
           </Accordion>
           <Accordion title={'Property Specification'}>
             <View className="flex-row w-[100%] justify-between my-2">
@@ -640,7 +705,7 @@ const ApScreen1 = () => {
           />
         </View>
       </ScrollView>
-      {progress > 0 && <Progress.Bar progress={progress} width={null} />}
+      {/* {progress > 0 && <Progress.Bar progress={progress} width={null} />} */}
     </SafeAreaView>
   );
 };

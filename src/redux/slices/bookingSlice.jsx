@@ -1,5 +1,4 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {DateTime} from 'luxon';
 const bookingSlice = createSlice({
   name: 'booking',
   initialState: {

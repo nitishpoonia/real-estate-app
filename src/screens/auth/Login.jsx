@@ -55,7 +55,7 @@ const Login = ({navigation}) => {
           Sign in
         </Text>
       </View>
-      <View>
+      <View className="mx-2">
         <CustomTextInput
           placeholder={'Your Email Address'}
           keyboardType={'email-address'}

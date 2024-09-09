@@ -5,13 +5,19 @@ import {
   Image,
   TextInput,
   ScrollView,
+  Platform,
+  Alert,
 } from 'react-native';
 import React, {useState, useEffect, useRef} from 'react';
 import {useSelector} from 'react-redux';
-import SmallCard from '../../components/SmallCard';
 import BasicProperties from '../../components/properties/BasicProperties';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import {
+  PERMISSIONS,
+  request,
+  check,
+  RESULTS,
+  openSettings,
+} from 'react-native-permissions';
 const ProductHomePage = ({navigation}) => {
   const userJSONString = useSelector(state => state.auth.user);
   const [user, setUser] = useState(null);
@@ -20,10 +26,8 @@ const ProductHomePage = ({navigation}) => {
     let parsedUser;
     try {
       if (typeof userJSONString === 'string') {
-        // Attempt to parse JSON only if it's a string
         parsedUser = JSON.parse(userJSONString);
       } else {
-        // If it's not a string, use it directly
         parsedUser = userJSONString;
       }
       setUser(parsedUser);
@@ -33,21 +37,72 @@ const ProductHomePage = ({navigation}) => {
     }
   }, [userJSONString]);
   const imageUri = user?.avatar;
-  console.log(imageUri);
-
-  //   const imageUri = 'https://picsum.photos/200/300';
   const inputRef = useRef(null);
   const handleNavigationOnFocus = () => {
     inputRef.current.blur();
     navigation.navigate('SearchScreen');
   };
+ const requestLocationPermission = async () => {
+   let permission;
 
+   // Check for platform and assign the proper permission type
+   if (Platform.OS === 'android') {
+     permission = PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION;
+   } else if (Platform.OS === 'ios') {
+     permission = PERMISSIONS.IOS.LOCATION_WHEN_IN_USE;
+   }
+
+   // Check if permission is already granted
+   const result = await check(permission);
+
+   switch (result) {
+     case RESULTS.GRANTED:
+       console.log('Location permission already granted');
+       return true;
+
+     case RESULTS.DENIED:
+       // Request the permission if it's denied
+       const requestResult = await request(permission);
+       if (requestResult === RESULTS.GRANTED) {
+         console.log('Location permission granted');
+         return true;
+       } else {
+         console.log('Location permission denied');
+         return false;
+       }
+
+     case RESULTS.BLOCKED:
+       Alert.alert(
+         'Permission Blocked',
+         'Location permission is blocked. Please enable it from settings.',
+         [
+           {
+             text: 'Go to Settings',
+             onPress: () => openSettings(),
+           },
+           {
+             text: 'Cancel',
+             style: 'cancel',
+           },
+         ],
+         {cancelable: true},
+       );
+       return false;
+
+     case RESULTS.UNAVAILABLE:
+       console.log('Location permission is unavailable on this device');
+       return false;
+   }
+ };
+  useEffect(() => {
+    requestLocationPermission();
+  }, []);
   return (
     <ScrollView className="flex-1">
       <View className="bg-[#16a34a] justify-center px-2 pt-4 rounded-b-lg h-[200px]">
         <View className="flex-row items-center justify-between">
           <Pressable className="flex flex-row gap-2">
-            <Text className="font-pextrabold text-white text-2xl ">Home</Text>
+            <Text className="font-pextrabold text-white text-2xl">Home</Text>
           </Pressable>
           <Image
             source={{uri: imageUri}}

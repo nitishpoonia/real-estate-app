@@ -6,10 +6,7 @@ import {useRoute} from '@react-navigation/native';
 
 const ViewAllImages = ({navigation}) => {
   const route = useRoute();
-  console.log(route);
-
   const images = route.params?.images || [];
-  console.log(images);
 
   return (
     <SafeAreaView className="mx-2 mt-2">

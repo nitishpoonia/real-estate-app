@@ -19,10 +19,13 @@ const authSlice = createSlice({
     },
     authSuccess(state, action) {
       state.loading = false;
+      console.log('Auth Success', action.payload.statusCode);
+
       if (action.payload.data.user) {
         state.isAuthenticated = true;
         state.token = action.payload.data.user;
         AsyncStorage.setItem('accessToken', action.payload.data.user);
+        AsyncStorage.setItem('refreshToken', action.payload.data.refreshToken);
         state.user = action.payload.data.loggedInUser;
       }
       state.user = action.payload.data.loggedInUser;
@@ -38,6 +41,11 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    refreshTokenSuccess(state, action) {
+      state.loading = false;
+      state.token = action.payload.accessToken;
+      AsyncStorage.setItem('accessToken', state.token);
+    },
     logout(state) {
       state.loading = false;
       state.isAuthenticated = false;
@@ -45,6 +53,7 @@ const authSlice = createSlice({
       state.token = null;
       AsyncStorage.removeItem('accessToken');
       AsyncStorage.removeItem('user');
+      AsyncStorage.removeItem('refreshToken');
     },
     setUserType(state, action) {
       state.userType = action.payload;

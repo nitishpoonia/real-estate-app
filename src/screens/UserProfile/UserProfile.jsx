@@ -3,18 +3,15 @@ import {
   Text,
   Image,
   TouchableOpacity,
-  Pressable,
-  ScrollView,
   ImageBackground,
   Dimensions,
-  StyleSheet,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {logoutUser} from '../redux/slices/auth/authActions';
+import {logoutUser} from '../../redux/slices/auth/authActions';
 import Icon from 'react-native-vector-icons/Ionicons';
-import CustomUserInfoCard from '../components/CustomUserInfoCard';
-import {images} from '../constants';
+import CustomUserInfoCard from '../../components/CustomUserInfoCard';
+import {images} from '../../constants';
 import {SafeAreaView} from 'react-native-safe-area-context';
 const UserProfile = ({navigation}) => {
   const userJSONString = useSelector(state => state.auth.user);
@@ -38,7 +35,6 @@ const UserProfile = ({navigation}) => {
   }, [userJSONString]);
 
   const imageUri = user?.avatar;
-  console.log(imageUri);
 
   const handleLogout = () => {
     dispatch(logoutUser());

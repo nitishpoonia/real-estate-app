@@ -4,8 +4,8 @@ const listingType = [
     value: 'Rent',
   },
   {
-    label: 'Sale',
-    value: 'Sale',
+    label: 'Sell',
+    value: 'Sell',
   },
 ];
 const propertyCategory = [

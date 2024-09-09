@@ -35,6 +35,7 @@
 		5731B47B2C7C575700AF5594 /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5731B4682C7C575700AF5594 /* Fontisto.ttf */; };
 		5731B47C2C7C575700AF5594 /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5731B4692C7C575700AF5594 /* FontAwesome5_Solid.ttf */; };
 		5731B47D2C7C575700AF5594 /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5731B46A2C7C575700AF5594 /* AntDesign.ttf */; };
+		57889C772C8EBFAD0034F780 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57889C762C8EBFAD0034F780 /* File.swift */; };
 		7699B88040F8A987B510C191 /* libPods-propertyRentalApp-propertyRentalAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-propertyRentalApp-propertyRentalAppTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8566710DA37148CB83A3FD0B /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C385512AEE594A4C9B059702 /* Poppins-SemiBold.ttf */; };
@@ -91,6 +92,8 @@
 		5731B4692C7C575700AF5594 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
 		5731B46A2C7C575700AF5594 /* AntDesign.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
 		5731B46B2C7C575700AF5594 /* FontAwesome6_Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome6_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome6_Regular.ttf"; sourceTree = "<group>"; };
+		57889C752C8EBFAD0034F780 /* propertyRentalApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "propertyRentalApp-Bridging-Header.h"; sourceTree = "<group>"; };
+		57889C762C8EBFAD0034F780 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-propertyRentalApp-propertyRentalAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-propertyRentalApp-propertyRentalAppTests.debug.xcconfig"; path = "Target Support Files/Pods-propertyRentalApp-propertyRentalAppTests/Pods-propertyRentalApp-propertyRentalAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-propertyRentalApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-propertyRentalApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = propertyRentalApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -195,6 +198,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				57889C762C8EBFAD0034F780 /* File.swift */,
 				13B07FAE1A68108700A75B9A /* propertyRentalApp */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* propertyRentalAppTests */,
@@ -202,6 +206,7 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
 				D3C498A6ADA1431E85E9165A /* Resources */,
+				57889C752C8EBFAD0034F780 /* propertyRentalApp-Bridging-Header.h */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -304,7 +309,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1540;
 					};
 				};
 			};
@@ -536,6 +541,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
+				57889C772C8EBFAD0034F780 /* File.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -555,6 +561,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5B7EB9410499542E8C5724F5 /* Pods-propertyRentalApp-propertyRentalAppTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -582,6 +589,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 89C6BE57DB24E9ADA2F236DE /* Pods-propertyRentalApp-propertyRentalAppTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = propertyRentalAppTests/Info.plist;
@@ -624,6 +632,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = propertyRentalApp;
+				SWIFT_OBJC_BRIDGING_HEADER = "propertyRentalApp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -651,6 +660,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = propertyRentalApp;
+				SWIFT_OBJC_BRIDGING_HEADER = "propertyRentalApp-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

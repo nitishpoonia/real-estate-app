@@ -1,6 +1,5 @@
 import {ScrollView, View, Text, Image, Pressable} from 'react-native';
 import React, {useEffect} from 'react';
-import {images} from '../../constants';
 import AmenitiesCard from '../../components/AmenitiesCard';
 import CustomButton from '../../components/CustomButton';
 import ProductImages from '../../components/ProductImages';
@@ -19,15 +18,17 @@ const ProductDetailPage = ({navigation}) => {
   useEffect(() => {
     dispatch(fetchPropertyById(_id));
   }, []);
-  if (loading)
+  if (loading) {
     return (
       <View className="flex-1 items-center justify-center">
         <Text className="text-2xl">Loading...</Text>
       </View>
     );
-  if (error) return <Text>Error: {error}</Text>;
-  console.log('productdetailpage', selectedProperty);
+  }
 
+  if (error) {
+    return <Text>Error: {error}</Text>;
+  }
   return (
     <ScrollView>
       <SafeAreaView className="mb-3 bg-white">

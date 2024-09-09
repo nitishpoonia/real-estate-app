@@ -7,7 +7,7 @@ import ProductHomePage from './screens/products/ProductHomePage';
 import SignUp from './screens/auth/SignUp';
 import Login from './screens/auth/Login';
 import LoadingScreen from './components/LoadingScreen';
-import UserProfile from './screens/UserProfile';
+import UserProfile from './screens/UserProfile/UserProfile';
 import {
   getFocusedRouteNameFromRoute,
   NavigationContainer,
@@ -21,7 +21,7 @@ import SearchScreen from './screens/search/SearchScreen';
 import BasicProperties from './components/properties/BasicProperties';
 import {checkLoggedIn} from './redux/slices/auth/authActions';
 import ApScreen1 from './screens/addProduct/ApScreen1';
-import UserTypeSelectionPage from './screens/UserTypeSelectionPage';
+// import UserTypeSelectionPage from './screens/UserTypeSelectionPage';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 const AuthStack = () => {
@@ -167,6 +167,7 @@ const SupportStack = () => {
         component={SupportScreen}
         options={{headerShown: false}}
       />
+      
     </Stack.Navigator>
   );
 };

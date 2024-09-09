@@ -129,45 +129,47 @@ const SignUp = ({navigation}) => {
         <Text className="text-black text-xl font-psemibold text-center mb-5">
           Add Photo
         </Text>
-        <CustomTextInput
-          placeholder={'Enter your full name'}
-          onChangeText={text => handleInputChange('fullName', text)}
-          value={fullName}
-          error={fullNameError}
-          style={{color: 'black'}}
-        />
-        <CustomTextInput
-          placeholder={'Enter your user name'}
-          onChangeText={text => handleInputChange('userName', text)}
-          value={userName}
-          error={userNameError}
-          style={{color: 'black'}}
-        />
+        <View className="mx-2">
+          <CustomTextInput
+            placeholder={'Enter your full name'}
+            onChangeText={text => handleInputChange('fullName', text)}
+            value={fullName}
+            error={fullNameError}
+            style={{color: 'black'}}
+          />
+          <CustomTextInput
+            placeholder={'Enter your user name'}
+            onChangeText={text => handleInputChange('userName', text)}
+            value={userName}
+            error={userNameError}
+            style={{color: 'black'}}
+          />
 
-        <CustomTextInput
-          placeholder={'Your Email Address'}
-          keyboardType={'email-address'}
-          onChangeText={text => handleInputChange('email', text)}
-          value={email}
-          error={emailError}
-          style={{color: 'black'}}
-        />
-        <CustomTextInput
-          placeholder={'Your Password'}
-          secureTextEntry={true}
-          onChangeText={text => handleInputChange('password', text)}
-          value={password}
-          error={passwordError}
-          style={{color: 'black'}}
-        />
-        <CustomTextInput
-          placeholder={'Confirm Password'}
-          keyboardType={'password-visible'}
-          onChangeText={text => handleInputChange('confirmPassword', text)}
-          value={confirmPassword}
-          error={confirmPasswordError}
-          style={{color: 'black'}}
-        />
+          <CustomTextInput
+            placeholder={'Your Email Address'}
+            keyboardType={'email-address'}
+            onChangeText={text => handleInputChange('email', text)}
+            value={email}
+            error={emailError}
+            style={{color: 'black'}}
+          />
+          <CustomTextInput
+            placeholder={'Your Password'}
+            secureTextEntry={true}
+            onChangeText={text => handleInputChange('password', text)}
+            value={password}
+            error={passwordError}
+            style={{color: 'black'}}
+          />
+          <CustomTextInput
+            placeholder={'Confirm Password'}
+            keyboardType={'password-visible'}
+            onChangeText={text => handleInputChange('confirmPassword', text)}
+            value={confirmPassword}
+            error={confirmPasswordError}
+            style={{color: 'black'}}
+          />
+        </View>
       </View>
       {submitError ? <Text className="text-red-600">{submitError}</Text> : null}
       <View className="items-center mt-4">
