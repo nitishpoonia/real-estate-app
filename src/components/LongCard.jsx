@@ -1,7 +1,7 @@
 import {View, Text, Image, Pressable} from 'react-native';
 import React from 'react';
-import {images} from '../constants';
-import Icon from 'react-native-vector-icons/Ionicons';
+// import {images} from '../constants';
+// import Icon from 'react-native-vector-icons/Ionicons';
 const LongCard = ({
   name,
   location,
@@ -9,6 +9,7 @@ const LongCard = ({
   handleCardPress,
   handleHeartPress,
   ukey,
+  imageUri,
 }) => {
   return (
     <Pressable
@@ -17,7 +18,7 @@ const LongCard = ({
       className=" shadow-lg rounded-lg flex-row  bg-white justify-between mb-2">
       <View className=" flex-row rounded-xl">
         <Image
-          source={images.house3}
+          source={{uri: imageUri}}
           className="w-[170px] mr-2 h-[130px] rounded-l-md"
         />
 
@@ -28,11 +29,11 @@ const LongCard = ({
         </View>
       </View>
 
-      <View className="">
+      {/* <View className="">
         <Pressable onPress={handleHeartPress} className="mt-2 mr-2">
           <Icon name="heart" size={30} color={'black'} />
         </Pressable>
-      </View>
+      </View> */}
     </Pressable>
   );
 };

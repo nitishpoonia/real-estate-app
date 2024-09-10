@@ -1,7 +1,10 @@
 import {View, Text, Pressable, FlatList} from 'react-native';
 import React from 'react';
+import {setAmenities} from '../../redux/slices/filter/filterOptionsSlice';
+import {useDispatch} from 'react-redux';
 
 const Amenities = () => {
+  const dispatch = useDispatch();
   const [selectedAmenities, setSelectedAmenities] = React.useState([]);
   const ameniteis = [
     'Swimming Pool',
@@ -12,11 +15,14 @@ const Amenities = () => {
   ];
 
   const handlePress = type => {
+    let updatedAmenities;
     if (selectedAmenities.includes(type)) {
-      setSelectedAmenities(selectedAmenities.filter(t => t !== type));
+      updatedAmenities = selectedAmenities.filter(t => t !== type);
     } else {
-      setSelectedAmenities([...selectedAmenities, type]);
+      updatedAmenities = [...selectedAmenities, type];
     }
+    setSelectedAmenities(updatedAmenities);
+    dispatch(setAmenities(updatedAmenities));
   };
 
   const isSelected = type => selectedAmenities.includes(type);

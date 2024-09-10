@@ -78,16 +78,25 @@ const UserProfile = ({navigation}) => {
             title={user?.username}
             iconR={'create'}
             iconL={'person'}
+            handlePress={() => navigation.navigate('EditUserProfile')}
           />
           <CustomUserInfoCard
             title={user?.email}
             iconR={'create'}
             iconL={'mail'}
+            handlePress={() => navigation.navigate('EditUserProfile')}
+          />
+          <CustomUserInfoCard
+            title={user?.phone}
+            iconR={'create'}
+            iconL={'phone-portrait'}
+            handlePress={() => navigation.navigate('EditUserProfile')}
           />
           <CustomUserInfoCard
             title={'Change Password'}
             iconR={'create'}
             iconL={'lock-closed'}
+            handlePress={() => navigation.navigate('EditUserProfile')}
           />
           <CustomUserInfoCard
             title={'Support'}

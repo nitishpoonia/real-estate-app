@@ -4,6 +4,7 @@ import authSlice from './slices/auth/authSlice';
 import bookingSlice from './slices/bookingSlice';
 import ProductSlice from './slices/product/ProductSlice';
 import addProductSlice from './slices/addProduct/addProductSlice';
+import filterOptionsSlice from './slices/filter/filterOptionsSlice';
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     booking: bookingSlice.reducer,
     product: ProductSlice.reducer,
     addProduct: addProductSlice.reducer,
+    filterOptions: filterOptionsSlice.reducer,
   },
 });
 

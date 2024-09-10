@@ -7,7 +7,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useRoute} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchPropertyById} from '../../redux/slices/product/ProductThunk.js';
-
+import Icon from 'react-native-vector-icons/MaterialIcons';
 const ProductDetailPage = ({navigation}) => {
   const route = useRoute();
   const dispatch = useDispatch();
@@ -32,6 +32,14 @@ const ProductDetailPage = ({navigation}) => {
   return (
     <ScrollView>
       <SafeAreaView className="mb-3 bg-white">
+        <View className="flex-row items-center justify-between max-w-[230px]">
+          <Pressable onPress={() => navigation.goBack()}>
+            <Icon name="arrow-back" size={30} color="#003366" />
+          </Pressable>
+          <Text className="font-semibold text-black text-2xl">
+            Property Details
+          </Text>
+        </View>
         <Image
           source={{uri: selectedProperty?.data?.mainImage}}
           className={`w-[100%] m-auto h-[200px]`}

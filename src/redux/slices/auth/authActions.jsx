@@ -6,11 +6,7 @@ import {
   logout,
   authTokenFound,
 } from './authSlice';
-import AuthApiManager, {
-  createUser,
-  signIn,
-  signOut,
-} from '../../../app/api/AuthApiManager';
+import {createUser, signIn, signOut} from '../../../app/api/AuthApiManager';
 
 import Toast from 'react-native-toast-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';

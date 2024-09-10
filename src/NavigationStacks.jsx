@@ -21,7 +21,9 @@ import SearchScreen from './screens/search/SearchScreen';
 import BasicProperties from './components/properties/BasicProperties';
 import {checkLoggedIn} from './redux/slices/auth/authActions';
 import ApScreen1 from './screens/addProduct/ApScreen1';
+import EditUserProfile from './screens/UserProfile/EditUserProfile';
 // import UserTypeSelectionPage from './screens/UserTypeSelectionPage';
+
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 const AuthStack = () => {
@@ -167,7 +169,11 @@ const SupportStack = () => {
         component={SupportScreen}
         options={{headerShown: false}}
       />
-      
+      <Stack.Screen
+        name="EditUserProfile"
+        component={EditUserProfile}
+        options={{headerShown: false}}
+      />
     </Stack.Navigator>
   );
 };

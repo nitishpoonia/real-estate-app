@@ -1,16 +1,20 @@
 import {View, Text, Pressable} from 'react-native';
 import React from 'react';
-
+import {setBedrooms} from '../../redux/slices/filter/filterOptionsSlice';
+import {useDispatch} from 'react-redux';
 const Bedrooms = () => {
   const [selectedBedrooms, setSelectedBedrooms] = React.useState([]);
   const bedrooms = [1, 2, 3, 4, 5];
-
+  const dispatch = useDispatch();
   const handlePress = type => {
+    let bedroomsNumber;
     if (selectedBedrooms.includes(type)) {
-      setSelectedBedrooms(selectedBedrooms.filter(t => t !== type));
+      bedroomsNumber = selectedBedrooms.filter(t => t !== type);
     } else {
-      setSelectedBedrooms([...selectedBedrooms, type]);
+      bedroomsNumber = [...selectedBedrooms, type];
     }
+    setSelectedBedrooms(bedroomsNumber);
+    dispatch(setBedrooms());
   };
 
   const isSelected = type => selectedBedrooms.includes(type);

@@ -1,26 +1,28 @@
 import {View, Text, Pressable} from 'react-native';
 import React, {useState} from 'react';
-
+import {setType} from '../../redux/slices/filter/filterOptionsSlice';
+import {useDispatch} from 'react-redux';
 const PropertyType = () => {
+  const dispatch = useDispatch();
   const [selectedTypes, setSelectedTypes] = useState([]);
 
   const propertyTypes = ['House', 'Flat', 'Plot', 'Villa'];
 
   const handlePress = type => {
+    let updatedTypes;
     if (selectedTypes.includes(type)) {
-      setSelectedTypes(selectedTypes.filter(t => t !== type));
+      updatedTypes = selectedTypes.filter(t => t !== type);
     } else {
-      setSelectedTypes([...selectedTypes, type]);
+      updatedTypes = [...selectedTypes, type];
     }
+    setSelectedTypes(updatedTypes);
+    dispatch(setType(updatedTypes));
   };
-
   const isSelected = type => selectedTypes.includes(type);
 
   return (
-    <View className='my-3'>
-      <Text className="text-black font-psemibold text-base">
-        Property Type
-      </Text>
+    <View className="my-3">
+      <Text className="text-black font-psemibold text-base">Property Type</Text>
       <View className="flex-row items-center flex-wrap">
         {propertyTypes.map(type => (
           <Pressable

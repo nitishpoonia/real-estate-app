@@ -11,7 +11,6 @@ const SmallCard = ({
   ukey,
   imageUri,
 }) => {
-
   return (
     <Pressable
       key={ukey}
@@ -29,9 +28,9 @@ const SmallCard = ({
         <Text className="font-pregular text-black-200">{location}</Text>
         <View className="flex-row justify-between items-center ">
           <Text className="font-psemibold text-black-200">{price}</Text>
-          <Pressable onPress={handleHeartPress}>
+          {/* <Pressable onPress={handleHeartPress}>
             <Icon name="heart" size={30} color={'black'} />
-          </Pressable>
+          </Pressable> */}
         </View>
       </View>
     </Pressable>

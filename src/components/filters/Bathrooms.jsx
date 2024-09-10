@@ -1,25 +1,29 @@
 import {View, Text, Pressable} from 'react-native';
 import React from 'react';
-
+import {useDispatch} from 'react-redux';
+import {setBathrooms} from '../../redux/slices/filter/filterOptionsSlice';
 const Bathrooms = () => {
-  const [selectedBedrooms, setSelectedBedrooms] = React.useState([]);
-  const bedrooms = [1, 2, 3, 4, 5];
-
+  const [selectedBathrooms, setSelectedBathrooms] = React.useState([]);
+  const bathrooms = [1, 2, 3, 4, 5];
+  const dispatch = useDispatch();
   const handlePress = type => {
-    if (selectedBedrooms.includes(type)) {
-      setSelectedBedrooms(selectedBedrooms.filter(t => t !== type));
+    let bathroomsNumber;
+    if (selectedBathrooms.includes(type)) {
+      bathroomsNumber = selectedBathrooms.filter(t => t !== type);
     } else {
-      setSelectedBedrooms([...selectedBedrooms, type]);
+      bathroomsNumber = [...selectedBathrooms, type];
     }
+    setSelectedBathrooms(bathroomsNumber);
+    dispatch(setBathrooms(bathroomsNumber));
   };
 
-  const isSelected = type => selectedBedrooms.includes(type);
+  const isSelected = type => selectedBathrooms.includes(type);
 
   return (
     <View className="my-3">
       <Text className="text-black font-psemibold text-base">Bathrooms</Text>
       <View className="flex-row items-center flex-wrap">
-        {bedrooms.map(type => (
+        {bathrooms.map(type => (
           <Pressable
             key={type}
             onPress={() => handlePress(type)}
