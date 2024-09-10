@@ -1,11 +1,13 @@
 import {View, Text, Pressable, FlatList} from 'react-native';
 import React from 'react';
 import {setAmenities} from '../../redux/slices/filter/filterOptionsSlice';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 const Amenities = () => {
   const dispatch = useDispatch();
-  const [selectedAmenities, setSelectedAmenities] = React.useState([]);
+  const selectedAmenities = useSelector(
+    state => state.filterOptions.filterOptions.amenities,
+  );
   const ameniteis = [
     'Swimming Pool',
     'Parking',
@@ -21,7 +23,6 @@ const Amenities = () => {
     } else {
       updatedAmenities = [...selectedAmenities, type];
     }
-    setSelectedAmenities(updatedAmenities);
     dispatch(setAmenities(updatedAmenities));
   };
 

@@ -21,10 +21,13 @@ Geocoder.init('AIzaSyDQ5-YOrrKT4n7FUDhJYd1dLvOzBEq3eHw');
 
 const SearchScreen = ({navigation}) => {
   const dispatch = useDispatch();
-  const {properties, loading, error} = useSelector(state => state?.product);
+  const {type} = useSelector(state => state.filterOptions.filterOptions);
+  const {properties, loading} = useSelector(state => state?.product);
   const [readableAddress, setReadableAddress] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  console.log('Type:', type);
+
   const handleLocation = () => {
     Geolocation.getCurrentPosition(
       async position => {
@@ -34,7 +37,6 @@ const SearchScreen = ({navigation}) => {
           const addressComponent =
             response.results[0].address_components[3].long_name;
           setReadableAddress(addressComponent);
-          console.log('Address Component:', addressComponent);
         } catch (error) {
           console.warn('Error fetching address:', error);
         }
@@ -130,6 +132,7 @@ const SearchScreen = ({navigation}) => {
         )}
         keyExtractor={item => item.key}
         contentContainerStyle={{flexGrow: 1}}
+        showsVerticalScrollIndicator={false}
       />
 
       {/* Modal for Filters */}

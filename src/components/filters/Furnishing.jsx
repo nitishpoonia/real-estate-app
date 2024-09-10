@@ -1,10 +1,12 @@
 import {View, Text, Pressable, FlatList} from 'react-native';
 import React from 'react';
 import {setFurnished} from '../../redux/slices/filter/filterOptionsSlice';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 const Furnishing = () => {
   const dispatch = useDispatch();
-  const [selectedFurnishing, setSelectedFurnishing] = React.useState([]);
+  const selectedFurnishing = useSelector(
+    state => state.filterOptions.filterOptions.furnished,
+  );
   const furnishing = ['Furnished', 'Semi-Furnished', 'Unfurnished'];
 
   const handlePress = type => {
@@ -14,7 +16,6 @@ const Furnishing = () => {
     } else {
       updatedFurnishing = [...selectedFurnishing, type];
     }
-    setSelectedFurnishing(updatedFurnishing);
     dispatch(setFurnished(updatedFurnishing));
   };
 

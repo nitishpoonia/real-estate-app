@@ -1,9 +1,11 @@
 import {View, Text, Pressable} from 'react-native';
 import React from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {setBathrooms} from '../../redux/slices/filter/filterOptionsSlice';
 const Bathrooms = () => {
-  const [selectedBathrooms, setSelectedBathrooms] = React.useState([]);
+  const selectedBathrooms = useSelector(
+    state => state.filterOptions.filterOptions.bathrooms,
+  );
   const bathrooms = [1, 2, 3, 4, 5];
   const dispatch = useDispatch();
   const handlePress = type => {
@@ -13,7 +15,6 @@ const Bathrooms = () => {
     } else {
       bathroomsNumber = [...selectedBathrooms, type];
     }
-    setSelectedBathrooms(bathroomsNumber);
     dispatch(setBathrooms(bathroomsNumber));
   };
 

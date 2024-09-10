@@ -4,9 +4,12 @@ import {
   setMinPrice,
   setMaxPrice,
 } from '../../redux/slices/filter/filterOptionsSlice';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 const PriceFilter = () => {
   const dispatch = useDispatch();
+  const {minPrice, maxPrice} = useSelector(
+    state => state.filterOptions.filterOptions,
+  );
   return (
     <View>
       <Text className="font-psemibold text-black text-base">Price</Text>
@@ -17,11 +20,13 @@ const PriceFilter = () => {
             style={styles.textInput}
             keyboardType="number-pad"
             placeholderTextColor={'#16a34a'}
+            value={minPrice}
             onChangeText={text => dispatch(setMinPrice(text))}
           />
         </View>
         <View className="flex-row  items-center">
           <TextInput
+            value={maxPrice}
             placeholder="Max Price"
             style={styles.textInput}
             keyboardType="number-pad"

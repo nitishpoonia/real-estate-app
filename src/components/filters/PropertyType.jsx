@@ -1,11 +1,12 @@
 import {View, Text, Pressable} from 'react-native';
 import React, {useState} from 'react';
 import {setType} from '../../redux/slices/filter/filterOptionsSlice';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 const PropertyType = () => {
   const dispatch = useDispatch();
-  const [selectedTypes, setSelectedTypes] = useState([]);
-
+  const selectedTypes = useSelector(
+    state => state.filterOptions.filterOptions.type,
+  );
   const propertyTypes = ['House', 'Flat', 'Plot', 'Villa'];
 
   const handlePress = type => {
@@ -15,7 +16,6 @@ const PropertyType = () => {
     } else {
       updatedTypes = [...selectedTypes, type];
     }
-    setSelectedTypes(updatedTypes);
     dispatch(setType(updatedTypes));
   };
   const isSelected = type => selectedTypes.includes(type);
