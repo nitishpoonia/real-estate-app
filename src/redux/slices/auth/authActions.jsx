@@ -68,6 +68,7 @@ export const signupUser = createAsyncThunk(
         text2: 'Your account has been created successfully!',
       });
     } catch (error) {
+      console.log(error);
       dispatch(authFailure(error.response?.data?.message || error.message));
       Toast.show({
         type: 'error',

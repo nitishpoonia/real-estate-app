@@ -1,14 +1,16 @@
-import {View, Text, Image, Button} from 'react-native';
+import {View, Text, Image} from 'react-native';
 import React from 'react';
 // import Ls from '../../assets/images/LandnigScreenImage.png';
 import {images} from '../../constants';
 import CustomButton from '../../components/CustomButton';
-
+import LandingPageImage from '../../assets/images/LandnigScreenImage.svg';
+import WelcomeScreenBottomImage from '../../assets/images/WelcomeScreenBottom.svg';
 const WelcomeScreen = ({navigation}) => {
   return (
     <View className="flex-1 justify-center">
       <View className="flex justify-center items-center">
-        <Image source={images.Ls} height={100} width={100} />
+        {/* <Image source={images.Ls} height={100} width={100} /> */}
+        <LandingPageImage />
       </View>
 
       <View className="mt-4">
@@ -53,12 +55,13 @@ const WelcomeScreen = ({navigation}) => {
       </View>
 
       <View className="absolute bottom-0 right-0 z-0">
-        <Image
+        {/* <Image
           className="realtive"
           source={images.bgimg}
           height={100}
           width={100}
-        />
+        /> */}
+        <WelcomeScreenBottomImage />
       </View>
     </View>
   );

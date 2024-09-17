@@ -37,6 +37,7 @@ const CustomTextInput = ({
           numberOfLines={numberOfLines}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
+          textAlignVertical="center"
           {...props}
           className={`border rounded-md px-4 py-2 font-pregular bg-white h-[40px] ${
             isFocused ? 'border-green-600' : 'border-gray-300'

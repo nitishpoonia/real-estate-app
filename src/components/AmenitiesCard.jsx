@@ -3,9 +3,9 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 const AmenitiesCard = ({icon, title}) => {
   return (
-    <View className="bg-[#2E8B57] flex-row w-[85px] justify-evenly items-center rounded-full px-2 py-2 mr-2">
-      <Icon name={icon} size={20} color={'#fff'} />
-      <Text className="text-white">{title}</Text>
+    <View className="flex w-[95px] rounded-lg border border-[#d6d6d6] pl-2 py-2 mr-2">
+      <Icon name={icon} size={20} color={'#5F6368'} />
+      <Text className="text-[#5F6368]">{title}</Text>
     </View>
   );
 };

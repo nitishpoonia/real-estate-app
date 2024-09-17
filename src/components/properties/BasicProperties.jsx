@@ -4,10 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {fetchProperties} from '../../redux/slices/product/ProductThunk.js';
 import SmallCard from '../SmallCard.jsx';
 
-const BasicProperties = ({
-  navigation,
-  useSorted = false,
-}) => {
+const BasicProperties = ({navigation, useSorted = false}) => {
   const dispatch = useDispatch();
   const {properties, loading, error} = useSelector(state => state?.product);
 
@@ -28,7 +25,6 @@ const BasicProperties = ({
   if (error)
     return <Text>Error: {error.message || 'An unknown error occurred'}</Text>;
 
-
   return (
     <View>
       <FlatList
@@ -39,12 +35,17 @@ const BasicProperties = ({
         maxToRenderPerBatch={5}
         renderItem={({item}) => (
           <SmallCard
-            key={item?._id}
+            bedroom={item?.bedrooms}
+            bathroom={item?.bathrooms}
+            carpetArea={item?.carpetArea}
+            ukey={item?._id}
             name={item?.title}
             location={item?.location}
             price={item?.price}
             imageUri={item?.mainImage}
+            createdAt={item?.createdAt}
             navigation={navigation}
+            type={item?.type}
             handleCardPress={() =>
               navigation.navigate('ProductDetailPage', {_id: item?._id})
             }

@@ -10,6 +10,8 @@ import {
 } from '../../redux/slices/auth/authActions';
 import {images} from '../../constants';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import LoginScreenImage from '../../assets/images/LoginScreenImage.svg';
+import LoginPageDown from '../../assets/images/LoginPageDownImage.svg';
 const Login = ({navigation}) => {
   const [submitError, setSubmitError] = useState('');
   const dispatch = useDispatch();
@@ -58,7 +60,8 @@ const Login = ({navigation}) => {
   return (
     <SafeAreaView className="flex-1">
       <View>
-        <Image source={images.LoginScreenImage} width={100} height={100} />
+        {/* <Image source={images.LoginScreenImage} width={100} height={100} /> */}
+        <LoginScreenImage />
       </View>
       <View>
         <Text className="text-[#16a34a] text-center text-[36px] font-psemibold">
@@ -116,13 +119,14 @@ const Login = ({navigation}) => {
           </Text>
         </TouchableOpacity>
       </View>
-      <View className="absolute bottom-0 right-0 z-[-1]">
-        <Image
+      <View className="absolute bottom-0 left-0 z-[-1]">
+        {/* <Image
           className="realtive"
           source={images.bgimg}
           height={100}
           width={100}
-        />
+        /> */}
+        <LoginPageDown />
       </View>
     </SafeAreaView>
   );

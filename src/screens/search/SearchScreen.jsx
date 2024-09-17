@@ -194,7 +194,8 @@ const SearchScreen = ({navigation}) => {
                 onChangeText={text => setSearchTerm(text)}
                 placeholder="Search for that place"
                 placeholderTextColor={'black'}
-                className="border-2 border-white rounded-lg px-3 bg-white text-base h-10 w-[90%]"
+                className="border-2 border-white rounded-lg px-3 bg-white  text-black text-base h-10 w-[90%]"
+                
               />
               <Pressable onPress={toggleModal}>
                 <Icon name={'tune'} size={28} color={'green'} />
@@ -237,7 +238,7 @@ const SearchScreen = ({navigation}) => {
             <Text className="text-center text-red-600">No results found</Text>
           ) : (
             <LongCard
-              key={item?._id}
+              ukey={item?._id}
               name={item?.title}
               location={item?.location}
               price={item?.price}

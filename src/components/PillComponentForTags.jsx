@@ -8,7 +8,7 @@ const PillComponentForTags = ({
   selected,
 }) => {
   return (
-    <Pressable className={`items-center justify-center`} onPress={handlePress}>
+    <Pressable className={'items-center justify-center'} onPress={handlePress}>
       <View
         className={`border border-[#19a24a] rounded-2xl px-4 py-1 items-center justify-center ${
           selected ? 'bg-[#19a24a]' : 'bg-transparent'
