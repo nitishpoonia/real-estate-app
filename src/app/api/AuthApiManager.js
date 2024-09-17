@@ -12,6 +12,7 @@ const getBaseURL = () => {
     return 'http://localhost:6000/api/v1/users';
   }
 };
+
 const AuthApiManager = axios.create({
   baseURL: getBaseURL(),
   headers: {
@@ -21,6 +22,10 @@ const AuthApiManager = axios.create({
 
 const _post = (url, data, config = {}) => {
   return AuthApiManager.post(url, data, config);
+};
+
+export const getListedBy = id => {
+  return AuthApiManager.get(`/getusers/${id}`);
 };
 
 export const createUser = data => {
@@ -33,6 +38,10 @@ export const createUser = data => {
 
 export const signIn = (email, password) => {
   return _post('/login', {email, password});
+};
+
+export const forgotPassword = email => {
+  return _post('/forgotpassword', {email});
 };
 
 export const signOut = async () => {

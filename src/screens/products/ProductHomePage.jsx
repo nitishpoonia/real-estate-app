@@ -18,7 +18,7 @@ import {
   RESULTS,
   openSettings,
 } from 'react-native-permissions';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {SafeAreaView} from 'react-native-safe-area-context';
 const ProductHomePage = ({navigation}) => {
   const userJSONString = useSelector(state => state.auth.user);
   const [user, setUser] = useState(null);
@@ -43,58 +43,58 @@ const ProductHomePage = ({navigation}) => {
     inputRef.current.blur();
     navigation.navigate('SearchScreen');
   };
- const requestLocationPermission = async () => {
-   let permission;
+  const requestLocationPermission = async () => {
+    let permission;
 
-   // Check for platform and assign the proper permission type
-   if (Platform.OS === 'android') {
-     permission = PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION;
-   } else if (Platform.OS === 'ios') {
-     permission = PERMISSIONS.IOS.LOCATION_WHEN_IN_USE;
-   }
+    // Check for platform and assign the proper permission type
+    if (Platform.OS === 'android') {
+      permission = PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION;
+    } else if (Platform.OS === 'ios') {
+      permission = PERMISSIONS.IOS.LOCATION_WHEN_IN_USE;
+    }
 
-   // Check if permission is already granted
-   const result = await check(permission);
+    // Check if permission is already granted
+    const result = await check(permission);
 
-   switch (result) {
-     case RESULTS.GRANTED:
-       console.log('Location permission already granted');
-       return true;
+    switch (result) {
+      case RESULTS.GRANTED:
+        console.log('Location permission already granted');
+        return true;
 
-     case RESULTS.DENIED:
-       // Request the permission if it's denied
-       const requestResult = await request(permission);
-       if (requestResult === RESULTS.GRANTED) {
-         console.log('Location permission granted');
-         return true;
-       } else {
-         console.log('Location permission denied');
-         return false;
-       }
+      case RESULTS.DENIED:
+        // Request the permission if it's denied
+        const requestResult = await request(permission);
+        if (requestResult === RESULTS.GRANTED) {
+          console.log('Location permission granted');
+          return true;
+        } else {
+          console.log('Location permission denied');
+          return false;
+        }
 
-     case RESULTS.BLOCKED:
-       Alert.alert(
-         'Permission Blocked',
-         'Location permission is blocked. Please enable it from settings.',
-         [
-           {
-             text: 'Go to Settings',
-             onPress: () => openSettings(),
-           },
-           {
-             text: 'Cancel',
-             style: 'cancel',
-           },
-         ],
-         {cancelable: true},
-       );
-       return false;
+      case RESULTS.BLOCKED:
+        Alert.alert(
+          'Permission Blocked',
+          'Location permission is blocked. Please enable it from settings.',
+          [
+            {
+              text: 'Go to Settings',
+              onPress: () => openSettings(),
+            },
+            {
+              text: 'Cancel',
+              style: 'cancel',
+            },
+          ],
+          {cancelable: true},
+        );
+        return false;
 
-     case RESULTS.UNAVAILABLE:
-       console.log('Location permission is unavailable on this device');
-       return false;
-   }
- };
+      case RESULTS.UNAVAILABLE:
+        console.log('Location permission is unavailable on this device');
+        return false;
+    }
+  };
   useEffect(() => {
     requestLocationPermission();
   }, []);
@@ -106,12 +106,14 @@ const ProductHomePage = ({navigation}) => {
             <Pressable className="flex flex-row gap-2">
               <Text className="font-pextrabold text-white text-2xl">Home</Text>
             </Pressable>
-            <Image
-              source={{uri: imageUri}}
-              resizeMode="cover"
-              onError={error => console.log(error)}
-              className="w-10 h-10 rounded-full"
-            />
+            <Pressable onPress={() => navigation.navigate('Profile')}>
+              <Image
+                source={{uri: imageUri}}
+                resizeMode="cover"
+                onError={error => console.log(error)}
+                className="w-10 h-10 rounded-full"
+              />
+            </Pressable>
           </View>
           <View>
             <Text className="font-psemibold text-white text-xl mt-2">

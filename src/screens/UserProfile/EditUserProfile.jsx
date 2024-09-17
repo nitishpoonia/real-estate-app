@@ -6,7 +6,10 @@ import CustomTextInput from '../../components/CustomTextInput';
 import {launchImageLibrary} from 'react-native-image-picker';
 import CustomButton from '../../components/CustomButton';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {useIsFocused} from '@react-navigation/native';
 const EditUserProfile = ({navigation}) => {
+  const isFocused = useIsFocused();
   const [data, setData] = useState({
     phone: '',
     username: '',
@@ -37,10 +40,14 @@ const EditUserProfile = ({navigation}) => {
   };
   const fetchCurrentUser = async () => {
     try {
+      console.log('Fetching current user');
+
       const token = await getAccessToken();
+      console.log(token);
+
       if (token) {
         const response = await axios.get(
-          'http://10.0.2.2:6000/api/v1/users/current-user',
+          'https://realestate-backend-bosp.onrender.com/api/v1/users/current-user',
           {
             headers: {
               Authorization: `${token}`,
@@ -70,12 +77,15 @@ const EditUserProfile = ({navigation}) => {
   };
 
   const handleSubmit = async () => {
+    console.log('inside handle submit');
+
     try {
       setLoading(true);
       const token = await getAccessToken();
+
       if (token) {
         const response = await axios.patch(
-          'http://10.0.2.2:6000/api/v1/users/update-account',
+          'https://realestate-backend-bosp.onrender.com/api/v1/users/update-account',
           {
             phone: data.phone,
             username: data.username,
@@ -101,55 +111,59 @@ const EditUserProfile = ({navigation}) => {
 
   useEffect(() => {
     fetchCurrentUser();
-  }, []);
+  }, [isFocused]);
 
   return (
-    <View className="mx-2">
-      <View className="flex-row items-center justify-between max-w-[250px] mt-2">
-        <Pressable onPress={() => navigation.goBack()}>
-          <Icon name="arrow-back" size={30} color="#003366" />
+    <SafeAreaView>
+      <View className="mx-2">
+        <View className="flex-row items-center justify-between max-w-[250px] mt-2">
+          <Pressable onPress={() => navigation.goBack()}>
+            <Icon name="arrow-back" size={30} color="#003366" />
+          </Pressable>
+          <Text className="font-semibold text-black text-2xl">
+            Edit Profile
+          </Text>
+        </View>
+
+        <Pressable onPress={pickImage} className="items-center mt-5">
+          {imageUri ? (
+            <Image
+              source={{uri: imageUri}}
+              width={100}
+              height={100}
+              className="rounded-full w-[100px] h-[100px]"
+            />
+          ) : null}
+          <Text className="text-black text-xl font-psemibold text-center mb-5">
+            Edit Photo
+          </Text>
         </Pressable>
-        <Text className="font-semibold text-black text-2xl">Edit Profile</Text>
+
+        <CustomTextInput
+          value={data.email}
+          onChangeText={value => handleInputChange('email', value)}
+          placeholder="Email"
+        />
+        <CustomTextInput
+          value={data.username}
+          onChangeText={value => handleInputChange('username', value)}
+          placeholder="Username"
+        />
+        <CustomTextInput
+          value={data.phone}
+          onChangeText={value => handleInputChange('phone', value)}
+          placeholder="Phone Number"
+          keyboardType="phone-pad"
+        />
+
+        <CustomButton
+          title={loading ? 'Updating...' : 'Update Profile'}
+          handlePress={handleSubmit}
+          disabled={loading}
+          containerStyles={'h-[40px]'}
+        />
       </View>
-
-      <Pressable onPress={pickImage} className="items-center mt-5">
-        {imageUri ? (
-          <Image
-            source={{uri: imageUri}}
-            width={100}
-            height={100}
-            className="rounded-full w-[100px] h-[100px]"
-          />
-        ) : null}
-        <Text className="text-black text-xl font-psemibold text-center mb-5">
-          Edit Photo
-        </Text>
-      </Pressable>
-
-      <CustomTextInput
-        value={data.email}
-        onChangeText={value => handleInputChange('email', value)}
-        placeholder="Email"
-      />
-      <CustomTextInput
-        value={data.username}
-        onChangeText={value => handleInputChange('username', value)}
-        placeholder="Username"
-      />
-      <CustomTextInput
-        value={data.phone}
-        onChangeText={value => handleInputChange('phone', value)}
-        placeholder="Phone Number"
-        keyboardType="phone-pad"
-      />
-
-      <CustomButton
-        title={loading ? 'Updating...' : 'Update Profile'}
-        onPress={handleSubmit}
-        disabled={loading}
-        containerStyles={'h-[40px]'}
-      />
-    </View>
+    </SafeAreaView>
   );
 };
 

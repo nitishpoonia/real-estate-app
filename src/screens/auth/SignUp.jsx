@@ -57,16 +57,14 @@ const SignUp = ({navigation}) => {
       case 'userName':
         dispatch(checkUserName(value));
         break;
-      case 'fullName':
-        dispatch(checkFullName(value));
-        break;
+    
       default:
         break;
     }
   };
 
   const validateForm = () => {
-    if (!email || !password || !confirmPassword || !fullName || !userName) {
+    if (!email || !password || !confirmPassword || !userName) {
       setSubmitError('All fields are required');
       return false;
     }
@@ -74,7 +72,6 @@ const SignUp = ({navigation}) => {
       emailError ||
       passwordError ||
       confirmPasswordError ||
-      fullNameError ||
       userNameError
     ) {
       setSubmitError('Please fix the errors above');
@@ -89,7 +86,6 @@ const SignUp = ({navigation}) => {
       const data = new FormData();
       data.append('email', email);
       data.append('password', password);
-      data.append('fullName', fullName);
       data.append('username', userName);
       if (imageUri) {
         const image = {
@@ -105,13 +101,21 @@ const SignUp = ({navigation}) => {
 
   return (
     <View className="flex-1 bg-white justify-center">
+      <View>
+        <Text className="text-[#16a34a] text-center text-[36px] font-psemibold">
+          NextAssets
+        </Text>
+        <Text className="text-black text-center text-[17px] font-psemibold ">
+          Connecting You to Exclusive Properties
+        </Text>
+      </View>
       <View className="mt-5">
         <Text className="text-3xl text-black font-psemibold text-center">
-          Sign up
+          Create Account
         </Text>
       </View>
       <View>
-        <Pressable onPress={pickImage} className="items-center mt-5">
+        {/* <Pressable onPress={pickImage} className="items-center mt-5">
           {imageUri ? (
             <Image
               source={{uri: imageUri}}
@@ -128,8 +132,8 @@ const SignUp = ({navigation}) => {
         </Pressable>
         <Text className="text-black text-xl font-psemibold text-center mb-5">
           Add Photo
-        </Text>
-        <View className="mx-2">
+        </Text> */}
+        <View className="mx-5">
           <CustomTextInput
             placeholder={'Enter your full name'}
             onChangeText={text => handleInputChange('fullName', text)}
@@ -138,21 +142,21 @@ const SignUp = ({navigation}) => {
             style={{color: 'black'}}
           />
           <CustomTextInput
-            placeholder={'Enter your user name'}
+            placeholder={'Enter your mobile number'}
             onChangeText={text => handleInputChange('userName', text)}
             value={userName}
             error={userNameError}
             style={{color: 'black'}}
           />
 
-          <CustomTextInput
+          {/* <CustomTextInput
             placeholder={'Your Email Address'}
             keyboardType={'email-address'}
             onChangeText={text => handleInputChange('email', text)}
             value={email}
             error={emailError}
             style={{color: 'black'}}
-          />
+          /> */}
           <CustomTextInput
             placeholder={'Your Password'}
             secureTextEntry={true}
@@ -170,6 +174,9 @@ const SignUp = ({navigation}) => {
             style={{color: 'black'}}
           />
         </View>
+        <View>
+
+        </View>
       </View>
       {submitError ? <Text className="text-red-600">{submitError}</Text> : null}
       <View className="items-center mt-4">
@@ -177,7 +184,7 @@ const SignUp = ({navigation}) => {
           title={loading ? 'Submitting...' : 'Sign Up'}
           handlePress={onSubmit}
           disabled={loading}
-          containerStyles={'w-[370px]'}
+          containerStyles={'max-w-[350px] bg-[#16a34a]'}
         />
       </View>
 

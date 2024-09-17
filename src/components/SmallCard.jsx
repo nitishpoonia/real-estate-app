@@ -11,6 +11,7 @@ const SmallCard = ({
   ukey,
   imageUri,
 }) => {
+
   return (
     <Pressable
       key={ukey}

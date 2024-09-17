@@ -4,8 +4,12 @@ import CustomTextInput from '../../components/CustomTextInput';
 import CustomButton from '../../components/CustomButton';
 import {useDispatch, useSelector} from 'react-redux';
 import {checkEmail, checkPassword} from '../../redux/slices/formSlice';
-import {loginUser} from '../../redux/slices/auth/authActions';
+import {
+  forgotPasswordAction,
+  loginUser,
+} from '../../redux/slices/auth/authActions';
 import {images} from '../../constants';
+import {SafeAreaView} from 'react-native-safe-area-context';
 const Login = ({navigation}) => {
   const [submitError, setSubmitError] = useState('');
   const dispatch = useDispatch();
@@ -43,61 +47,84 @@ const Login = ({navigation}) => {
       dispatch(loginUser({email, password}));
     }
   };
+
+  const handleForgotPassword = () => {
+    if (!email) {
+      setSubmitError('Please enter your email address to reset your password');
+      return;
+    }
+    dispatch(forgotPasswordAction({email}));
+  };
   return (
-    <View className="bg-white flex-1 justify-center ">
-      <View className="mt-5 items-center">
-        <Image
-          source={images.logo2}
-          className="w-[120px] h-[120px] mb-3"
-          resizeMode="contain"
-        />
-        <Text className="text-3xl text-black font-psemibold text-center mb-4">
-          Sign in
-        </Text>
-      </View>
-      <View className="mx-2">
-        <CustomTextInput
-          placeholder={'Your Email Address'}
-          keyboardType={'email-address'}
-          onChangeText={text => handleInputChange('email', text)}
-          value={email}
-          error={emailError}
-          style={{color: 'black'}}
-        />
-        <CustomTextInput
-          placeholder={'Your Password'}
-          secureTextEntry={true}
-          onChangeText={text => handleInputChange('password', text)}
-          value={password}
-          error={passwordError}
-          style={{color: 'black'}}
-        />
+    <SafeAreaView className="flex-1">
+      <View>
+        <Image source={images.LoginScreenImage} width={100} height={100} />
       </View>
       <View>
-        <TouchableOpacity>
-          <Text className="text-right font-psemibold text-blue-700 text-xl mr-4">
-            Forgot password?
+        <Text className="text-[#16a34a] text-center text-[36px] font-psemibold">
+          NextAssets
+        </Text>
+        <Text className="text-black text-center text-[17px] font-psemibold ">
+          Connecting You to Exclusive Properties
+        </Text>
+      </View>
+      <View className="justify-center flex-1">
+        <View className="items-center">
+          <Text className="text-3xl text-black font-psemibold text-center mb-4">
+            Login
+          </Text>
+        </View>
+        <View className="mx-5">
+          <CustomTextInput
+            placeholder={'Your Email Address'}
+            keyboardType={'email-address'}
+            onChangeText={text => handleInputChange('email', text)}
+            value={email}
+            style={{color: 'black'}}
+            containerStyles={''}
+          />
+          <CustomTextInput
+            placeholder={'Your Password'}
+            secureTextEntry={true}
+            onChangeText={text => handleInputChange('password', text)}
+            value={password}
+            style={{color: 'black'}}
+          />
+        </View>
+        <View>
+          <TouchableOpacity onPress={handleForgotPassword}>
+            <Text className="text-right font-pregular text-black text-lg mr-5">
+              Forgot password?
+            </Text>
+          </TouchableOpacity>
+        </View>
+        {submitError ? (
+          <Text className="text-red-600 ml-6 font-pregular">{submitError}</Text>
+        ) : null}
+        <View className="items-center mt-4">
+          <CustomButton
+            title={loading ? 'Submitting...' : 'Login'}
+            handlePress={onSubmit}
+            disabled={loading}
+            containerStyles={'max-w-[100%] w-96 mx-auto bg-[#16a34a]'}
+            isLoading={loading}
+          />
+        </View>
+        <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+          <Text className="text-lg text-center mt-5 text-black font-pregular">
+            Don't have account? Sign up
           </Text>
         </TouchableOpacity>
       </View>
-      {submitError ? (
-        <Text className="text-red-600 font-pregular">{submitError}</Text>
-      ) : null}
-      <View className="items-center mt-4">
-        <CustomButton
-          title={loading ? 'Submitting...' : 'Login'}
-          handlePress={onSubmit}
-          disabled={loading}
-          containerStyles={'w-[370px]'}
-          isLoading={loading}
+      <View className="absolute bottom-0 right-0 z-[-1]">
+        <Image
+          className="realtive"
+          source={images.bgimg}
+          height={100}
+          width={100}
         />
       </View>
-      <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-        <Text className="text-lg text-center mt-5 text-black font-pregular">
-          Don't have account? Sign up
-        </Text>
-      </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 };
 

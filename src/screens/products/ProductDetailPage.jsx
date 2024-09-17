@@ -1,5 +1,5 @@
 import {ScrollView, View, Text, Image, Pressable} from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import AmenitiesCard from '../../components/AmenitiesCard';
 import CustomButton from '../../components/CustomButton';
 import ProductImages from '../../components/ProductImages';
@@ -8,14 +8,28 @@ import {useRoute} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchPropertyById} from '../../redux/slices/product/ProductThunk.js';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {getListedBy} from '../../app/api/AuthApiManager.js';
 const ProductDetailPage = ({navigation}) => {
+  const [userWhoListed, setUserWhoListed] = useState();
   const route = useRoute();
   const dispatch = useDispatch();
   const {_id} = route.params;
   const {selectedProperty, loading, error} = useSelector(
     state => state.product,
   );
+  const listedByUser = () => {
+    getListedBy(selectedProperty?.data?.listedBy)
+      .then(response => {
+        setUserWhoListed(response.data.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+  console.log();
+
   useEffect(() => {
+    listedByUser();
     dispatch(fetchPropertyById(_id));
   }, []);
   if (loading) {
@@ -31,10 +45,10 @@ const ProductDetailPage = ({navigation}) => {
   }
   return (
     <ScrollView>
-      <SafeAreaView className="mb-3 bg-white">
-        <View className="flex-row items-center justify-between max-w-[230px]">
-          <Pressable onPress={() => navigation.goBack()}>
-            <Icon name="arrow-back" size={30} color="#003366" />
+      <SafeAreaView className="mb-3 bg-white flex-1">
+        <View className="flex-row items-center justify-between max-w-[230px] z-10">
+          <Pressable onPress={() => navigation.goBack()} className="mr-2">
+            <Icon name="arrow-back" size={30} color="black" />
           </Pressable>
           <Text className="font-semibold text-black text-2xl">
             Property Details
@@ -46,9 +60,7 @@ const ProductDetailPage = ({navigation}) => {
           resizeMode="cover"
         />
         <View className="">
-          <View
-            className="flex-row justify-between bg-[#2E8B57] py-2 rounded-b-xl shadow-sm shadow-black-100 px-2"
-            style={{elevation: 10}}>
+          <View className="flex-row justify-between bg-[#2E8B57] py-2  rounded-b-xl shadow-sm shadow-black-100 px-2">
             <View>
               <Text className="font-pregular text-white text-lg">
                 {selectedProperty?.data?.title}
@@ -58,7 +70,7 @@ const ProductDetailPage = ({navigation}) => {
               </Text>
             </View>
             <View>
-              <Text className="font-pregular text-white text-lg">
+              <Text className="font-pregular text-white text-lg mr-5">
                 {selectedProperty?.data?.price}
               </Text>
             </View>
@@ -113,12 +125,17 @@ const ProductDetailPage = ({navigation}) => {
         </View>
         <View className="mx-2 rounded-lg bg-white">
           <Text className="text-black text-2xl font-psemibold mb-1">
-            Amenities
+            Details
           </Text>
           <View className="flex-row">
-            <AmenitiesCard icon={'wifi'} title={'Wifi'} />
-            <AmenitiesCard icon={'local-parking'} title={'Parking'} />
-            <AmenitiesCard icon={'pool'} title={'Pool'} />
+            <AmenitiesCard
+              icon={'bed'}
+              title={selectedProperty?.data?.bedrooms}
+            />
+            <AmenitiesCard
+              icon={'shower'}
+              title={selectedProperty?.data?.bathrooms}
+            />
           </View>
         </View>
         <View className="mx-2 mt-4 rounded-lg pb-4 bg-white">
@@ -128,6 +145,22 @@ const ProductDetailPage = ({navigation}) => {
           <Text className="text-neutral-800 text-base">
             {selectedProperty?.data?.description}
           </Text>
+        </View>
+        <View className="bg-gray-50 py-2 rounded-md">
+          <Text className="text-black  text-2xl font-psemibold mb-1 mx-2">
+            Listed By
+          </Text>
+          <View className="flex-row items-center mx-2">
+            <Image
+              source={{uri: userWhoListed?.avatar}}
+              height={50}
+              width={50}
+              className="rounded-full mr-2"
+            />
+            <Text className="text-black text-base font-pregular mb-1">
+              {userWhoListed?.username}
+            </Text>
+          </View>
         </View>
       </SafeAreaView>
     </ScrollView>

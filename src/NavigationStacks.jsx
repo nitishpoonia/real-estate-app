@@ -22,6 +22,7 @@ import BasicProperties from './components/properties/BasicProperties';
 import {checkLoggedIn} from './redux/slices/auth/authActions';
 import ApScreen1 from './screens/addProduct/ApScreen1';
 import EditUserProfile from './screens/UserProfile/EditUserProfile';
+import WelcomeScreen from './screens/auth/WelcomeScreen';
 // import UserTypeSelectionPage from './screens/UserTypeSelectionPage';
 
 const Tab = createBottomTabNavigator();
@@ -29,19 +30,24 @@ const Stack = createNativeStackNavigator();
 const AuthStack = () => {
   return (
     <Stack.Navigator initialRouteName="OnboardingScreenTemplate">
-      <Stack.Screen
+      {/* <Stack.Screen
         name="OnboardingScreenTemplate"
         component={OnboardingScreenTemplate}
         options={{headerShown: false}}
-      />
+      /> */}
       <Stack.Screen
-        name="SignUp"
-        component={SignUp}
+        name="WelcomeScreen"
+        component={WelcomeScreen}
         options={{headerShown: false}}
       />
       <Stack.Screen
         name="Login"
         component={Login}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="SignUp"
+        component={SignUp}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

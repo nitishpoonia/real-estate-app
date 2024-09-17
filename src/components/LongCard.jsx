@@ -10,6 +10,8 @@ const LongCard = ({
   handleHeartPress,
   ukey,
   imageUri,
+  type,
+  category,
 }) => {
   return (
     <Pressable
@@ -26,6 +28,8 @@ const LongCard = ({
           <Text className="font-pbold text-black">{name}</Text>
           <Text className="font-pregular text-black-200">{location}</Text>
           <Text className="font-psemibold text-black-200">{price}</Text>
+          <Text className="font-pregular text-black-200">{type}</Text>
+          <Text className="font-pregular text-black-200">{category}</Text>
         </View>
       </View>
 

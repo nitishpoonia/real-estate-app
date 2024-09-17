@@ -41,6 +41,7 @@ import {
 import PillComponentForTags from '../../components/PillComponentForTags';
 import propertyOptions from '../../services/AddProductFormServices';
 import CustomButton from '../../components/CustomButton';
+import GooglePlacesInput from '../../components/GooglePlacesInput';
 const ApScreen1 = () => {
   const [selectedTypeIndex, setSelectedTypeIndex] = useState(null);
   const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(null);
@@ -258,20 +259,30 @@ const ApScreen1 = () => {
       setSubmitError('');
 
       const data = new FormData();
+
+      // Convert numeric values from string to number
+      const numericPrice = Number(price);
+      const numericCarpetArea = Number(carpetArea);
+      const numericBedrooms = Number(bedrooms);
+      const numericBathrooms = Number(bathrooms);
+
+      // Append properties
       data.append('title', title);
       data.append('description', description);
-      data.append('price', price);
-      data.append('location', location.toLowerCase());
+      data.append('price', numericPrice); // Convert to number
+      data.append('location', location);
       data.append('type', type.toLowerCase());
       data.append('category', category.toLowerCase());
-      data.append('carpetArea', carpetArea);
-
+      data.append('carpetArea', numericCarpetArea); // Convert to number
+      data.append('listedBy', listedBy);
+      // Conditionally append additional fields
       if (category !== 'Plot') {
-        data.append('bedrooms', bedrooms);
-        data.append('bathrooms', bathrooms);
+        data.append('bedrooms', numericBedrooms); // Convert to number
+        data.append('bathrooms', numericBathrooms); // Convert to number
         data.append('furnished', furnished.toLowerCase());
       }
 
+      // Handle main image
       if (mainImage) {
         data.append('mainImage', {
           uri: mainImage,
@@ -280,6 +291,7 @@ const ApScreen1 = () => {
         });
       }
 
+      // Handle additional images
       if (images && images.length > 0) {
         images.forEach((imageUri, index) => {
           data.append('images', {
@@ -290,7 +302,7 @@ const ApScreen1 = () => {
         });
       }
 
-      console.log(data);
+      console.log('Submit form', data);
 
       dispatch(createProperty(data))
         .unwrap()
@@ -315,7 +327,6 @@ const ApScreen1 = () => {
         });
     }
   };
-
 
   return (
     <SafeAreaView className="flex-1">
@@ -348,12 +359,7 @@ const ApScreen1 = () => {
               keyboardType="numeric"
             />
             <View>
-              <CustomTextInput
-                placeholder={'Location'}
-                onChangeText={text => dispatch(setLocation(text))}
-                value={location}
-                error={locationError}
-              />
+              <GooglePlacesInput />
               <TouchableOpacity
                 className="flex-row items-center"
                 onPress={handleLocation}>
@@ -612,7 +618,7 @@ const ApScreen1 = () => {
           </Accordion>
           <Accordion title={'Review Details'}>
             <Text className="font-pregular text-base text-black mt-3">
-              Title: <Text className="text-base font-pmedium">{title}</Text>
+              Title: <Text className="text-base  font-pmedium">{title}</Text>
             </Text>
             <Text className="font-pregular text-base text-black mt-3">
               Description:{' '}
@@ -623,7 +629,9 @@ const ApScreen1 = () => {
             </Text>
             <Text className="font-pregular text-base text-black mt-3">
               Location:{' '}
-              <Text className="text-base font-pmedium">{location}</Text>
+              {/* <Text className="text-base font-pmedium">
+                {location.structured_formatting.main_text}
+              </Text> */}
             </Text>
             <Text className="font-pregular text-base text-black mt-3">
               Type: <Text className="text-base font-pmedium">{type}</Text>

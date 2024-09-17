@@ -7,7 +7,6 @@ import {
   FlatList,
   TouchableOpacity,
   Alert,
-  Modal,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -17,17 +16,28 @@ import {useDispatch, useSelector} from 'react-redux';
 import {fetchProperties} from '../../redux/slices/product/ProductThunk.js';
 import LongCard from '../../components/LongCard.jsx';
 import FilterModel from '../../components/filters/FilterModel.jsx';
-Geocoder.init('AIzaSyDQ5-YOrrKT4n7FUDhJYd1dLvOzBEq3eHw');
+import Modal from 'react-native-modal';
+Geocoder.init(process.env.GOOGLE_API);
 
 const SearchScreen = ({navigation}) => {
   const dispatch = useDispatch();
-  const {type} = useSelector(state => state.filterOptions.filterOptions);
+  const {
+    type,
+    category,
+    bedrooms,
+    bathrooms,
+    furnished,
+    amenities,
+    minPrice,
+    maxPrice,
+    location,
+  } = useSelector(state => state.filterOptions.filterOptions);
   const {properties, loading} = useSelector(state => state?.product);
   const [readableAddress, setReadableAddress] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  console.log('Type:', type);
-
+  const {allFilters} = useSelector(state => state.filterOptions.filterOptions);
+  const flattenedFilters = allFilters.flat();
   const handleLocation = () => {
     Geolocation.getCurrentPosition(
       async position => {
@@ -50,30 +60,108 @@ const SearchScreen = ({navigation}) => {
   };
 
   useEffect(() => {
-    handleLocation();
+    // handleLocation();
     dispatch(fetchProperties());
   }, [dispatch]);
 
   const toggleModal = () => {
     setModalVisible(!modalVisible);
   };
+  const renderItem = ({item}) => (
+    <View className="border px-2 mr-1 rounded-lg border-[#16a34a]">
+      <Text className="font-pregular text-base text-black">{item}</Text>
+    </View>
+  );
 
-  // Function to filter properties based on the location or search term
-  const filteredProperties = useMemo(() => {
-    if (!readableAddress) {
-      return properties;
+  const applyFilter = () => {
+    let filteredProperties = properties;
+    const typeLowerCase = type.map(item => item.toLowerCase());
+    const furnishedLowerCase = furnished.map(item => item.toLowerCase());
+    // Apply location filter
+    if (searchTerm || readableAddress) {
+      filteredProperties = filteredProperties.filter(property =>
+        property.location
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase() || readableAddress.toLowerCase()),
+      );
     }
 
-    return properties.filter(property => {
-      const propertyLocation = property?.location?.toLowerCase();
-      const address = readableAddress.toLowerCase();
-      const searchQuery = searchTerm.toLowerCase();
-      return (
-        propertyLocation.includes(address) ||
-        propertyLocation.includes(searchQuery)
+    // Apply property type filter
+    if (typeLowerCase.length) {
+      filteredProperties = filteredProperties.filter(property =>
+        typeLowerCase.includes(property.category.toLowerCase()),
       );
-    });
-  }, [properties, readableAddress, searchTerm]);
+    }
+
+    // Apply category filter
+    if (category.length) {
+      filteredProperties = filteredProperties.filter(property =>
+        category.includes(property.category.toLowerCase()),
+      );
+    }
+
+    // Apply bedrooms filter
+    if (bedrooms.length) {
+      filteredProperties = filteredProperties.filter(property =>
+        bedrooms.includes(property.bedrooms),
+      );
+    }
+
+    // Apply bathrooms filter
+    if (bathrooms.length) {
+      filteredProperties = filteredProperties.filter(property =>
+        bathrooms.includes(property.bathrooms),
+      );
+    }
+
+    // Apply furnished filter
+    if (furnishedLowerCase.length) {
+      filteredProperties = filteredProperties.filter(property =>
+        furnishedLowerCase.includes(property.furnished.toLowerCase()),
+      );
+    }
+
+    // Apply price range filter
+    if (minPrice || maxPrice) {
+      const minPriceNumber = parseFloat(minPrice) || 0;
+      const maxPriceNumber = parseFloat(maxPrice) || Infinity;
+      filteredProperties = filteredProperties.filter(property => {
+        const price = parseFloat(property.price) || 0;
+        return price >= minPriceNumber && price <= maxPriceNumber;
+      });
+    }
+
+    // Apply amenities filter
+    if (amenities.length) {
+      filteredProperties = filteredProperties.filter(property => {
+        return amenities.every(amenity =>
+          property.amenities
+            ?.map(a => a.toLowerCase())
+            .includes(amenity.toLowerCase()),
+        );
+      });
+    }
+
+    // Return filtered properties or a message if no properties match
+    return filteredProperties.length > 0 ? filteredProperties : [];
+  };
+  const clearLocation = () => {
+    setReadableAddress('');
+  };
+  const filterProperty = useMemo(() => {
+    return applyFilter();
+  }, [
+    properties,
+    searchTerm,
+    type,
+    category,
+    bedrooms,
+    bathrooms,
+    furnished,
+    amenities,
+    minPrice,
+    maxPrice,
+  ]);
 
   return (
     <SafeAreaView className="flex-1 mx-2 mt-2">
@@ -87,15 +175,24 @@ const SearchScreen = ({navigation}) => {
               <Text className="font-semibold text-black text-lg">
                 You are looking to buy in
               </Text>
-              <Text className="font-semibold text-black text-lg">
-                {readableAddress && <Text>{readableAddress}</Text>}
-              </Text>
+              {readableAddress && (
+                <View className="flex-row items-baseline">
+                  <Text className="font-semibold text-black text-lg mr-1">
+                    {readableAddress}
+                  </Text>
+                  <Pressable onPress={clearLocation}>
+                    <View className="bg-gray-500 rounded-full">
+                      <Icon name={'close'} size={15} color={'white'} />
+                    </View>
+                  </Pressable>
+                </View>
+              )}
             </View>
             <View className="mt-3 flex-row items-center justify-between">
               <TextInput
                 value={searchTerm}
                 onChangeText={text => setSearchTerm(text)}
-                placeholder="Search for flats, apartments, plots"
+                placeholder="Search for that place"
                 placeholderTextColor={'black'}
                 className="border-2 border-white rounded-lg px-3 bg-white text-base h-10 w-[90%]"
               />
@@ -103,6 +200,7 @@ const SearchScreen = ({navigation}) => {
                 <Icon name={'tune'} size={28} color={'green'} />
               </Pressable>
             </View>
+
             <TouchableOpacity
               className="flex-row items-center mt-1"
               onPress={handleLocation}>
@@ -111,36 +209,54 @@ const SearchScreen = ({navigation}) => {
                 Current Location
               </Text>
             </TouchableOpacity>
+            <View>
+              <Text className="font-psemibold text-xl mt-2 text-[#16a34a]">
+                Filters
+              </Text>
+              <View>
+                <FlatList
+                  data={flattenedFilters}
+                  renderItem={renderItem}
+                  keyExtractor={(item, index) => index.toString()}
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                />
+              </View>
+            </View>
             <Text className="text-green-600 text-2xl mt-2 font-semibold">
               Properties
             </Text>
           </>
         }
-        data={filteredProperties} // Use the filtered properties for the FlatList
-        renderItem={({item}) => (
-          <LongCard
-            key={item?._id}
-            name={item?.title}
-            location={item?.location}
-            price={item?.price}
-            imageUri={item?.mainImage}
-            navigation={navigation}
-            handleCardPress={() =>
-              navigation.navigate('ProductDetailPage', {_id: item?._id})
-            }
-          />
-        )}
+        data={filterProperty.length > 0 ? filterProperty : []}
+        ListEmptyComponent={
+          <Text className="text-center text-red-600">No results found</Text>
+        }
+        renderItem={({item}) =>
+          item === 'No results found' ? (
+            <Text className="text-center text-red-600">No results found</Text>
+          ) : (
+            <LongCard
+              key={item?._id}
+              name={item?.title}
+              location={item?.location}
+              price={item?.price}
+              imageUri={item?.mainImage}
+              type={item?.type}
+              category={item?.category}
+              navigation={navigation}
+              handleCardPress={() =>
+                navigation.navigate('ProductDetailPage', {_id: item?._id})
+              }
+            />
+          )
+        }
         keyExtractor={item => item.key}
         contentContainerStyle={{flexGrow: 1}}
         showsVerticalScrollIndicator={false}
       />
 
-      {/* Modal for Filters */}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={toggleModal}>
+      <Modal isVisible={modalVisible}>
         <View className="flex-1 justify-end items-center bg-opacity-100">
           <View className="bg-white w-[100%] rounded-2xl p-6 shadow-lg">
             <Text className="text-xl font-bold mb-4 text-gray-800">

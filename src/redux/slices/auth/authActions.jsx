@@ -6,7 +6,12 @@ import {
   logout,
   authTokenFound,
 } from './authSlice';
-import {createUser, signIn, signOut} from '../../../app/api/AuthApiManager';
+import {
+  createUser,
+  signIn,
+  signOut,
+  forgotPassword,
+} from '../../../app/api/AuthApiManager';
 
 import Toast from 'react-native-toast-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -81,6 +86,31 @@ export const logoutUser = createAsyncThunk(
       dispatch(logout());
     } catch (error) {
       dispatch(authFailure(error.response?.data?.message || error.message));
+    }
+  },
+);
+
+export const forgotPasswordAction = createAsyncThunk(
+  'auth/forgotPassword',
+  async ({email}, {dispatch}) => {
+    console.log(email);
+
+    try {
+      const response = await forgotPassword(email);
+      console.log(response);
+
+      Toast.show({
+        type: 'success',
+        text1: 'Password Reset Email Sent',
+        text2: 'Please check your email to reset your password',
+      });
+    } catch (err) {
+      console.log(err);
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'Failed to send reset password email. Please try again.',
+      });
     }
   },
 );

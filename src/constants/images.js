@@ -5,6 +5,9 @@ import logo from '../assets/images/logo.png';
 import logo2 from '../assets/images/logo-small.png';
 import house3 from '../assets/images/house3.jpeg';
 import backgroundUserProfile from '../assets/images/backgroundUserProfile.png';
+import Ls from '../assets/images/LandnigScreenImage.png';
+import bgimg from '../assets/images/Vector.png';
+import LoginScreenImage from '../assets/images/LoginScreenImage.png';
 export default {
   house1,
   hosue2,
@@ -13,4 +16,7 @@ export default {
   logo2,
   house3,
   backgroundUserProfile,
+  Ls,
+  bgimg,
+  LoginScreenImage,
 };

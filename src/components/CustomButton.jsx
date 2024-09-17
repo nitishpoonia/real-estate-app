@@ -15,10 +15,7 @@ const CustomButton = ({
   return (
     <View
       className={`bg-secondary rounded-xl h-12 px-4 my-4 flex-row
-      items-center ${containerStyles} ${
-        isLoading ? 'opacity-50' : ''
-      }`}
-      style={{elevation: 10}}>
+      items-center ${containerStyles} ${isLoading ? 'opacity-50' : ''}`}>
       <TouchableOpacity
         onPress={handlePress}
         activeOpacity={0.7}

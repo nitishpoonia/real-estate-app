@@ -28,12 +28,14 @@ export const fetchPropertyById = createAsyncThunk(
 export const createProperty = createAsyncThunk(
   'properties/create',
   async (propertyData, {rejectWithValue}) => {
+    console.log('Property Data', propertyData);
     try {
       const response = await ProductServices.createProperty(propertyData);
       const data = await response.data;
-      console.log(data);
       return response.data;
     } catch (error) {
+      console.log('Error from thunk', error);
+
       return rejectWithValue(error.response.data);
     }
   },
