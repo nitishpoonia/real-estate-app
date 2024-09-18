@@ -8,6 +8,7 @@ import backgroundUserProfile from '../assets/images/backgroundUserProfile.png';
 import Ls from '../assets/images/LandnigScreenImage.png';
 import bgimg from '../assets/images/Vector.png';
 import LoginScreenImage from '../assets/images/LoginScreenImage.png';
+import Podcast from '../assets/images/podcast.png';
 export default {
   house1,
   hosue2,
@@ -19,4 +20,5 @@ export default {
   Ls,
   bgimg,
   LoginScreenImage,
+  Podcast,
 };

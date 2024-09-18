@@ -35,6 +35,7 @@ const BasicProperties = ({navigation, useSorted = false}) => {
         maxToRenderPerBatch={5}
         renderItem={({item}) => (
           <SmallCard
+            category={item?.category}
             bedroom={item?.bedrooms}
             bathroom={item?.bathrooms}
             carpetArea={item?.carpetArea}

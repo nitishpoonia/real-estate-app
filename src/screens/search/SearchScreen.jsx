@@ -17,6 +17,7 @@ import {fetchProperties} from '../../redux/slices/product/ProductThunk.js';
 import LongCard from '../../components/LongCard.jsx';
 import FilterModel from '../../components/filters/FilterModel.jsx';
 import Modal from 'react-native-modal';
+import {clearFilters} from '../../redux/slices/filter/filterOptionsSlice.jsx';
 Geocoder.init(process.env.GOOGLE_API);
 
 const SearchScreen = ({navigation}) => {
@@ -30,13 +31,13 @@ const SearchScreen = ({navigation}) => {
     amenities,
     minPrice,
     maxPrice,
+    allFilters,
     location,
   } = useSelector(state => state.filterOptions.filterOptions);
   const {properties, loading} = useSelector(state => state?.product);
   const [readableAddress, setReadableAddress] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  const {allFilters} = useSelector(state => state.filterOptions.filterOptions);
   const flattenedFilters = allFilters.flat();
   const handleLocation = () => {
     Geolocation.getCurrentPosition(
@@ -195,7 +196,6 @@ const SearchScreen = ({navigation}) => {
                 placeholder="Search for that place"
                 placeholderTextColor={'black'}
                 className="border-2 border-white rounded-lg px-3 bg-white  text-black text-base h-10 w-[90%]"
-                
               />
               <Pressable onPress={toggleModal}>
                 <Icon name={'tune'} size={28} color={'green'} />
@@ -260,9 +260,17 @@ const SearchScreen = ({navigation}) => {
       <Modal isVisible={modalVisible}>
         <View className="flex-1 justify-end items-center bg-opacity-100">
           <View className="bg-white w-[100%] rounded-2xl p-6 shadow-lg">
-            <Text className="text-xl font-bold mb-4 text-gray-800">
-              Filter Options
-            </Text>
+            <View className="flex-row justify-between">
+              <Text className="text-xl font-bold mb-4 text-gray-800 ">
+                Filter Options
+              </Text>
+              <Pressable onPress={() => dispatch(clearFilters())}>
+                <Text className="text-white rounded-md  bg-[#16a34a] px-3 py-1">
+                  Clear All
+                </Text>
+              </Pressable>
+            </View>
+
             <FilterModel />
             <View className="flex-row justify-end mt-6">
               <TouchableOpacity

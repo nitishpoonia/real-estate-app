@@ -1,9 +1,10 @@
 import {View, Text, Image, Pressable} from 'react-native';
 import React from 'react';
 import LocationPin from '../assets/images/LocationPinIcon.svg';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+// import Icon from 'react-native-vector-icons/MaterialIcons';
 import FacilitiesCard from './FacilitesCard';
 import moment from 'moment';
+import PropertyTypeCard from './PropertyTypeCard';
 const SmallCard = ({
   // name,
   location,
@@ -17,6 +18,7 @@ const SmallCard = ({
   carpetArea,
   createdAt,
   type,
+  category,
 }) => {
   const daysSinceListed = moment().diff(createdAt, 'days');
 
@@ -40,22 +42,25 @@ const SmallCard = ({
           className="w-full h-[150px] items-center rounded-t-md"
         />
       </View>
-      <View className="mx-3 my-2">
-        <Text className="font-pbold  text-black ">
+      <View className="mx-2 my-2">
+        <View className="w-[35%]">
+          <PropertyTypeCard category={category} containerStyles={'p-0 mx-1 rounded-md'} textStyles={'text-sm'}/>
+        </View>
+        <Text className="font-pbold  text-black">
           ₹ {formatPriceInIndianStyle(price)}
         </Text>
         <View className="flex-row items-center">
           <View className="mb-1 mr-1">
             <LocationPin />
           </View>
-          <Text className="font-pregular text-black-200">{location}</Text>
+          <Text className="font-pregular text-black-200 my-1">{location}</Text>
         </View>
         <View className="flex-row justify-between">
           <FacilitiesCard iconName={'bed'} text={bedroom} />
           <FacilitiesCard iconName={'shower'} text={bathroom} />
           <FacilitiesCard iconName={'square-foot'} text={carpetArea} />
         </View>
-        <View className="mt-1">
+        <View className="mt-2">
           <Text className="font-pregular text-[#aaaaaa]">
             Listed {daysSinceListed} days ago
           </Text>

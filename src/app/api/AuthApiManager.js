@@ -6,10 +6,10 @@ const getBaseURL = () => {
   if (Platform.OS === 'android') {
     return (
       //   'http://10.0.2.2:6000/api/v1/users' ||
-      'http://192.168.0.246:6000/api/v1/users'
+      'https://realestate-backend-bosp.onrender.com/api/v1/users'
     ); // Android emulator
   } else if (Platform.OS === 'ios') {
-    return 'http://localhost:6000/api/v1/users';
+    return 'https://realestate-backend-bosp.onrender.com/api/v1/users';
   }
 };
 

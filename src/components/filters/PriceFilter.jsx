@@ -13,8 +13,8 @@ const PriceFilter = () => {
   return (
     <View>
       <Text className="font-psemibold text-black text-base">Price</Text>
-      <View className="flex-row justify-between w-[60%]">
-        <View className="flex-row  items-center">
+      <View className="flex-row justify-between w-[70%]">
+        <View className="flex-row ">
           <TextInput
             placeholder="Min Price"
             style={styles.textInput}
