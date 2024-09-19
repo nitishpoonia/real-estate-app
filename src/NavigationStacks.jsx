@@ -192,9 +192,9 @@ const NavigationStacks = () => {
     }
   }, [dispatch, isAuthenticated]);
 
-  if (loading) {
-    return <LoadingScreen />;
-  }
+  // if (loading) {
+  //   return <LoadingScreen />;
+  // }
 
   return (
     <NavigationContainer>

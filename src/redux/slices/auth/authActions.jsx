@@ -5,16 +5,30 @@ import {
   authFailure,
   logout,
   authTokenFound,
+  currentUserDetails,
 } from './authSlice';
 import {
   createUser,
   signIn,
   signOut,
+  getCurrentUser,
   forgotPassword,
 } from '../../../app/api/AuthApiManager';
 
 import Toast from 'react-native-toast-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+export const getCurrentUserDetails = createAsyncThunk(
+  'auth/currentUser',
+  async (_, {dispatch}) => {
+    try {
+      const response = await getCurrentUser();
+      dispatch(currentUserDetails({user: response.data.data}));
+    } catch (error) {
+      console.log(error);
+    }
+  },
+);
 
 export const checkLoggedIn = createAsyncThunk(
   'auth/checkLoggedIn',
@@ -39,12 +53,14 @@ export const loginUser = createAsyncThunk(
     try {
       dispatch(authStart());
       const response = await signIn(email, password);
-      dispatch(authSuccess(response.data));
+
       Toast.show({
         type: 'success',
         text1: 'Login Successful',
       });
+      dispatch(authSuccess(response.data));
     } catch (error) {
+      console.log(error.response);
       dispatch(authFailure(error.response?.data?.message || error.message));
       Toast.show({
         type: 'error',

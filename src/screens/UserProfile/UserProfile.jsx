@@ -1,46 +1,32 @@
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  Dimensions,
-  Pressable,
-  ScrollView,
-} from 'react-native';
-import React, {useState, useEffect} from 'react';
+import {View, Text, Image, Pressable} from 'react-native';
+import React, {useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {logoutUser} from '../../redux/slices/auth/authActions';
+import {
+  getCurrentUserDetails,
+  logoutUser,
+} from '../../redux/slices/auth/authActions';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5';
-import CustomUserInfoCard from '../../components/CustomUserInfoCard';
 import {images} from '../../constants';
 import PodcastIcon from '../../assets/images/podcast.svg';
 import {SafeAreaView} from 'react-native-safe-area-context';
-const UserProfile = ({navigation}) => {
-  const userJSONString = JSON.parse(useSelector(state => state.auth.user));
-  const dispatch = useDispatch();
-  // useEffect(() => {
-  //   let parsedUser;
-  //   try {
-  //     if (typeof userJSONString === 'string') {
-  //       // Attempt to parse JSON only if it's a string
-  //       parsedUser = JSON.parse(userJSONString);
-  //     } else {
-  //       // If it's not a string, use it directly
-  //       parsedUser = userJSONString;
-  //     }
-  //     setUser(parsedUser);
-  //   } catch (error) {
-  //     console.error('Error parsing JSON:', error);
-  //     setUser(null);
-  //   }
-  // }, [userJSONString]);
-  console.log(userJSONString.id);
+import {
+  openInstagramProfile,
+  openWebsite,
+  openWhatsApp,
+  openYouTubeProfile,
+} from '../../components/SocialLinking';
+import {useIsFocused} from '@react-navigation/native';
 
-  const handleLogout = () => {
-    dispatch(logoutUser());
-  };
-  const screenWidth = Dimensions.get('window').width;
+const UserProfile = ({navigation}) => {
+  const dispatch = useDispatch();
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    dispatch(getCurrentUserDetails());
+  }, [isFocused]);
+  const {user} = useSelector(state => state.auth);
+
   return (
     <SafeAreaView className="flex-1">
       <View className="mt-2 flex-1">
@@ -56,7 +42,7 @@ const UserProfile = ({navigation}) => {
                 User Profile
               </Text>
             </View>
-            <Pressable>
+            <Pressable onPress={() => navigation.navigate('EditUserProfile')}>
               <Text className="text-[#16a34a] font-pmedium text-base">
                 Edit
               </Text>
@@ -64,9 +50,9 @@ const UserProfile = ({navigation}) => {
           </View>
           <View className="items-center mt-4 justify-center h-[100%]">
             <View className="mb-1">
-              {userJSONString?.avatar ? (
+              {user?.avatar ? (
                 <Image
-                  source={{uri: userJSONString?.avatar}}
+                  source={{uri: user?.avatar}}
                   className="h-[100px] w-[100px] rounded-full"
                 />
               ) : (
@@ -78,10 +64,10 @@ const UserProfile = ({navigation}) => {
             </View>
             <View className="items-center">
               <Text className="text-black font-psemibold text-lg">
-                {userJSONString?.username}
+                {user?.username}
               </Text>
               <Text className="text-[#16a34a] font-pmedium text-base bg-[#D0EDDB] py-2 rounded-lg px-4">
-                {userJSONString?.email}
+                {user?.email}
               </Text>
             </View>
           </View>
@@ -147,23 +133,35 @@ const UserProfile = ({navigation}) => {
             </Text>
             <View>
               <View className="flex-row items-center gap-2">
-                <View className="p-3 bg-[#16a34a] rounded-full items-center justify-center">
+                <Pressable
+                  onPress={openWebsite}
+                  className="p-3 bg-[#16a34a] rounded-full items-center justify-center">
                   <Icon name={'public'} size={24} color={'white'} />
-                </View>
-                <View className="px-4 py-3 bg-[#16a34a] rounded-full items-center justify-center">
+                </Pressable>
+                <Pressable
+                  onPress={openInstagramProfile}
+                  className="px-4 py-3 bg-[#16a34a] rounded-full items-center justify-center">
                   <FontAwesomeIcon
                     name={'instagram'}
                     size={25}
                     color={'white'}
                   />
-                </View>
+                </Pressable>
 
-                <View className="px-[14px] py-3 bg-[#16a34a] rounded-full">
-                  <FontAwesomeIcon name={'twitter'} size={24} color={'white'} />
-                </View>
-                <View className="p-3 bg-[#16a34a] rounded-full">
+                <Pressable
+                  onPress={openWhatsApp}
+                  className="px-[14px] py-3 bg-[#16a34a] rounded-full">
+                  <FontAwesomeIcon
+                    name={'whatsapp'}
+                    size={24}
+                    color={'white'}
+                  />
+                </Pressable>
+                <Pressable
+                  onPress={openYouTubeProfile}
+                  className="p-3 bg-[#16a34a] rounded-full">
                   <FontAwesomeIcon name={'youtube'} size={24} color={'white'} />
-                </View>
+                </Pressable>
                 <View className="p-[14px] bg-[#16a34a] rounded-full">
                   <PodcastIcon />
                 </View>

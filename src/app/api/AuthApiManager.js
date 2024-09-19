@@ -5,8 +5,9 @@ import {Platform} from 'react-native';
 const getBaseURL = () => {
   if (Platform.OS === 'android') {
     return (
-      //   'http://10.0.2.2:6000/api/v1/users' ||
+      // 'http://10.0.2.2:6000/api/v1/users' ||
       'https://realestate-backend-bosp.onrender.com/api/v1/users'
+      // 'http://192.168.0.248:6000/api/v1/users'
     ); // Android emulator
   } else if (Platform.OS === 'ios') {
     return 'https://realestate-backend-bosp.onrender.com/api/v1/users';
@@ -34,6 +35,10 @@ export const createUser = data => {
       'Content-Type': 'multipart/form-data',
     },
   });
+};
+
+export const getCurrentUser = () => {
+  return AuthApiManager.get('/current-user');
 };
 
 export const signIn = (email, password) => {

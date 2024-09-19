@@ -145,7 +145,7 @@ const Login = ({navigation}) => {
           ) : null}
           <View className="items-center mt-4">
             <CustomButton
-              title={loading ? 'Submitting...' : 'Login'}
+              title={loading ? 'Logging In..' : 'Login'}
               handlePress={onSubmit}
               disabled={loading}
               containerStyles={'max-w-[100%] w-96 mx-auto bg-[#16a34a]'}

@@ -8,6 +8,8 @@ import CustomButton from '../../components/CustomButton';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useIsFocused} from '@react-navigation/native';
+import {images} from '../../constants';
+
 const EditUserProfile = ({navigation}) => {
   const isFocused = useIsFocused();
   const [data, setData] = useState({
@@ -38,13 +40,12 @@ const EditUserProfile = ({navigation}) => {
       }
     });
   };
+
   const fetchCurrentUser = async () => {
     try {
       console.log('Fetching current user');
 
       const token = await getAccessToken();
-      console.log(token);
-
       if (token) {
         const response = await axios.get(
           'https://realestate-backend-bosp.onrender.com/api/v1/users/current-user',
@@ -77,14 +78,13 @@ const EditUserProfile = ({navigation}) => {
   };
 
   const handleSubmit = async () => {
-    console.log('inside handle submit');
-
     try {
       setLoading(true);
       const token = await getAccessToken();
 
       if (token) {
-        const response = await axios.patch(
+        // Update user text details
+        const textResponse = await axios.patch(
           'https://realestate-backend-bosp.onrender.com/api/v1/users/update-account',
           {
             phone: data.phone,
@@ -93,16 +93,50 @@ const EditUserProfile = ({navigation}) => {
           },
           {
             headers: {
-              Authorization: `${token}`,
+              Authorization: `Bearer ${token}`, // Recommended to use Bearer prefix
             },
           },
         );
-        if (response.status === 200) {
-          Alert.alert('Success', 'User profile updated successfully');
+
+        // Check if there is an image to update
+        if (imageUri) {
+          const formData = new FormData();
+          formData.append('avatar', {
+            uri: imageUri,
+            type: 'image/jpeg',
+            name: 'profile-avatar.jpg',
+          });
+
+          const avatarResponse = await axios.patch(
+            'https://realestate-backend-bosp.onrender.com/api/v1/users/avatar',
+            formData,
+            {
+              headers: {
+                'Content-Type': 'multipart/form-data',
+                Authorization: `${token}`,
+              },
+            },
+          );
+
+          console.log(avatarResponse);
+
+          if (avatarResponse.status === 200) {
+            Alert.alert('Success', 'User profile updated successfully');
+            navigation.goBack();
+          }
+        } else {
+          // Handle case where no avatar is provided
+          if (textResponse.status === 200) {
+            Alert.alert('Success', 'User profile updated successfully');
+            navigation.goBack();
+          }
         }
       }
     } catch (error) {
-      console.error('Error updating user profile:', error);
+      console.error(
+        'Error updating user profile:',
+        error.response ? error.response.data : error.message,
+      );
       Alert.alert('Error', 'Failed to update user profile');
     } finally {
       setLoading(false);
@@ -126,14 +160,19 @@ const EditUserProfile = ({navigation}) => {
         </View>
 
         <Pressable onPress={pickImage} className="items-center mt-5">
-          {imageUri ? (
-            <Image
-              source={{uri: imageUri}}
-              width={100}
-              height={100}
-              className="rounded-full w-[100px] h-[100px]"
-            />
-          ) : null}
+          <View className="mb-1">
+            {imageUri ? (
+              <Image
+                source={{uri: imageUri}}
+                className="h-[100px] w-[100px] rounded-full"
+              />
+            ) : (
+              <Image
+                source={images.userProfilePlaceholder}
+                className="h-[100px] w-[100px] rounded-full"
+              />
+            )}
+          </View>
           <Text className="text-black text-xl font-psemibold text-center mb-5">
             Edit Photo
           </Text>

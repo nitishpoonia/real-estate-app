@@ -46,6 +46,10 @@ const authSlice = createSlice({
       state.token = action.payload.accessToken;
       AsyncStorage.setItem('accessToken', state.token);
     },
+    currentUserDetails(state, action) {
+      state.user = action.payload.user;
+      AsyncStorage.setItem('user', JSON.stringify(action.payload.user));
+    },
     logout(state) {
       state.loading = false;
       state.isAuthenticated = false;
@@ -68,5 +72,6 @@ export const {
   logout,
   authTokenFound,
   setUserType,
+  currentUserDetails,
 } = authSlice.actions;
 export default authSlice;

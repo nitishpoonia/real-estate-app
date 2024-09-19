@@ -26,7 +26,7 @@ const CustomTextInput = ({
     <View className="mb-3">
       <View className="relative">
         <TextInput
-          style={[style]} // Add paddingRight for icon space
+          style={[style]} 
           placeholder={placeholder}
           multiline={multiline}
           value={value}
@@ -39,7 +39,7 @@ const CustomTextInput = ({
           onBlur={() => setIsFocused(false)}
           textAlignVertical="center"
           {...props}
-          className={`border rounded-md px-4 py-2 font-pregular bg-white h-[40px] ${
+          className={`border rounded-md px-4 py-2 font-pregular bg-white h-[40px] text-black ${
             isFocused ? 'border-green-600' : 'border-gray-300'
           }`}
         />
