@@ -25,6 +25,7 @@ const initialState = {
   listedBy: '',
   listedByError: '',
   carpetArea: '',
+  carpetAreaError: '',
 };
 
 const addProductSlice = createSlice({
@@ -51,10 +52,11 @@ const addProductSlice = createSlice({
       state.priceError = price > 0 ? '' : 'Price must be greater than 0';
     },
     setLocation: (state, action) => {
-      const location = action.payload;
-      state.location = location;
+      console.log(action.payload);
+
+      state.location = action.payload;
       state.locationError =
-        location.length >= 5
+        state.location.length >= 5
           ? ''
           : 'Location must be at least 5 characters long';
     },
@@ -106,6 +108,8 @@ const addProductSlice = createSlice({
     setCarpetArea: (state, action) => {
       const carpetArea = action.payload;
       state.carpetArea = carpetArea;
+      state.carpetAreaError =
+        carpetArea > 0 ? '' : 'Carpet area must be greater than 0';
     },
     resetForm: state => {
       Object.assign(state, initialState);

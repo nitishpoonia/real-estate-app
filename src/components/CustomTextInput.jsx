@@ -12,6 +12,7 @@ const CustomTextInput = ({
   error,
   multiline,
   numberOfLines,
+  handlePress,
   ...props
 }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -38,6 +39,7 @@ const CustomTextInput = ({
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           textAlignVertical="center"
+          onPress={handlePress}
           {...props}
           className={`border rounded-md px-4 py-2 font-pregular bg-white h-[40px] text-black ${
             isFocused ? 'border-green-600' : 'border-gray-300'

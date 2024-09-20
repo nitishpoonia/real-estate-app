@@ -23,6 +23,11 @@ import {checkLoggedIn} from './redux/slices/auth/authActions';
 import ApScreen1 from './screens/addProduct/ApScreen1';
 import EditUserProfile from './screens/UserProfile/EditUserProfile';
 import WelcomeScreen from './screens/auth/WelcomeScreen';
+import GeneralDetails from './screens/addProduct/GeneralDetails';
+import PropertySpecification from './screens/addProduct/PropertySpecification';
+import PropertyImages from './screens/addProduct/PropertyImages';
+import ReviewDetails from './screens/addProduct/ReviewDetails';
+import SearchCity from './screens/addProduct/SearchCity';
 // import UserTypeSelectionPage from './screens/UserTypeSelectionPage';
 
 const Tab = createBottomTabNavigator();
@@ -101,6 +106,31 @@ const AddProductStack = () => {
       <Stack.Screen
         name="ApScreen1"
         component={ApScreen1}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="GeneralDetails"
+        component={GeneralDetails}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="PropertySpecification"
+        component={PropertySpecification}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="PropertyImages"
+        component={PropertyImages}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ReviewDetails"
+        component={ReviewDetails}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="SearchCity"
+        component={SearchCity}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

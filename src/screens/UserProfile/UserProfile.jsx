@@ -17,6 +17,7 @@ import {
   openYouTubeProfile,
 } from '../../components/SocialLinking';
 import {useIsFocused} from '@react-navigation/native';
+import GooglePlacesInput from '../../components/GooglePlacesInput';
 
 const UserProfile = ({navigation}) => {
   const dispatch = useDispatch();

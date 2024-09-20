@@ -43,23 +43,23 @@ const formSlice = createSlice({
       state.password = password;
 
       // Check if password meets criteria
-      state.isUppercase = /[A-Z]/.test(password);
-      state.isLowercase = /[a-z]/.test(password);
-      state.hasNumber = /\d/.test(password);
-      state.hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-      state.isPasswordLongEnough = password.length >= 8;
-      if (
-        state.isPasswordLongEnough &&
-        state.isUppercase &&
-        state.isLowercase &&
-        state.hasNumber &&
-        state.hasSpecialChar
-      ) {
-        state.passwordError = '';
-      } else {
-        state.passwordError =
-          'Password must be at least 8 characters long and include one uppercase letter, one lowercase letter, one number, and one special character.';
-      }
+      // state.isUppercase = /[A-Z]/.test(password);
+      // state.isLowercase = /[a-z]/.test(password);
+      // state.hasNumber = /\d/.test(password);
+      // state.hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+      // state.isPasswordLongEnough = password.length >= 8;
+      // if (
+      //   state.isPasswordLongEnough &&
+      //   state.isUppercase &&
+      //   state.isLowercase &&
+      //   state.hasNumber &&
+      //   state.hasSpecialChar
+      // ) {
+      //   state.passwordError = '';
+      // } else {
+      //   state.passwordError =
+      //     'Password must be at least 8 characters long and include one uppercase letter, one lowercase letter, one number, and one special character.';
+      // }
     },
     matchPassword: (state, action) => {
       const confirmPassword = action.payload;

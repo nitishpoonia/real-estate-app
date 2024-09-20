@@ -28,15 +28,24 @@ export const fetchPropertyById = createAsyncThunk(
 export const createProperty = createAsyncThunk(
   'properties/create',
   async (propertyData, {rejectWithValue}) => {
-    console.log('Property Data', propertyData);
+    console.log(propertyData);
+
     try {
       const response = await ProductServices.createProperty(propertyData);
-      const data = await response.data;
       return response.data;
     } catch (error) {
-      console.log('Error from thunk', error);
-
-      return rejectWithValue(error.response.data);
+      console.log('Error from thunk:', error.message); // Log error message
+      if (error.response) {
+        // If the server responded with an error
+        console.log('Error Response Data:', error.response.data);
+        return rejectWithValue(error.response.data);
+      } else if (error.request) {
+        // If the request was made but no response received
+        console.log('No Response, Network error:', error.request);
+      } else {
+        // If something else happened
+        console.log('Other error:', error.message);
+      }
     }
   },
 );

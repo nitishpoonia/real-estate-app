@@ -9,7 +9,7 @@ import {
   Alert,
 } from 'react-native';
 import React, {useState, useEffect, useRef} from 'react';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import BasicProperties from '../../components/properties/BasicProperties';
 import LoctionIcon from '../../assets/images/LocationPinIcon.svg';
 import Geolocation from 'react-native-geolocation-service';
@@ -22,9 +22,12 @@ import {
   openSettings,
 } from 'react-native-permissions';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import GooglePlacesInput from '../../components/GooglePlacesInput';
+import {setListedBy} from '../../redux/slices/addProduct/addProductSlice';
 Geocoder.init(process.env.GOOGLE_API);
 
 const ProductHomePage = ({navigation}) => {
+  const dispatch = useDispatch();
   const userJSONString = useSelector(state => state.auth.user);
   const [user, setUser] = useState(null);
   const [currentLocation, setCurrentLocation] = useState('');
@@ -42,6 +45,11 @@ const ProductHomePage = ({navigation}) => {
       setUser(null);
     }
   }, [userJSONString]);
+  if (user?._id) {
+    console.log(user?._id);
+
+    dispatch(setListedBy(user?._id));
+  }
   const imageUri = user?.avatar;
   const inputRef = useRef(null);
   const handleNavigationOnFocus = () => {

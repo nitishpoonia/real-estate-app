@@ -32,7 +32,7 @@ const SmallCard = ({
       className="w-[260px] rounded-lg shadow-lg bg-white border border-[#d6d6d6] mr-3">
       <View className="bg-[#d1eddb] px-3 rounded-md top-2 left-2  absolute z-10">
         <Text className="text-[#16a34a]">
-          {type.charAt(0).toUpperCase() + type.slice(1)}
+          {type?.charAt(0)?.toUpperCase() + type?.slice(1)}
         </Text>
       </View>
       <View className=" items-center">

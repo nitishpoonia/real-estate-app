@@ -11,9 +11,6 @@ const getBaseURL = () => {
 };
 const ProductApiManager = axios.create({
   baseURL: getBaseURL(),
-  headers: {
-    'Content-Type': 'application/json',
-  },
 });
 
 export default ProductApiManager;

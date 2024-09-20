@@ -8,7 +8,6 @@ const initialState = {
   error: null,
   token: null,
 };
-
 const authSlice = createSlice({
   name: 'auth',
   initialState,

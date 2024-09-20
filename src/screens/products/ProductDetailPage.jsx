@@ -1,4 +1,4 @@
-import {ScrollView, View, Text, Image, Pressable} from 'react-native';
+import {ScrollView, View, Text, Image, Pressable, Alert} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import AmenitiesCard from '../../components/AmenitiesCard';
 import CustomButton from '../../components/CustomButton';
@@ -11,6 +11,11 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import images from '../../constants/images.js';
 import DescriptionComponent from '../../components/DescriptionComponent.jsx';
 import PropertyTypeCard from '../../components/PropertyTypeCard.jsx';
+import {
+  addFavorite,
+  removeFavorite,
+  fetchFavorites,
+} from '../../redux/slices/favoriteSlice.js';
 
 // import {getListedBy} from '../../app/api/AuthApiManager.js';
 const ProductDetailPage = ({navigation}) => {
@@ -21,13 +26,50 @@ const ProductDetailPage = ({navigation}) => {
   const {selectedProperty, loading, error} = useSelector(
     state => state.product,
   );
+  const userId = selectedProperty?.data?.listedBy?._id;
+  const itemId = selectedProperty?.data?._id;
+  const {favorites} = useSelector(state => state.favorites);
+  const [isFavorite, setIsFavorite] = useState(false);
   const formatPriceInIndianStyle = price => {
     return new Intl.NumberFormat('en-IN').format(price);
   };
+  console.log('F', favorites);
 
   useEffect(() => {
     dispatch(fetchPropertyById(_id));
+    dispatch(fetchFavorites(userId, itemId));
   }, []);
+  // useEffect(() => {
+  //   if (selectedProperty) {
+  //     const isInFavorites = favorites.some(
+  //       fav => fav.id === selectedProperty.data._id,
+  //     );
+  //     setIsFavorite(isInFavorites);
+  //   }
+  // }, [selectedProperty, favorites]);
+
+  const handleAddToFavorite = async () => {
+    try {
+      if (isFavorite) {
+        await dispatch(
+          removeFavorite({
+            userId: selectedProperty.data.listedBy._id,
+            itemId: selectedProperty.data._id,
+          }),
+        );
+      } else {
+        await dispatch(
+          addFavorite({
+            userId: selectedProperty.data.listedBy._id,
+            itemId: selectedProperty.data._id,
+          }),
+        );
+      }
+      setIsFavorite(!isFavorite);
+    } catch (error) {
+      Alert.alert('Error', 'error');
+    }
+  };
   if (loading) {
     return (
       <View className="flex-1 items-center justify-center">
@@ -48,8 +90,14 @@ const ProductDetailPage = ({navigation}) => {
             className="absolute top-2 left-2 bg-white rounded-full p-1">
             <Icon name="arrow-back" size={30} color="#16a34a" />
           </Pressable>
-          <Pressable className="absolute top-2 right-2 bg-white rounded-full p-1">
-            <Icon name="favorite-border" size={30} color="#16a34a" />
+          <Pressable
+            onPress={handleAddToFavorite}
+            className="absolute top-2 right-2 bg-white rounded-full p-1">
+            <Icon
+              name={isFavorite ? 'favorite' : 'favorite-border'}
+              size={30}
+              color="#16a34a"
+            />
           </Pressable>
         </View>
         <Image
