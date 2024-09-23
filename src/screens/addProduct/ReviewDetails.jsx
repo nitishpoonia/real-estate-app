@@ -48,8 +48,6 @@ const ReviewDetails = ({navigation}) => {
     data.append('category', category.toLowerCase());
     data.append('carpetArea', numericCarpetArea); // Convert to number
     data.append('listedBy', listedBy);
-    console.log('listedby',listedBy);
-    
     // Conditionally append additional fields
     if (category !== 'Plot') {
       data.append('bedrooms', numericBedrooms); // Convert to number
@@ -103,7 +101,7 @@ const ReviewDetails = ({navigation}) => {
               text: 'No',
               onPress: () => {
                 // Navigate to Home page
-                navigation.navigate('HomePage');
+                navigation.navigate('ProductHomePage');
               },
               style: 'cancel',
             },

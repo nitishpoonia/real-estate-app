@@ -2,7 +2,6 @@ import {
   View,
   Text,
   Pressable,
-  Image,
   TextInput,
   ScrollView,
   Platform,
@@ -22,7 +21,6 @@ import {
   openSettings,
 } from 'react-native-permissions';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import GooglePlacesInput from '../../components/GooglePlacesInput';
 import {setListedBy} from '../../redux/slices/addProduct/addProductSlice';
 Geocoder.init(process.env.GOOGLE_API);
 
@@ -45,11 +43,7 @@ const ProductHomePage = ({navigation}) => {
       setUser(null);
     }
   }, [userJSONString]);
-  if (user?._id) {
-    console.log(user?._id);
 
-    dispatch(setListedBy(user?._id));
-  }
   const imageUri = user?.avatar;
   const inputRef = useRef(null);
   const handleNavigationOnFocus = () => {
@@ -135,6 +129,11 @@ const ProductHomePage = ({navigation}) => {
       })
       .catch(error => console.log('Error getting current location', error));
   }, []);
+  useEffect(() => {
+    if (user?._id) {
+      dispatch(setListedBy(user?._id));
+    }
+  }, [user?._id, dispatch]);
   return (
     <SafeAreaView className="flex-1">
       <ScrollView>

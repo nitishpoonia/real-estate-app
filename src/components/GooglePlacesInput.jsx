@@ -1,15 +1,15 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {View, TouchableOpacity, Text, Alert} from 'react-native';
-import Geolocation from 'react-native-geolocation-service'; // Ensure you have this package installed
-import Geocoder from 'react-native-geocoding'; // Ensure you have this package installed
+import Geolocation from 'react-native-geolocation-service';
+import Geocoder from 'react-native-geocoding';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import {useDispatch} from 'react-redux';
 import {setLocation} from '../redux/slices/addProduct/addProductSlice';
-import Icon from 'react-native-vector-icons/MaterialIcons'; // Assuming you're using this for the icon
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const GooglePlacesInput = ({navigation}) => {
   const dispatch = useDispatch();
-  const googlePlacesRef = useRef(null); // Reference to Google Places Autocomplete
+  const googlePlacesRef = useRef(null);
   const [readableAddress, setReadableAddress] = useState('');
 
   const handleLocation = () => {
@@ -18,8 +18,6 @@ const GooglePlacesInput = ({navigation}) => {
         try {
           const {latitude, longitude} = position.coords;
           const response = await Geocoder.from(latitude, longitude);
-          console.log(response);
-
           const addressComponent = response.results[0].formatted_address;
           setReadableAddress(addressComponent);
           dispatch(setLocation(addressComponent));

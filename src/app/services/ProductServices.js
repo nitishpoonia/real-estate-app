@@ -23,6 +23,10 @@ const PropertyService = {
   deleteProperty: id => {
     return ProductApiManager.delete(`/delete-property/${id}`);
   },
+  getPropertyListedByUser: id => {
+    return ProductApiManager.get(`/property-by-user/${id}`);
+  },
+  
 };
 
 export default PropertyService;

@@ -13,6 +13,7 @@ import {
   signOut,
   getCurrentUser,
   forgotPassword,
+  resetPassword,
 } from '../../../app/api/AuthApiManager';
 
 import Toast from 'react-native-toast-message';
@@ -110,12 +111,8 @@ export const logoutUser = createAsyncThunk(
 export const forgotPasswordAction = createAsyncThunk(
   'auth/forgotPassword',
   async ({email}, {dispatch}) => {
-    console.log(email);
-
     try {
-      const response = await forgotPassword(email);
-      console.log(response);
-
+      await forgotPassword(email);
       Toast.show({
         type: 'success',
         text1: 'Password Reset Email Sent',
@@ -127,6 +124,27 @@ export const forgotPasswordAction = createAsyncThunk(
         type: 'error',
         text1: 'Error',
         text2: 'Failed to send reset password email. Please try again.',
+      });
+    }
+  },
+);
+
+export const resetPasswordAction = createAsyncThunk(
+  'auth/resetPassword',
+  async ({token, newPassword}, {dispatch}) => {
+    try {
+      await resetPassword(token, newPassword);
+      Toast.show({
+        type: 'success',
+        text1: 'Password Reset Successful',
+        text2: 'Your password has been reset successfully!',
+      });
+    } catch (err) {
+      console.log(err.response);
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: `${err.message}`,
       });
     }
   },

@@ -10,12 +10,15 @@ import React, {useState, useEffect} from 'react';
 import CustomTextInput from '../../components/CustomTextInput';
 import CustomButton from '../../components/CustomButton';
 import {useDispatch, useSelector} from 'react-redux';
-import {checkEmail, checkPassword} from '../../redux/slices/formSlice';
+import {
+  checkEmail,
+  checkPassword,
+  resetFields,
+} from '../../redux/slices/formSlice';
 import {
   forgotPasswordAction,
   loginUser,
 } from '../../redux/slices/auth/authActions';
-import {images} from '../../constants';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import LoginScreenImage from '../../assets/images/LoginScreenImage.svg';
 import LoginPageDown from '../../assets/images/LoginPageDownImage.svg';
@@ -27,7 +30,6 @@ const Login = ({navigation}) => {
     state => state.form,
   );
   const {loading} = useSelector(state => state.auth);
-
   const handleInputChange = (field, value) => {
     switch (field) {
       case 'email':
@@ -64,6 +66,8 @@ const Login = ({navigation}) => {
       return;
     }
     dispatch(forgotPasswordAction({email}));
+    dispatch(resetFields());
+    navigation.navigate('ResetPassword');
   };
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(

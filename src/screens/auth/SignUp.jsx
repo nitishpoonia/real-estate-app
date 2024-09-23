@@ -226,7 +226,7 @@ const SignUp = ({navigation}) => {
                 />
                 <Text
                   className={`font-pregular ${
-                    isUppercase ? 'text-green-600' : 'text-gray-400'
+                    isLowercase ? 'text-green-600' : 'text-gray-400'
                   } text-base`}>
                   Atleast One lowercase letter
                 </Text>

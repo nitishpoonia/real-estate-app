@@ -28,10 +28,23 @@ import PropertySpecification from './screens/addProduct/PropertySpecification';
 import PropertyImages from './screens/addProduct/PropertyImages';
 import ReviewDetails from './screens/addProduct/ReviewDetails';
 import SearchCity from './screens/addProduct/SearchCity';
+import ListedProperties from './screens/products/ListedProperties';
+import SavedProperties from './screens/products/SavedProperties';
+import ResetPassword from './screens/auth/ResetPassword';
+import {Linking} from 'react-native';
 // import UserTypeSelectionPage from './screens/UserTypeSelectionPage';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+
+const linking = {
+  prefixes: ['https://realestate-bosp.netlify.app', 'nextassets://'],
+  config: {
+    screens: {
+      ResetPassword: 'ResetPassword?token=:token',
+    },
+  },
+};
 const AuthStack = () => {
   return (
     <Stack.Navigator initialRouteName="OnboardingScreenTemplate">
@@ -53,6 +66,11 @@ const AuthStack = () => {
       <Stack.Screen
         name="SignUp"
         component={SignUp}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ResetPassword"
+        component={ResetPassword}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
@@ -149,6 +167,7 @@ const MainApp = () => {
             'ProductDetailPage',
             'BookingForm',
             'UserTypeSelectionPage',
+            'ListedProperties',
           ];
           return hideRoutes.includes(routeName);
         };
@@ -210,6 +229,16 @@ const SupportStack = () => {
         component={EditUserProfile}
         options={{headerShown: false}}
       />
+      <Stack.Screen
+        name="ListedProperties"
+        component={ListedProperties}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="SavedProperties"
+        component={SavedProperties}
+        options={{headerShown: false}}
+      />
     </Stack.Navigator>
   );
 };
@@ -227,7 +256,7 @@ const NavigationStacks = () => {
   // }
 
   return (
-    <NavigationContainer>
+    <NavigationContainer linking={linking}>
       {isAuthenticated ? <MainApp /> : <AuthStack />}
     </NavigationContainer>
   );

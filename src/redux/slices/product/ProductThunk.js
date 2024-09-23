@@ -73,3 +73,22 @@ export const deleteProperty = createAsyncThunk(
     }
   },
 );
+
+export const getPropertyListedBy = createAsyncThunk(
+  'properties/getListedBy',
+  async (id, {rejectWithValue}) => {
+    try {
+      console.log('inside the listed by');
+      const response = await ProductServices.getPropertyListedByUser(id);
+
+      return response.data;
+    } catch (err) {
+      if (err.response && err.response.data) {
+        return rejectWithValue(err.response.data);
+      } else {
+        // Handle other error cases (e.g., network issues)
+        return rejectWithValue('An unexpected error occurred.');
+      }
+    }
+  },
+);

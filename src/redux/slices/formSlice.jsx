@@ -40,26 +40,19 @@ const formSlice = createSlice({
     },
     checkPassword: (state, action) => {
       const password = action.payload;
-      state.password = password;
+      const isUppercase = /[A-Z]/.test(password); // Checks for at least one uppercase letter
+      const isLowercase = /[a-z]/.test(password); // Checks for at least one lowercase letter
+      const hasNumber = /[0-9]/.test(password); // Checks for at least one digit
+      const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password); // Checks for at least one special character
+      const isPasswordLongEnough = password.length >= 8; // Checks if password is at least 8 characters long
 
-      // Check if password meets criteria
-      // state.isUppercase = /[A-Z]/.test(password);
-      // state.isLowercase = /[a-z]/.test(password);
-      // state.hasNumber = /\d/.test(password);
-      // state.hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-      // state.isPasswordLongEnough = password.length >= 8;
-      // if (
-      //   state.isPasswordLongEnough &&
-      //   state.isUppercase &&
-      //   state.isLowercase &&
-      //   state.hasNumber &&
-      //   state.hasSpecialChar
-      // ) {
-      //   state.passwordError = '';
-      // } else {
-      //   state.passwordError =
-      //     'Password must be at least 8 characters long and include one uppercase letter, one lowercase letter, one number, and one special character.';
-      // }
+      // Update the state based on the validation results
+      state.password = password;
+      state.isUppercase = isUppercase;
+      state.isLowercase = isLowercase;
+      state.hasNumber = hasNumber;
+      state.hasSpecialChar = hasSpecialChar;
+      state.isPasswordLongEnough = isPasswordLongEnough;
     },
     matchPassword: (state, action) => {
       const confirmPassword = action.payload;
@@ -73,6 +66,18 @@ const formSlice = createSlice({
       state.userNameError =
         userName.length >= 6 ? '' : 'Username must be 6 characters long';
     },
+    resetFields: state => {
+      state.email = '';
+      state.emailError = '';
+      state.phone = '';
+      state.phoneError = '';
+      state.password = '';
+      state.passwordError = '';
+      state.confirmPassword = '';
+      state.confirmPasswordError = '';
+      state.userName = '';
+      state.userNameError;
+    },
   },
 });
 
@@ -82,5 +87,6 @@ export const {
   // matchPassword,
   checkUserName,
   checkEmail,
+  resetFields,
 } = formSlice.actions;
 export default formSlice;

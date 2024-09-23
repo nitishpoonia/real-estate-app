@@ -46,7 +46,11 @@ export const signIn = (email, password) => {
 };
 
 export const forgotPassword = email => {
-  return _post('/forgotpassword', {email});
+  return _post('/forgot-password', {email});
+};
+
+export const resetPassword = (token, password) => {
+  return _post(`/reset-password?token=${token}`, {token: '', password});
 };
 
 export const signOut = async () => {

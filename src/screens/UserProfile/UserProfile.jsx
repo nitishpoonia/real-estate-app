@@ -17,7 +17,6 @@ import {
   openYouTubeProfile,
 } from '../../components/SocialLinking';
 import {useIsFocused} from '@react-navigation/native';
-import GooglePlacesInput from '../../components/GooglePlacesInput';
 
 const UserProfile = ({navigation}) => {
   const dispatch = useDispatch();
@@ -74,7 +73,9 @@ const UserProfile = ({navigation}) => {
           </View>
         </View>
         <View className="bg-[#D0EDDB] h-[60%] px-2 rounded-t-3xl justify-evenly mt-3">
-          <Pressable className="flex-row items-center justify-between bg-[#16a34a] rounded-full px-3 py-3">
+          <Pressable
+            onPress={() => navigation.navigate('SavedProperties')}
+            className="flex-row items-center justify-between bg-[#16a34a] rounded-full px-3 py-3">
             <View className="flex-row items-center gap-2">
               <Icon
                 name={'favorite'}
@@ -88,7 +89,9 @@ const UserProfile = ({navigation}) => {
             </View>
             <Icon name={'chevron-right'} size={24} color={'white'} />
           </Pressable>
-          <Pressable className="flex-row items-center justify-between bg-[#16a34a] rounded-full px-3 py-3">
+          <Pressable
+            onPress={() => navigation.navigate('ListedProperties')}
+            className="flex-row items-center justify-between bg-[#16a34a] rounded-full px-3 py-3">
             <View className="flex-row items-center gap-2">
               <Icon
                 name={'real-estate-agent'}

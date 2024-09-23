@@ -5,6 +5,7 @@ import {
   createProperty,
   updateProperty,
   deleteProperty,
+  getPropertyListedBy,
 } from './ProductThunk';
 
 const ProductSlice = createSlice({
@@ -14,6 +15,7 @@ const ProductSlice = createSlice({
     selectedProperty: null,
     loading: false,
     error: null,
+    listedProperties: [],
   },
   reducers: {},
   extraReducers: builder => {
@@ -67,6 +69,17 @@ const ProductSlice = createSlice({
         state.properties = state.properties.filter(
           prop => prop.id !== action.payload.id,
         );
+      })
+      .addCase(getPropertyListedBy.pending, state => {
+        state.loading = true;
+      })
+      .addCase(getPropertyListedBy.fulfilled, (state, action) => {
+        state.loading = false;
+        state.listedProperties = action.payload.data;
+      })
+      .addCase(getPropertyListedBy.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });

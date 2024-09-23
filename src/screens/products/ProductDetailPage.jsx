@@ -48,7 +48,7 @@ const ProductDetailPage = ({navigation}) => {
   //   }
   // }, [selectedProperty, favorites]);
 
-  const handleAddToFavorite = async () => {
+  const handleFavorite = async () => {
     try {
       if (isFavorite) {
         await dispatch(
@@ -91,7 +91,7 @@ const ProductDetailPage = ({navigation}) => {
             <Icon name="arrow-back" size={30} color="#16a34a" />
           </Pressable>
           <Pressable
-            onPress={handleAddToFavorite}
+            onPress={handleFavorite}
             className="absolute top-2 right-2 bg-white rounded-full p-1">
             <Icon
               name={isFavorite ? 'favorite' : 'favorite-border'}
@@ -108,14 +108,14 @@ const ProductDetailPage = ({navigation}) => {
         <View className=" mx-2 mt-2 w-[20%]">
           <PropertyTypeCard category={selectedProperty?.data?.category} />
         </View>
-        <View className="flex-row justify-between py-2  rounded-b-xl px-2">
+        <View className="flex-row justify-between py-2  rounded-b-xl mx-2">
           <View>
             <Text className="font-psemibold text-black text-lg">
               {selectedProperty?.data?.title}
             </Text>
             <View className="flex-row">
               <Icon name={'location-on'} size={20} color={'#5F6368'} />
-              <Text className="font-pregular text-base text-black text-md">
+              <Text className="font-pregular text-base text-black text-md mr-2">
                 {selectedProperty?.data?.location}
               </Text>
             </View>

@@ -21,7 +21,7 @@ const BasicProperties = ({navigation, useSorted = false}) => {
 
   const data = useSorted ? sortedProperties : properties;
 
-  if (loading) return <Text>Loading...</Text>;
+  if (loading) return <Text className="text-black font-pregular text-base items-center">Loading...</Text>;
   if (error)
     return <Text>Error: {error.message || 'An unknown error occurred'}</Text>;
 
