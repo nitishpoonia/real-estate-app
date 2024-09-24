@@ -35,12 +35,14 @@ const addProductSlice = createSlice({
     setTitle: (state, action) => {
       const title = action.payload;
       state.title = title;
+      // state.title = 'demo title';
       state.titleError =
         title.length >= 5 ? '' : 'Title must be at least 5 characters long';
     },
     setDescription: (state, action) => {
       const description = action.payload;
       state.description = description;
+      // state.description = 'demo description this is';
       state.descriptionError =
         description.length >= 10
           ? ''
@@ -49,12 +51,12 @@ const addProductSlice = createSlice({
     setPrice: (state, action) => {
       const price = action.payload;
       state.price = price;
+      // state.price = 3400;
       state.priceError = price > 0 ? '' : 'Price must be greater than 0';
     },
     setLocation: (state, action) => {
-      console.log(action.payload);
-
       state.location = action.payload;
+      // state.location = 'Delhi, India';
       state.locationError =
         state.location.length >= 5
           ? ''
@@ -63,6 +65,7 @@ const addProductSlice = createSlice({
     setType: (state, action) => {
       const type = action.payload;
       state.type = type;
+      // state.type = 'rent';
       state.typeError = type ? '' : 'Please select a type';
     },
     setCategory: (state, action) => {

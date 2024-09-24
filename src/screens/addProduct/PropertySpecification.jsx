@@ -317,6 +317,8 @@ const PropertySpecification = ({navigation}) => {
                 placeholder={'Sq ft'}
                 onChangeText={text => dispatch(setCarpetArea(text))}
                 containerStyles={'w-[50%]'}
+                keyboardType={'numeric'}
+                style={{color: 'black'}}
               />
             </View>
           </View>

@@ -76,15 +76,10 @@ const PropertyImages = ({navigation}) => {
     }
   };
   return (
-    <ScrollView className="flex-1">
+    <ScrollView className="flex-1 mx-2">
       <View>
         <View>
-          <Text className="text-black font-psemibold text-xl">
-            Add New Property
-          </Text>
-        </View>
-        <View>
-          <Text className="text-black font-pmedium text-lg">
+          <Text className="text-black font-psemibold text-lg mt-3">
             Add Property Images
           </Text>
         </View>
@@ -93,10 +88,10 @@ const PropertyImages = ({navigation}) => {
         <View className="w-[100%] justify-between my-2">
           <View>
             <Text className="text-base font-psemibold text-black">
-              Main Image
+              Add Main Image
             </Text>
-            <Text className="text-gray-700">
-              This image will be seen by the user fist
+            <Text className="text-gray-700 font-pregular">
+              This image will be seen by the user first
             </Text>
           </View>
           <View>
@@ -108,9 +103,8 @@ const PropertyImages = ({navigation}) => {
                 className="rounded-md w-[200px] h-[200px] mt-3"
               />
             ) : null}
-            <Text className="mt-1 text-gray-700">
-              You can select another photo by choosing take photo or choose
-              photos
+            <Text className="mt-1 text-gray-700 font-pregular">
+              You can either select a photo or click a new photo
             </Text>
             <View className="flex-row">
               <Pressable
@@ -140,6 +134,7 @@ const PropertyImages = ({navigation}) => {
             </Text>
             <Text className="text-gray-700">
               More images, more trust, more engagement
+              <Text className="text-gray-500">(Max 10 Photos)</Text>
             </Text>
           </View>
           <View>

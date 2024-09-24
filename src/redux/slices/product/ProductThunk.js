@@ -1,6 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 
 import ProductServices from '../../../app/services/ProductServices';
+import {setUploadProgress, resetUploadProgress} from './UploadProgressSlice';
 export const fetchProperties = createAsyncThunk(
   'properties/fetchAll',
   async (_, {rejectWithValue}) => {
@@ -27,25 +28,26 @@ export const fetchPropertyById = createAsyncThunk(
 
 export const createProperty = createAsyncThunk(
   'properties/create',
-  async (propertyData, {rejectWithValue}) => {
-    console.log(propertyData);
-
+  async (propertyData, {rejectWithValue, dispatch}) => {
     try {
-      const response = await ProductServices.createProperty(propertyData);
+      const response = await ProductServices.createproperty(
+        propertyData,
+        progressEvent => {
+          const percentage = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total,
+          );
+          dispatch(setUploadProgress(percentage));
+        },
+      );
+      dispatch(resetUploadProgress());
       return response.data;
     } catch (error) {
-      console.log('Error from thunk:', error.message); // Log error message
+      console.log(error);
+
       if (error.response) {
-        // If the server responded with an error
-        console.log('Error Response Data:', error.response.data);
         return rejectWithValue(error.response.data);
-      } else if (error.request) {
-        // If the request was made but no response received
-        console.log('No Response, Network error:', error.request);
-      } else {
-        // If something else happened
-        console.log('Other error:', error.message);
       }
+      return rejectWithValue(error.message);
     }
   },
 );
@@ -78,7 +80,6 @@ export const getPropertyListedBy = createAsyncThunk(
   'properties/getListedBy',
   async (id, {rejectWithValue}) => {
     try {
-      console.log('inside the listed by');
       const response = await ProductServices.getPropertyListedByUser(id);
 
       return response.data;

@@ -15,6 +15,7 @@ const ProductSlice = createSlice({
     selectedProperty: null,
     loading: false,
     error: null,
+    createPropertyError: null,
     listedProperties: [],
   },
   reducers: {},
@@ -54,7 +55,7 @@ const ProductSlice = createSlice({
       })
       .addCase(createProperty.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload;
+        state.createPropertyError = action.payload;
       })
       // update property
       .addCase(updateProperty.fulfilled, (state, action) => {

@@ -31,20 +31,11 @@ import SearchCity from './screens/addProduct/SearchCity';
 import ListedProperties from './screens/products/ListedProperties';
 import SavedProperties from './screens/products/SavedProperties';
 import ResetPassword from './screens/auth/ResetPassword';
-import {Linking} from 'react-native';
 // import UserTypeSelectionPage from './screens/UserTypeSelectionPage';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-const linking = {
-  prefixes: ['https://realestate-bosp.netlify.app', 'nextassets://'],
-  config: {
-    screens: {
-      ResetPassword: 'ResetPassword?token=:token',
-    },
-  },
-};
 const AuthStack = () => {
   return (
     <Stack.Navigator initialRouteName="OnboardingScreenTemplate">
@@ -142,13 +133,13 @@ const AddProductStack = () => {
         options={{headerShown: false}}
       />
       <Stack.Screen
-        name="ReviewDetails"
-        component={ReviewDetails}
+        name="SearchCity"
+        component={SearchCity}
         options={{headerShown: false}}
       />
       <Stack.Screen
-        name="SearchCity"
-        component={SearchCity}
+        name="ReviewDetails"
+        component={ReviewDetails}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
@@ -256,7 +247,7 @@ const NavigationStacks = () => {
   // }
 
   return (
-    <NavigationContainer linking={linking}>
+    <NavigationContainer>
       {isAuthenticated ? <MainApp /> : <AuthStack />}
     </NavigationContainer>
   );

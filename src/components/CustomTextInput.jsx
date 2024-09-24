@@ -27,7 +27,7 @@ const CustomTextInput = ({
     <View className="mb-3">
       <View className="relative">
         <TextInput
-          style={[style]} 
+          style={[style]}
           placeholder={placeholder}
           multiline={multiline}
           value={value}

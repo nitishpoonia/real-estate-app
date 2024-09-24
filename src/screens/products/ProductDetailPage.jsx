@@ -90,7 +90,7 @@ const ProductDetailPage = ({navigation}) => {
             className="absolute top-2 left-2 bg-white rounded-full p-1">
             <Icon name="arrow-back" size={30} color="#16a34a" />
           </Pressable>
-          <Pressable
+          {/* <Pressable
             onPress={handleFavorite}
             className="absolute top-2 right-2 bg-white rounded-full p-1">
             <Icon
@@ -98,7 +98,7 @@ const ProductDetailPage = ({navigation}) => {
               size={30}
               color="#16a34a"
             />
-          </Pressable>
+          </Pressable> */}
         </View>
         <Image
           source={{uri: selectedProperty?.data?.mainImage}}

@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 35,
     padding: 10,
+    color: 'black',
   },
 });
 

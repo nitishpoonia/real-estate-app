@@ -73,7 +73,7 @@ const UserProfile = ({navigation}) => {
           </View>
         </View>
         <View className="bg-[#D0EDDB] h-[60%] px-2 rounded-t-3xl justify-evenly mt-3">
-          <Pressable
+          {/* <Pressable
             onPress={() => navigation.navigate('SavedProperties')}
             className="flex-row items-center justify-between bg-[#16a34a] rounded-full px-3 py-3">
             <View className="flex-row items-center gap-2">
@@ -88,7 +88,7 @@ const UserProfile = ({navigation}) => {
               </Text>
             </View>
             <Icon name={'chevron-right'} size={24} color={'white'} />
-          </Pressable>
+          </Pressable> */}
           <Pressable
             onPress={() => navigation.navigate('ListedProperties')}
             className="flex-row items-center justify-between bg-[#16a34a] rounded-full px-3 py-3">
@@ -105,7 +105,9 @@ const UserProfile = ({navigation}) => {
             </View>
             <Icon name={'chevron-right'} size={24} color={'white'} />
           </Pressable>
-          <Pressable className="flex-row items-center justify-between bg-[#16a34a] rounded-full px-3 py-3">
+          <Pressable
+            onPress={() => navigation.navigate('SupportScreen')}
+            className="flex-row items-center justify-between bg-[#16a34a] rounded-full px-3 py-3">
             <View className="flex-row items-center gap-2">
               <Icon
                 name={'support'}

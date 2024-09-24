@@ -8,10 +8,13 @@ const PropertyService = {
     return ProductApiManager.get(`/single-property/${id}`);
   },
 
-  createProperty: propertyData => {
+  createproperty: (propertyData, onUploadProgress) => {
     return ProductApiManager.post('/register-property', propertyData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
+      headers: {'Content-Type': 'multipart/form-data'},
+      onUploadProgress: progressEvent => {
+        if (onUploadProgress) {
+          onUploadProgress(progressEvent);
+        }
       },
     });
   },
@@ -26,7 +29,6 @@ const PropertyService = {
   getPropertyListedByUser: id => {
     return ProductApiManager.get(`/property-by-user/${id}`);
   },
-  
 };
 
 export default PropertyService;

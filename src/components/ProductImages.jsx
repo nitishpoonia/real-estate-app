@@ -2,8 +2,6 @@ import {FlatList, Image, Dimensions, Pressable} from 'react-native';
 import React from 'react';
 
 const screenWidth = Dimensions.get('window').width;
-console.log(screenWidth);
-
 const renderImage = ({item}, imageStyles, handlePress) => {
   return (
     <Pressable onPress={handlePress}>

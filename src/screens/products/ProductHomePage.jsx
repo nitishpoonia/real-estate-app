@@ -131,9 +131,9 @@ const ProductHomePage = ({navigation}) => {
   }, []);
   useEffect(() => {
     if (user?._id) {
-      dispatch(setListedBy(user?._id));
+      dispatch(setListedBy(user));
     }
-  }, [user?._id, dispatch]);
+  }, [user, dispatch]);
   return (
     <SafeAreaView className="flex-1">
       <ScrollView>

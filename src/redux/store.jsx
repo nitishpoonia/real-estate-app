@@ -6,6 +6,7 @@ import ProductSlice from './slices/product/ProductSlice';
 import addProductSlice from './slices/addProduct/addProductSlice';
 import filterOptionsSlice from './slices/filter/filterOptionsSlice';
 import favoritesSlice from './slices/favoriteSlice';
+import uploadSlice from './slices/product/UploadProgressSlice';
 
 const store = configureStore({
   reducer: {
@@ -15,7 +16,8 @@ const store = configureStore({
     product: ProductSlice.reducer,
     addProduct: addProductSlice.reducer,
     filterOptions: filterOptionsSlice.reducer,
-    favorites: favoritesSlice.reducer
+    favorites: favoritesSlice.reducer,
+    uploadProgress: uploadSlice.reducer,
   },
 });
 

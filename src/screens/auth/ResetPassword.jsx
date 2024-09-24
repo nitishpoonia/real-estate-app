@@ -12,6 +12,7 @@ const ResetPassword = ({navigation}) => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const handleResetPassword = async () => {
+    // Validate new password and confirm password
     if (newPassword.trim() === '' || confirmPassword.trim() === '') {
       Alert.alert('Error', 'Please fill in all fields.');
       return;
@@ -23,14 +24,25 @@ const ResetPassword = ({navigation}) => {
     }
 
     try {
-      // Dispatch the action and wait for the result
-      const resultAction = dispatch(resetPasswordAction({token, newPassword}));
+      console.log('Resetting password...');
+
+      // Await the result of the dispatch
+      const resultAction = await dispatch(
+        resetPasswordAction({token, newPassword}),
+      );
+
+      console.log('Result action:', resultAction);
+
+      // Check if the action was fulfilled
       if (resetPasswordAction.fulfilled.match(resultAction)) {
+        // Navigate to the Login screen on success
         navigation.navigate('Login');
+      } else {
+        Alert.alert('Error', 'Password reset failed.');
       }
     } catch (error) {
-      // Handle unexpected errors (e.g., network issues)
       console.error('Unexpected error occurred:', error);
+      Alert.alert('Error', 'An unexpected error occurred.');
     }
   };
 
@@ -73,7 +85,7 @@ const ResetPassword = ({navigation}) => {
         className="text-black"
       />
 
-      <CustomButton title="Reset Password" onPress={handleResetPassword} />
+      <CustomButton title="Reset Password" handlePress={handleResetPassword} />
     </View>
   );
 };
