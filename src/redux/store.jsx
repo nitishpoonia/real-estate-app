@@ -3,7 +3,7 @@ import formSlice from './slices/formSlice';
 import authSlice from './slices/auth/authSlice';
 import bookingSlice from './slices/bookingSlice';
 import ProductSlice from './slices/product/ProductSlice';
-import addProductSlice from './slices/addProduct/addProductSlice';
+import addProductSlice from './slices/ManageProductSlice/addProductSlice';
 import filterOptionsSlice from './slices/filter/filterOptionsSlice';
 import favoritesSlice from './slices/favoriteSlice';
 import uploadSlice from './slices/product/UploadProgressSlice';

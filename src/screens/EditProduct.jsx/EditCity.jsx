@@ -2,7 +2,7 @@ import {View, Text, Pressable} from 'react-native';
 import React from 'react';
 import GooglePlacesInput from '../../components/GooglePlacesInput';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-const SearchCity = ({navigation}) => {
+const EditCity = ({navigation}) => {
   return (
     <View className="flex-1">
       <View className="flex-row items-center justify-between mx-2">
@@ -13,16 +13,13 @@ const SearchCity = ({navigation}) => {
         </Pressable>
         <View>
           <Text className="text-[#16a34a] font-psemibold text-lg">
-            User Profile
+            Edit Location
           </Text>
         </View>
-        <Pressable onPress={() => navigation.navigate('EditUserProfile')}>
-          <Text className="text-[#16a34a] font-pmedium text-base">Edit</Text>
-        </Pressable>
       </View>
       <GooglePlacesInput navigation={navigation} />
     </View>
   );
 };
 
-export default SearchCity;
+export default EditCity;

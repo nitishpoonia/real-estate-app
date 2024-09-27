@@ -14,7 +14,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {createProperty} from '../../redux/slices/product/ProductThunk';
 import Toast from 'react-native-toast-message';
-import {resetForm} from '../../redux/slices/addProduct/addProductSlice';
+import {resetForm} from '../../redux/slices/ManageProductSlice/addProductSlice';
 import * as Progress from 'react-native-progress';
 
 const ReviewDetails = ({navigation}) => {
@@ -48,8 +48,6 @@ const ReviewDetails = ({navigation}) => {
 
   const handleAddAnotherProperty = () => {
     setModalVisible(false);
-    console.log('handle add anotehr');
-
     navigation.navigate('ApScreen1');
   };
 

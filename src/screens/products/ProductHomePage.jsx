@@ -21,7 +21,7 @@ import {
   openSettings,
 } from 'react-native-permissions';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {setListedBy} from '../../redux/slices/addProduct/addProductSlice';
+import {setListedBy} from '../../redux/slices/ManageProductSlice/addProductSlice';
 Geocoder.init(process.env.GOOGLE_API);
 
 const ProductHomePage = ({navigation}) => {
@@ -202,7 +202,7 @@ const ProductHomePage = ({navigation}) => {
               Popular Choices
             </Text>
 
-            <Text className="text-black font-psemibold text-sm">View All</Text>
+            {/* <Text className="text-black font-psemibold text-sm">View All</Text> */}
           </View>
           <View className="mx-2 my-3">
             <BasicProperties navigation={navigation} />
@@ -214,7 +214,7 @@ const ProductHomePage = ({navigation}) => {
               Recently Posted
             </Text>
 
-            <Text className="text-black font-psemibold text-sm ">View All</Text>
+            {/* <Text className="text-black font-psemibold text-sm ">View All</Text> */}
           </View>
           <View className="mx-2">
             <BasicProperties navigation={navigation} useSorted={true} />

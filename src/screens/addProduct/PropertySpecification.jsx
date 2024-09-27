@@ -11,7 +11,7 @@ import {
   setBathrooms,
   setFurnished,
   setCarpetArea,
-} from '../../redux/slices/addProduct/addProductSlice';
+} from '../../redux/slices/ManageProductSlice/addProductSlice';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const PropertySpecification = ({navigation}) => {
@@ -58,7 +58,6 @@ const PropertySpecification = ({navigation}) => {
     bathroomsError,
     furnishedError,
   } = useSelector(state => state.addProduct);
-  console.log('typeError', typeError);
   const goToNextScreen = () => {
     let hasErrors = false;
     if (!type) {

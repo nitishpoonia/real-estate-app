@@ -48,6 +48,12 @@ const ListedProperties = ({navigation}) => {
         bathroom={item?.bathrooms}
         carpetArea={item?.carpetArea}
         createdAt={item?.createdAt}
+        handleEditButtonPress={() =>
+          navigation.navigate('EditProperty', {
+            screen: 'EditScreen',
+            params: {_id: item?._id},
+          })
+        }
         handleCardPress={() =>
           navigation.navigate('ProductDetailPage', {_id: item?._id})
         }

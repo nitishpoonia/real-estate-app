@@ -20,7 +20,9 @@ const PropertyService = {
   },
 
   updateProperty: (id, updatedData) => {
-    return ProductApiManager.put(`/update-property/${id}`, updatedData);
+    return ProductApiManager.patch(`/update-property/${id}`, updatedData, {
+      headers: {'Content-Type': 'multipart/form-data'},
+    });
   },
 
   deleteProperty: id => {

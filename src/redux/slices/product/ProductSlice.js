@@ -16,6 +16,7 @@ const ProductSlice = createSlice({
     loading: false,
     error: null,
     createPropertyError: null,
+    updatePropertyError: null,
     listedProperties: [],
   },
   reducers: {},
@@ -58,13 +59,21 @@ const ProductSlice = createSlice({
         state.createPropertyError = action.payload;
       })
       // update property
+      .addCase(updateProperty.pending, (state, action) => {
+        state.loading = true;
+      })
       .addCase(updateProperty.fulfilled, (state, action) => {
+        state.loading = false;
         const index = state.properties.findIndex(
           prop => prop.id === action.payload.id,
         );
         if (index !== -1) {
           state.properties[index] = action.payload;
         }
+      })
+      .addCase(updateProperty.rejected, (state, action) => {
+        state.loading = false;
+        state.updatePropertyError = action.payload;
       })
       .addCase(deleteProperty.fulfilled, (state, action) => {
         state.properties = state.properties.filter(

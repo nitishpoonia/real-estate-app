@@ -4,7 +4,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {
   setImages,
   setMainImage,
-} from '../../redux/slices/addProduct/addProductSlice';
+} from '../../redux/slices/ManageProductSlice/addProductSlice';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 const PropertyImages = ({navigation}) => {
@@ -61,10 +61,6 @@ const PropertyImages = ({navigation}) => {
     );
   };
   const goToNextScreen = () => {
-    console.log('images', images);
-    console.log(typeof images);
-    console.log('images error', imagesError);
-
     if (images.length <= 0) {
       dispatch(setImages(0));
     }

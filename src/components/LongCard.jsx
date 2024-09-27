@@ -5,6 +5,8 @@ import FacilitiesCard from './FacilitesCard';
 import moment from 'moment';
 import PropertyTypeCard from './PropertyTypeCard';
 const {width: screenWidth} = Dimensions.get('window');
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import CustomButton from './CustomButton';
 const LongCard = ({
   name,
   location,
@@ -19,6 +21,7 @@ const LongCard = ({
   createdAt,
   type,
   category,
+  handleEditButtonPress,
 }) => {
   const daysSinceListed = moment().diff(createdAt, 'days');
 
@@ -45,10 +48,10 @@ const LongCard = ({
         />
       </View>
       <View className="mx-2 my-2">
-        <View className="w-[35%]">
+        <View className="self-start">
           <PropertyTypeCard
             category={category}
-            containerStyles={'p-0 mx-1 rounded-md'}
+            containerStyles={'py-1 rounded-md'}
             textStyles={'text-sm'}
           />
         </View>
@@ -61,21 +64,44 @@ const LongCard = ({
           </View>
           <Text className="font-pregular text-black-200 my-1">{location}</Text>
         </View>
-        <View className="flex-row justify-between">
-          <FacilitiesCard iconName={'bed'} text={bedroom} />
-          <FacilitiesCard iconName={'shower'} text={bathroom} />
-          <FacilitiesCard iconName={'square-foot'} text={carpetArea} />
-        </View>
+        {category === 'plot' ? (
+          <View className="w-[120px] justify-center my-1">
+            <FacilitiesCard
+              iconName={'square-foot'}
+              text={`${carpetArea} sq. ft`}
+            />
+          </View>
+        ) : (
+          <View className="flex-row justify-between my-1">
+            <FacilitiesCard iconName={'bed'} text={bedroom} />
+            <FacilitiesCard iconName={'shower'} text={bathroom} />
+            <FacilitiesCard iconName={'square-foot'} text={carpetArea} />
+          </View>
+        )}
+
         <View className="mt-2">
           <Text className="font-pregular text-[#aaaaaa]">
             Listed {daysSinceListed} days ago
           </Text>
         </View>
 
-        <View className="flex-row justify-between items-center ">
-          {/* <Pressable onPress={handleHeartPress}>
+        {/* <View className="flex-row justify-between items-center ">
+          <Pressable onPress={handleHeartPress}>
             <Icon name="heart" size={30} color={'black'} />
-          </Pressable> */}
+          </Pressable>
+        </View> */}
+        <View className="flex-row justify-end">
+          <CustomButton
+            title={'Delete'}
+            containerStyles={'w-[32%] bg-red-500 mr-3 h-10'}
+            textStyles={'text-base font-pregular'}
+          />
+          <CustomButton
+            title={'Edit'}
+            containerStyles={'w-[32%] px-2 bg-blue-500 h-10'}
+            textStyles={'text-base font-pregular'}
+            handlePress={handleEditButtonPress}
+          />
         </View>
       </View>
     </Pressable>

@@ -17,13 +17,30 @@ import {
   openYouTubeProfile,
 } from '../../components/SocialLinking';
 import {useIsFocused} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const UserProfile = ({navigation}) => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
 
+  const getAccessToken = async () => {
+    const token = await AsyncStorage.getItem('accessToken');
+    return token;
+  };
+
   useEffect(() => {
-    dispatch(getCurrentUserDetails());
+    const fetchUserDetails = async () => {
+      const token = await getAccessToken(); // Wait for token retrieval
+      if (token) {
+        dispatch(getCurrentUserDetails(token)); // Pass the resolved token
+      } else {
+        console.log('No access token found');
+      }
+    };
+
+    if (isFocused) {
+      fetchUserDetails(); // Call async function inside useEffect
+    }
   }, [isFocused]);
   const {user} = useSelector(state => state.auth);
 
@@ -66,9 +83,11 @@ const UserProfile = ({navigation}) => {
               <Text className="text-black font-psemibold text-lg">
                 {user?.username}
               </Text>
-              <Text className="text-[#16a34a] font-pmedium text-base bg-[#D0EDDB] py-2 rounded-lg px-4">
-                {user?.email}
-              </Text>
+              <View className="bg-[#D0EDDB] rounded-lg">
+                <Text className="text-[#16a34a] font-pmedium text-base py-2 px-4">
+                  {user?.email}
+                </Text>
+              </View>
             </View>
           </View>
         </View>
@@ -100,7 +119,7 @@ const UserProfile = ({navigation}) => {
                 className="pb-1"
               />
               <Text className="text-lg font-psemibold text-white">
-                Your Listings
+                Manage Listings
               </Text>
             </View>
             <Icon name={'chevron-right'} size={24} color={'white'} />

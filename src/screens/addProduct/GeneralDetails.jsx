@@ -1,4 +1,4 @@
-import {View, Text, Pressable} from 'react-native';
+import {View, Text, Pressable, SafeAreaView} from 'react-native';
 import React from 'react';
 import CustomTextInput from '../../components/CustomTextInput';
 import {
@@ -6,7 +6,7 @@ import {
   setDescription,
   setPrice,
   setLocation,
-} from '../../redux/slices/addProduct/addProductSlice';
+} from '../../redux/slices/ManageProductSlice/addProductSlice';
 import {useDispatch, useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 const GeneralDetails = ({navigation}) => {
@@ -44,7 +44,7 @@ const GeneralDetails = ({navigation}) => {
   };
   const dispatch = useDispatch();
   return (
-    <View className="flex-1 h-auto mx-2">
+    <SafeAreaView className="flex-1 h-auto mx-2">
       <View>
         <Text className="text-black font-psemibold text-xl">
           Add New Property
@@ -104,7 +104,7 @@ const GeneralDetails = ({navigation}) => {
         className=" flex-row self-end items-center my-3 justify-center bg-[#16a34a] rounded-full  w-[60px] h-[60px]">
         <Icon name={'chevron-right'} size={30} color={'white'} />
       </Pressable>
-    </View>
+    </SafeAreaView>
   );
 };
 

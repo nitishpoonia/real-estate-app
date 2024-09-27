@@ -33,8 +33,6 @@ const ProductDetailPage = ({navigation}) => {
   const formatPriceInIndianStyle = price => {
     return new Intl.NumberFormat('en-IN').format(price);
   };
-  console.log('F', favorites);
-
   useEffect(() => {
     dispatch(fetchPropertyById(_id));
     dispatch(fetchFavorites(userId, itemId));

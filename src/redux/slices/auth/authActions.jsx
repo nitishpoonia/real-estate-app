@@ -6,6 +6,7 @@ import {
   logout,
   authTokenFound,
   currentUserDetails,
+  newAccessAndRefreshToken,
 } from './authSlice';
 import {
   createUser,
@@ -14,6 +15,7 @@ import {
   getCurrentUser,
   forgotPassword,
   resetPassword,
+  refreshAccessToken,
 } from '../../../app/api/AuthApiManager';
 
 import Toast from 'react-native-toast-message';
@@ -21,12 +23,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const getCurrentUserDetails = createAsyncThunk(
   'auth/currentUser',
-  async (_, {dispatch}) => {
+  async (token, {dispatch}) => {
     try {
-      const response = await getCurrentUser();
+      const response = await getCurrentUser(token);
       dispatch(currentUserDetails({user: response.data.data}));
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
     }
   },
 );
@@ -51,9 +53,12 @@ export const checkLoggedIn = createAsyncThunk(
 export const loginUser = createAsyncThunk(
   'auth/login',
   async ({email, password}, {dispatch}) => {
+    console.log(email, password);
+
     try {
       dispatch(authStart());
       const response = await signIn(email, password);
+      console.log(response);
 
       Toast.show({
         type: 'success',
@@ -61,13 +66,36 @@ export const loginUser = createAsyncThunk(
       });
       dispatch(authSuccess(response.data));
     } catch (error) {
-      console.log(error.response);
-      dispatch(authFailure(error.response?.data?.message || error.message));
-      Toast.show({
-        type: 'error',
-        text1: 'Login Failed',
-        text2: error.response?.data?.message || error.message,
-      });
+      // Log detailed error information
+      if (error.response) {
+        Toast.show({
+          type: 'error',
+          text1: 'Login Failed',
+          text2: `Error: ${
+            error.response.data.message || 'Something went wrong.'
+          }`,
+        });
+
+        dispatch(authFailure(error.response.data.message || 'Login failed.'));
+      } else if (error.request) {
+        console.log('Error request:', error.request);
+        Toast.show({
+          type: 'error',
+          text1: 'Login Failed',
+          text2:
+            'No response from server. Please check your network connection.',
+        });
+
+        dispatch(authFailure('No response from server.'));
+      } else {
+        console.log('Error message:', error.message);
+        Toast.show({
+          type: 'error',
+          text1: 'Login Failed',
+          text2: error.message,
+        });
+        dispatch(authFailure(error.message));
+      }
     }
   },
 );
@@ -146,6 +174,18 @@ export const resetPasswordAction = createAsyncThunk(
         text1: 'Error',
         text2: `${err.message}`,
       });
+    }
+  },
+);
+
+export const getNewAccessToken = createAsyncThunk(
+  'auth/newTokens',
+  async (token, {dispatch}) => {
+    try {
+      const response = await refreshAccessToken(token);
+      console.log(response);
+    } catch (err) {
+      console.log(err);
     }
   },
 );

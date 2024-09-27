@@ -31,6 +31,11 @@ import SearchCity from './screens/addProduct/SearchCity';
 import ListedProperties from './screens/products/ListedProperties';
 import SavedProperties from './screens/products/SavedProperties';
 import ResetPassword from './screens/auth/ResetPassword';
+import EditScreen from './screens/EditProduct.jsx/EditScreen';
+import EditGeneralDetails from './screens/EditProduct.jsx/EditGeneralDetails';
+import EditCity from './screens/EditProduct.jsx/EditCity';
+import EditPropertySpecifications from './screens/EditProduct.jsx/EditPropertySpecifications';
+import EditPropertyImages from './screens/EditProduct.jsx/EditPropertyImages';
 // import UserTypeSelectionPage from './screens/UserTypeSelectionPage';
 
 const Tab = createBottomTabNavigator();
@@ -145,7 +150,76 @@ const AddProductStack = () => {
     </Stack.Navigator>
   );
 };
+const EditPropertyStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="EditScreen"
+        component={EditScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Group>
+        <Stack.Screen
+          name="EditGeneralDetails"
+          component={EditGeneralDetails}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="EditCity"
+          component={EditCity}
+          options={{headerShown: false}}
+        />
+      </Stack.Group>
+      <Stack.Screen
+        name="EditPropertySpecifications"
+        component={EditPropertySpecifications}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="EditPropertyImages"
+        component={EditPropertyImages}
+        options={{headerShown: false}}
+      />
+    </Stack.Navigator>
+  );
+};
 
+const SupportStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="UserProfile"
+        component={UserProfile}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="SupportScreen"
+        component={SupportScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="EditUserProfile"
+        component={EditUserProfile}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ListedProperties"
+        component={ListedProperties}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="EditProperty"
+        component={EditPropertyStack}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="SavedProperties"
+        component={SavedProperties}
+        options={{headerShown: false}}
+      />
+    </Stack.Navigator>
+  );
+};
 const MainApp = () => {
   return (
     <Tab.Navigator
@@ -202,37 +276,6 @@ const MainApp = () => {
   );
 };
 
-const SupportStack = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="UserProfile"
-        component={UserProfile}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="SupportScreen"
-        component={SupportScreen}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="EditUserProfile"
-        component={EditUserProfile}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="ListedProperties"
-        component={ListedProperties}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="SavedProperties"
-        component={SavedProperties}
-        options={{headerShown: false}}
-      />
-    </Stack.Navigator>
-  );
-};
 const NavigationStacks = () => {
   const dispatch = useDispatch();
   const {isAuthenticated, loading} = useSelector(state => state.auth);

@@ -37,19 +37,19 @@ const addProductSlice = createSlice({
       state.title = title;
       // state.title = 'demo title';
       state.titleError =
-        title.length >= 5 ? '' : 'Title must be at least 5 characters long';
+        title?.length >= 5 ? '' : 'Title must be at least 5 characters long';
     },
     setDescription: (state, action) => {
       const description = action.payload;
       state.description = description;
       // state.description = 'demo description this is';
       state.descriptionError =
-        description.length >= 10
+        description?.length >= 10
           ? ''
           : 'Description must be at least 10 characters long';
     },
     setPrice: (state, action) => {
-      const price = action.payload;
+      const price = action?.payload;
       state.price = price;
       // state.price = 3400;
       state.priceError = price > 0 ? '' : 'Price must be greater than 0';
@@ -58,58 +58,58 @@ const addProductSlice = createSlice({
       state.location = action.payload;
       // state.location = 'Delhi, India';
       state.locationError =
-        state.location.length >= 5
+        state.location?.length >= 5
           ? ''
           : 'Location must be at least 5 characters long';
     },
     setType: (state, action) => {
-      const type = action.payload;
+      const type = action?.payload;
       state.type = type;
       // state.type = 'rent';
       state.typeError = type ? '' : 'Please select a type';
     },
     setCategory: (state, action) => {
-      const category = action.payload;
+      const category = action?.payload;
       state.category = category;
       state.categoryError = category ? '' : 'Please select a category';
     },
     setBedrooms: (state, action) => {
-      const bedrooms = action.payload;
+      const bedrooms = action?.payload;
       state.bedrooms = bedrooms;
       state.bedroomsError =
         bedrooms > 0 ? '' : 'Bedrooms must be greater than 0';
     },
     setBathrooms: (state, action) => {
-      const bathrooms = action.payload;
+      const bathrooms = action?.payload;
       state.bathrooms = bathrooms;
       state.bathroomsError =
         bathrooms > 0 ? '' : 'Bathrooms must be greater than 0';
     },
     setFurnished: (state, action) => {
-      const furnished = action.payload;
+      const furnished = action?.payload;
       state.furnished = furnished;
       state.furnishedError = furnished
         ? ''
         : 'Please select a furnished option';
     },
     setImages: (state, action) => {
-      const images = action.payload;
+      const images = action?.payload;
       state.images = images;
       state.imagesError =
         images.length > 0 ? '' : 'Please upload at least one image';
     },
     setMainImage: (state, action) => {
-      const mainImage = action.payload;
+      const mainImage = action?.payload;
       state.mainImage = mainImage;
       state.mainImageError = mainImage ? '' : 'Please select a main image';
     },
     setListedBy: (state, action) => {
-      const listedBy = action.payload;
+      const listedBy = action?.payload;
       state.listedBy = listedBy;
       state.listedByError = listedBy ? '' : 'Please select a listed by option';
     },
     setCarpetArea: (state, action) => {
-      const carpetArea = action.payload;
+      const carpetArea = action?.payload;
       state.carpetArea = carpetArea;
       state.carpetAreaError =
         carpetArea > 0 ? '' : 'Carpet area must be greater than 0';

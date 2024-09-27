@@ -18,8 +18,6 @@ const authSlice = createSlice({
     },
     authSuccess(state, action) {
       state.loading = false;
-      console.log('Auth Success', action.payload.statusCode);
-
       if (action.payload.data.user) {
         state.isAuthenticated = true;
         state.token = action.payload.data.user;
@@ -49,6 +47,13 @@ const authSlice = createSlice({
       state.user = action.payload.user;
       AsyncStorage.setItem('user', JSON.stringify(action.payload.user));
     },
+    newAccessAndRefreshToken(state, action) {
+      state.loading = false;
+      const accessToken = action.payload.accessToken;
+      const refreshToken = action.payload.refreshToken;
+      AsyncStorage.setItem('accessToken', accessToken);
+      AsyncStorage.setItem('refreshToken', refreshToken);
+    },
     logout(state) {
       state.loading = false;
       state.isAuthenticated = false;
@@ -72,5 +77,6 @@ export const {
   authTokenFound,
   setUserType,
   currentUserDetails,
+  newAccessAndRefreshToken,
 } = authSlice.actions;
 export default authSlice;

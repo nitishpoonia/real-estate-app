@@ -4,8 +4,9 @@ import Geolocation from 'react-native-geolocation-service';
 import Geocoder from 'react-native-geocoding';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import {useDispatch} from 'react-redux';
-import {setLocation} from '../redux/slices/addProduct/addProductSlice';
+import {setLocation} from '../redux/slices/ManageProductSlice/addProductSlice';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const GooglePlacesInput = ({navigation}) => {
   const dispatch = useDispatch();
@@ -41,7 +42,7 @@ const GooglePlacesInput = ({navigation}) => {
     }
   }, []);
   return (
-    <View className="flex-1 px-2">
+    <SafeAreaView className="flex-1 px-2">
       <Text className="text-black font-psemibold text-lg">Search Location</Text>
       <GooglePlacesAutocomplete
         ref={googlePlacesRef}
@@ -58,27 +59,9 @@ const GooglePlacesInput = ({navigation}) => {
         }}
         debounce={200}
         styles={{
-          placeholder: {
-            color: 'black',
-          },
-          textInputContainer: {
-            borderColor: '#ddd',
-            borderWidth: 1,
-            borderRadius: 8,
-            backgroundColor: '#fff',
-          },
-          textInput: {
-            color: 'black',
-          },
-          listView: {
-            backgroundColor: '#fff',
-          },
-          description: {
-            fontSize: 16,
-            color: 'black',
-          },
-          predefinedPlacesDescription: {
-            color: '#1faadb',
+          container: {
+            flex: 1,
+            backgroundColor: 'white',
           },
         }}
       />
@@ -88,7 +71,7 @@ const GooglePlacesInput = ({navigation}) => {
         <Icon name="my-location" size={20} color="blue" />
         <Text className={'text-blue-500 text-base ml-2'}>Current Location</Text>
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 };
 
