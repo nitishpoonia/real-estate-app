@@ -45,10 +45,17 @@ const GeneralDetails = ({navigation}) => {
   const dispatch = useDispatch();
   return (
     <SafeAreaView className="flex-1 h-auto mx-2">
-      <View>
-        <Text className="text-black font-psemibold text-xl">
-          Add New Property
-        </Text>
+      <View className="flex-row items-center justify-between mx-2 my-2 w-[67%]">
+        <Pressable
+          onPress={() => navigation.goBack()}
+          className="bg-[#16a34a] rounded-full">
+          <Icon name={'chevron-left'} color="white" size={30} />
+        </Pressable>
+        <View className="">
+          <Text className="text-[#16a34a] font-psemibold text-lg">
+            Add New Property
+          </Text>
+        </View>
       </View>
       <View>
         <Text className="text-black font-pmedium text-lg">General Details</Text>

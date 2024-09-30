@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 const SearchCity = ({navigation}) => {
   return (
     <View className="flex-1">
-      <View className="flex-row items-center justify-between mx-2">
+      <View className="my-3 flex-row items-center w-[62%] justify-between mx-2">
         <Pressable
           onPress={() => navigation.goBack()}
           className="bg-[#16a34a] rounded-full">
@@ -13,12 +13,9 @@ const SearchCity = ({navigation}) => {
         </Pressable>
         <View>
           <Text className="text-[#16a34a] font-psemibold text-lg">
-            User Profile
+            Search Here
           </Text>
         </View>
-        <Pressable onPress={() => navigation.navigate('EditUserProfile')}>
-          <Text className="text-[#16a34a] font-pmedium text-base">Edit</Text>
-        </Pressable>
       </View>
       <GooglePlacesInput navigation={navigation} />
     </View>

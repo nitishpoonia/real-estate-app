@@ -93,7 +93,7 @@ const EditUserProfile = ({navigation}) => {
           },
           {
             headers: {
-              Authorization: `Bearer ${token}`, // Recommended to use Bearer prefix
+              Authorization: `Bearer ${token}`,
             },
           },
         );
@@ -150,13 +150,17 @@ const EditUserProfile = ({navigation}) => {
   return (
     <SafeAreaView>
       <View className="mx-2">
-        <View className="flex-row items-center justify-between max-w-[250px] mt-2">
-          <Pressable onPress={() => navigation.goBack()}>
-            <Icon name="arrow-back" size={30} color="#003366" />
+        <View className="flex-row items-center justify-between mx-2 my-2 w-[62%]">
+          <Pressable
+            onPress={() => navigation.goBack()}
+            className="bg-[#16a34a] rounded-full">
+            <Icon name={'chevron-left'} color="white" size={30} />
           </Pressable>
-          <Text className="font-semibold text-black text-2xl">
-            Edit Profile
-          </Text>
+          <View className="">
+            <Text className="text-[#16a34a] font-psemibold text-lg">
+              Edit Profile
+            </Text>
+          </View>
         </View>
 
         <Pressable onPress={pickImage} className="items-center mt-5">

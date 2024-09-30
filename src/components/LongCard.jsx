@@ -22,6 +22,7 @@ const LongCard = ({
   type,
   category,
   handleEditButtonPress,
+  handleDeleteButtonPress,
 }) => {
   const daysSinceListed = moment().diff(createdAt, 'days');
 
@@ -95,6 +96,7 @@ const LongCard = ({
             title={'Delete'}
             containerStyles={'w-[32%] bg-red-500 mr-3 h-10'}
             textStyles={'text-base font-pregular'}
+            handlePress={handleDeleteButtonPress}
           />
           <CustomButton
             title={'Edit'}

@@ -111,6 +111,7 @@ const ReviewDetails = ({navigation}) => {
       });
 
       dispatch(resetForm());
+      navigation.navigate('ApScreen1');
       handleConfirmation();
     } catch (error) {
       // Error handling

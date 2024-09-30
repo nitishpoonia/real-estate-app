@@ -5,12 +5,16 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5';
 import CustomUserInfoCard from '../components/CustomUserInfoCard';
 const SupportScreen = ({navigation}) => {
   return (
-    <View className="flex-1 bg-[#D0EDDB] px-2 pt-4">
-      <View className="flex-row items-center justify-between max-w-[230px]">
-        <Pressable onPress={() => navigation.goBack()}>
-          <Icon name="arrow-back" size={30} color="#16a34a" />
+    <View className="flex-1 bg-[#D0EDDB] px-2 pt-3">
+      <View className="flex-row items-center justify-between w-[62%] mb-3">
+        <Pressable
+          onPress={() => navigation.goBack()}
+          className="bg-[#16a34a] rounded-full">
+          <Icon name={'chevron-left'} color="white" size={30} />
         </Pressable>
-        <Text className="font-semibold text-black text-2xl">Support</Text>
+        <View className="">
+          <Text className="text-[#16a34a] font-psemibold text-2xl">Support</Text>
+        </View>
       </View>
       <View className="items-center">
         <Icon name={'support'} size={120} color={'#16a34a'} />
