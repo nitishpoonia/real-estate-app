@@ -17,6 +17,7 @@ import LongCard from '../../components/LongCard';
 import {ActivityIndicator} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Toast from 'react-native-toast-message';
+import {useIsFocused} from '@react-navigation/native';
 
 const DeleteConfirmationModal = ({visible, onConfirm, onCancel}) => {
   return (
@@ -51,6 +52,7 @@ const DeleteConfirmationModal = ({visible, onConfirm, onCancel}) => {
 
 const ListedProperties = ({navigation}) => {
   const dispatch = useDispatch();
+  const isFocused = useIsFocused();
   const {listedProperties, isLoading, error} = useSelector(
     state => state.product,
   );
@@ -62,7 +64,7 @@ const ListedProperties = ({navigation}) => {
 
   useEffect(() => {
     dispatch(getPropertyListedBy(userId));
-  }, [userId, dispatch]);
+  }, [userId, dispatch, isFocused]);
 
   const handlePropertyDeletion = id => {
     setPropertyToDelete(id);

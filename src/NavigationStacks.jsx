@@ -36,6 +36,7 @@ import EditGeneralDetails from './screens/EditProduct.jsx/EditGeneralDetails';
 import EditCity from './screens/EditProduct.jsx/EditCity';
 import EditPropertySpecifications from './screens/EditProduct.jsx/EditPropertySpecifications';
 import EditPropertyImages from './screens/EditProduct.jsx/EditPropertyImages';
+import { Text } from 'react-native';
 // import UserTypeSelectionPage from './screens/UserTypeSelectionPage';
 
 const Tab = createBottomTabNavigator();
@@ -241,19 +242,23 @@ const MainApp = () => {
           tabBarStyle: {
             display: shouldHideTabBar() ? 'none' : 'flex',
           },
-          // Tab icon and other settings
           tabBarIcon: ({focused, color, size}) => {
             let iconName;
             if (route.name === 'Home') {
               iconName = focused ? 'home' : 'home-outline';
             } else if (route.name === 'Profile') {
               iconName = focused ? 'person' : 'person-outline';
-            } else if (route.name === 'AddProduct') {
+            } else if (route.name === 'Add Property') {
               iconName = focused ? 'add-circle' : 'add-circle-outline';
             }
-            return <Icon name={iconName} size={size} color={'#003366'} />;
+            return <Icon name={iconName} size={size} color={'#16a34a'} />;
           },
-          tabBarActiveTintColor: '#003366',
+          tabBarLabel: ({focused}) => {
+            const fontWeight = focused ? '600' : '400';
+            const color = focused ? '#16a34a' : 'gray';
+            return <Text style={{color, fontWeight}}>{route.name}</Text>;
+          },
+          tabBarActiveTintColor: '#16a34a',
           tabBarInactiveTintColor: 'gray',
         };
       }}>
@@ -263,7 +268,7 @@ const MainApp = () => {
         options={{headerShown: false}}
       />
       <Tab.Screen
-        name="AddProduct"
+        name="Add Property"
         component={AddProductStack}
         options={{headerShown: false}}
       />

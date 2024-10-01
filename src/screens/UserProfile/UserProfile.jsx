@@ -12,6 +12,7 @@ import PodcastIcon from '../../assets/images/podcast.svg';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {
   openInstagramProfile,
+  openSpotifyPodcast,
   openWebsite,
   openWhatsApp,
   openYouTubeProfile,
@@ -187,9 +188,9 @@ const UserProfile = ({navigation}) => {
                   className="p-3 bg-[#16a34a] rounded-full">
                   <FontAwesomeIcon name={'youtube'} size={24} color={'white'} />
                 </Pressable>
-                <View className="p-[14px] bg-[#16a34a] rounded-full">
+                <Pressable onPress={openSpotifyPodcast} className="p-[14px] bg-[#16a34a] rounded-full">
                   <PodcastIcon />
-                </View>
+                </Pressable>
               </View>
             </View>
           </View>

@@ -49,14 +49,14 @@ const ProductDetailPage = ({navigation}) => {
   const handleFavorite = async () => {
     try {
       if (isFavorite) {
-        await dispatch(
+        dispatch(
           removeFavorite({
             userId: selectedProperty.data.listedBy._id,
             itemId: selectedProperty.data._id,
           }),
         );
       } else {
-        await dispatch(
+        dispatch(
           addFavorite({
             userId: selectedProperty.data.listedBy._id,
             itemId: selectedProperty.data._id,
@@ -71,7 +71,7 @@ const ProductDetailPage = ({navigation}) => {
   if (loading) {
     return (
       <View className="flex-1 items-center justify-center">
-        <Text className="text-2xl">Loading...</Text>
+        <Text className="text-2xl text-black">Loading...</Text>
       </View>
     );
   }
@@ -85,25 +85,28 @@ const ProductDetailPage = ({navigation}) => {
         <View className="flex-row items-center justify-between z-10">
           <Pressable
             onPress={() => navigation.goBack()}
-            className="absolute top-2 left-2 bg-white rounded-full p-1">
-            <Icon name="arrow-back" size={30} color="#16a34a" />
+            className="bg-[#16a34a] rounded-full my-2 mx-2">
+            <Icon name={'chevron-left'} color="white" size={30} />
           </Pressable>
-          {/* <Pressable
+          <Text className="text-lg font-pmedium text-[#16a34a]">
+            Property Details
+          </Text>
+          <Pressable
             onPress={handleFavorite}
-            className="absolute top-2 right-2 bg-white rounded-full p-1">
+            className=" bg-white rounded-full p-1">
             <Icon
               name={isFavorite ? 'favorite' : 'favorite-border'}
               size={30}
               color="#16a34a"
             />
-          </Pressable> */}
+          </Pressable>
         </View>
         <Image
           source={{uri: selectedProperty?.data?.mainImage}}
           className={`w-[100%] m-auto h-[200px]`}
           resizeMode="cover"
         />
-        <View className=" mx-2 mt-2 w-[20%]">
+        <View className="mx-2 mt-2 w-[20%]">
           <PropertyTypeCard category={selectedProperty?.data?.category} />
         </View>
         <View className="flex-row justify-between py-2  rounded-b-xl mx-2">
@@ -209,7 +212,9 @@ const ProductDetailPage = ({navigation}) => {
           <Text className="text-black font-psemibold text-lg">
             ₹​ {formatPriceInIndianStyle(selectedProperty?.data?.price)}
           </Text>
-          <Pressable className="w-[139px] py-3 bg-[#16a34a] items-center justify-center rounded-3xl">
+          <Pressable
+            onPress={() => navigation.navigate('BookingForm')}
+            className="w-[139px] py-3 bg-[#16a34a] items-center justify-center rounded-3xl">
             <Text className="text-white text-base font-psemibold">
               Schedule Visit
             </Text>

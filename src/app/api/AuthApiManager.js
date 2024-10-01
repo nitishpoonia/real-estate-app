@@ -4,8 +4,8 @@ import {Platform} from 'react-native';
 const getBaseURL = () => {
   if (Platform.OS === 'android') {
     // return 'http://10.0.2.2:6000/api/v1/users';
-    return 'https://realestate-backend-bosp.onrender.com/api/v1/users';
-    // return 'http://192.168.0.169:6000/api/v1/users';
+    // return 'https://realestate-backend-bosp.onrender.com/api/v1/users';
+    return 'http://192.168.0.169:6000/api/v1/users';
   } else if (Platform.OS === 'ios') {
     return 'https://realestate-backend-bosp.onrender.com/api/v1/users';
   }
@@ -43,8 +43,6 @@ export const getCurrentUser = accessToken => {
 };
 
 export const signIn = (email, password) => {
-  console.log('singin');
-
   return _post('/login', {email, password});
 };
 
@@ -69,32 +67,31 @@ export const signOut = async () => {
   }
 };
 
-// Add a response interceptor to handle token refresh
 AuthApiManager.interceptors.response.use(
-  response => response, // If the response is successful, just return it
+  response => response,
   async error => {
+    console.log('inside interceptors');
     const originalRequest = error.config;
+    if (error.response) {
+      const {status, data} = error.response;
+      if (
+        status === 500 &&
+        data.message === 'jwt expired' &&
+        !originalRequest._retry
+      ) {
+        originalRequest._retry = true;
 
-    if (
-      error.response &&
-      error.response.status === 401 &&
-      !originalRequest._retry
-    ) {
-      // Prevent retry loops
-      originalRequest._retry = true;
-
-      try {
-        const newAccessToken = await refreshAccessToken(); // Attempt to refresh token
-        originalRequest.headers['Authorization'] = `${newAccessToken}`; // Add new token to the original request
-        return AuthApiManager(originalRequest); // Retry the original request
-      } catch (err) {
-        // Token refresh failed, log the user out or take other action
-        console.error('Unauthorized: token refresh failed', err);
-        return Promise.reject(err);
+        try {
+          const newAccessToken = await refreshAccessToken();
+          originalRequest.headers.Authorization = `${newAccessToken}`;
+          return AuthApiManager(originalRequest);
+        } catch (refreshError) {
+          console.error('Unauthorized: Token refresh failed', refreshError);
+          return Promise.reject(refreshError);
+        }
       }
     }
-
-    return Promise.reject(error); // Pass other errors through
+    return Promise.reject(error);
   },
 );
 

@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useMemo} from 'react';
+import React, {useState, useEffect, useMemo, useRef} from 'react';
 import {
   View,
   Text,
@@ -19,7 +19,25 @@ import FilterModel from '../../components/filters/FilterModel.jsx';
 import Modal from 'react-native-modal';
 import {clearFilters} from '../../redux/slices/filter/filterOptionsSlice.jsx';
 Geocoder.init(process.env.GOOGLE_API);
+const useDebounce = (value, delay) => {
+  const timer = useRef();
+  const [debouncedValue, setDebouncedValue] = useState(value);
 
+  useEffect(() => {
+    if (timer.current) {
+      clearTimeout(timer.current);
+    }
+    timer.current = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(timer.current);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+};
 const SearchScreen = ({navigation}) => {
   const dispatch = useDispatch();
   const {
@@ -38,6 +56,7 @@ const SearchScreen = ({navigation}) => {
   const [readableAddress, setReadableAddress] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const flattenedFilters = allFilters.flat();
   const handleLocation = () => {
     Geolocation.getCurrentPosition(
@@ -76,76 +95,86 @@ const SearchScreen = ({navigation}) => {
 
   const applyFilter = () => {
     let filteredProperties = properties;
-    const typeLowerCase = type.map(item => item.toLowerCase());
-    const furnishedLowerCase = furnished.map(item => item.toLowerCase());
-    // Apply location filter
-    if (searchTerm || readableAddress) {
+
+    // Combine filters into a single structure
+    const filters = {
+      location: debouncedSearchTerm || readableAddress,
+      type: type.map(item => item.toLowerCase()),
+      category,
+      bedrooms,
+      bathrooms,
+      furnished: furnished.map(item => item.toLowerCase()),
+      priceRange: {
+        min: parseFloat(minPrice) || 0,
+        max: parseFloat(maxPrice) || Infinity,
+      },
+      amenities,
+    };
+
+    // Location filter using RegExp
+    if (filters.location) {
+      const regex = new RegExp(filters.location, 'i');
       filteredProperties = filteredProperties.filter(property =>
-        property.location
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase() || readableAddress.toLowerCase()),
+        regex.test(property?.location),
       );
     }
 
-    // Apply property type filter
-    if (typeLowerCase.length) {
+    // Property type filter
+    if (filters.type.length) {
       filteredProperties = filteredProperties.filter(property =>
-        typeLowerCase.includes(property.category.toLowerCase()),
+        filters.type.includes(property.category.toLowerCase()),
       );
     }
 
-    // Apply category filter
-    if (category.length) {
+    // Category filter
+    if (filters.category.length) {
       filteredProperties = filteredProperties.filter(property =>
-        category.includes(property.category.toLowerCase()),
+        filters.category.includes(property.category.toLowerCase()),
       );
     }
 
-    // Apply bedrooms filter
-    if (bedrooms.length) {
+    // Bedrooms filter
+    if (filters.bedrooms.length) {
       filteredProperties = filteredProperties.filter(property =>
-        bedrooms.includes(property.bedrooms),
+        filters.bedrooms.includes(property.bedrooms),
       );
     }
 
-    // Apply bathrooms filter
-    if (bathrooms.length) {
+   
+    if (filters.bathrooms.length) {
       filteredProperties = filteredProperties.filter(property =>
-        bathrooms.includes(property.bathrooms),
+        filters.bathrooms.includes(property.bathrooms),
       );
     }
 
-    // Apply furnished filter
-    if (furnishedLowerCase.length) {
+   
+    if (filters.furnished.length) {
       filteredProperties = filteredProperties.filter(property =>
-        furnishedLowerCase.includes(property.furnished.toLowerCase()),
+        filters.furnished.includes(property.furnished.toLowerCase()),
       );
     }
 
-    // Apply price range filter
-    if (minPrice || maxPrice) {
-      const minPriceNumber = parseFloat(minPrice) || 0;
-      const maxPriceNumber = parseFloat(maxPrice) || Infinity;
-      filteredProperties = filteredProperties.filter(property => {
-        const price = parseFloat(property.price) || 0;
-        return price >= minPriceNumber && price <= maxPriceNumber;
-      });
-    }
+    
+    const {min, max} = filters.priceRange;
+    filteredProperties = filteredProperties.filter(property => {
+      const price = parseFloat(property.price) || 0;
+      return price >= min && price <= max;
+    });
 
-    // Apply amenities filter
-    if (amenities.length) {
-      filteredProperties = filteredProperties.filter(property => {
-        return amenities.every(amenity =>
-          property.amenities
-            ?.map(a => a.toLowerCase())
-            .includes(amenity.toLowerCase()),
-        );
-      });
-    }
+    // Amenities filter
+    // if (filters.amenities.length) {
+    //   filteredProperties = filteredProperties.filter(property =>
+    //     filters.amenities.every(amenity =>
+    //       property.amenities
+    //         .map(a => a.toLowerCase())
+    //         .includes(amenity.toLowerCase()),
+    //     ),
+    //   );
+    // }
 
-    // Return filtered properties or a message if no properties match
     return filteredProperties.length > 0 ? filteredProperties : [];
   };
+
   const clearLocation = () => {
     setReadableAddress('');
   };
@@ -153,7 +182,7 @@ const SearchScreen = ({navigation}) => {
     return applyFilter();
   }, [
     properties,
-    searchTerm,
+    debouncedSearchTerm,
     type,
     category,
     bedrooms,
@@ -233,8 +262,10 @@ const SearchScreen = ({navigation}) => {
         ListEmptyComponent={
           <Text className="text-center text-red-600">No results found</Text>
         }
-        renderItem={({item}) =>
-          item === 'No results found' ? (
+        renderItem={({item}) => {
+          console.log(item); 
+
+          return item === 'No results found' ? (
             <Text className="text-center text-red-600">No results found</Text>
           ) : (
             <LongCard
@@ -245,13 +276,16 @@ const SearchScreen = ({navigation}) => {
               imageUri={item?.mainImage}
               type={item?.type}
               category={item?.category}
+              bedroom={item?.bedrooms}
+              bathroom={item?.bathrooms}
+              carpetArea={item?.carpetArea}
               navigation={navigation}
               handleCardPress={() =>
                 navigation.navigate('ProductDetailPage', {_id: item?._id})
               }
             />
-          )
-        }
+          );
+        }}
         keyExtractor={item => item.key}
         contentContainerStyle={{flexGrow: 1}}
         showsVerticalScrollIndicator={false}

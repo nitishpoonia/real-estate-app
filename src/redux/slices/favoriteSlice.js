@@ -17,6 +17,8 @@ export const addFavorite = createAsyncThunk(
   async ({userId, itemId}, {rejectWithValue}) => {
     try {
       const response = await saveToFavorite(userId, itemId);
+      console.log(response.data);
+
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response ? err.response.data : err.message);

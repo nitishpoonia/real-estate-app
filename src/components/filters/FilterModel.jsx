@@ -5,7 +5,7 @@ import PropertyType from '../../components/filters/PropertyType';
 import Bedrooms from '../../components/filters/Bedrooms';
 import Bathrooms from '../../components/filters/Bathrooms';
 import Furnishing from '../../components/filters/Furnishing';
-import Amenities from '../../components/filters/Amenities';
+// import Amenities from '../../components/filters/Amenities';
 
 const FILTER_COMPONENTS = [
   {component: <PropertyType />, key: 'PropertyType'},
@@ -13,7 +13,7 @@ const FILTER_COMPONENTS = [
   {component: <Bedrooms />, key: 'Bedrooms'},
   {component: <Bathrooms />, key: 'Bathrooms'},
   {component: <Furnishing />, key: 'Furnishing'},
-  {component: <Amenities />, key: 'Amenities'},
+  // {component: <Amenities />, key: 'Amenities'},
 ];
 
 const FilterModel = () => {

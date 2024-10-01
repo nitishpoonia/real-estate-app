@@ -45,7 +45,7 @@ const PropertyTypeCard = ({category, containerStyles, textStyles}) => {
     case 'house':
       return (
         <View
-          className={`flex-row rounded-2xl my-1 bg-[#c8e3d2] px-3 items-center ${containerStyles}`}>
+          className={`flex-row rounded-2xl my-1 bg-[#c8e3d2] px-1 items-center ${containerStyles}`}>
           <View className="">
             <Icon name="house" size={20} color={'#16a34a'} />
           </View>

@@ -52,7 +52,9 @@ export const openYouTubeProfile = () => {
 };
 
 export const openSpotifyPodcast = () => {
-  const podcastId = 'your_podcast_id';
+  console.log('spotify');
+
+  const podcastId = '2MU4uzJpziud0JRg1PnIPh?si=93fe6d898a3f4e71';
   const url = `spotify:show:${podcastId}`;
 
   Linking.canOpenURL(url)

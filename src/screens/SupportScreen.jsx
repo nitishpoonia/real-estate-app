@@ -1,9 +1,14 @@
-import {View, Text, Pressable} from 'react-native';
+import {View, Text, Pressable, Linking, Alert} from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5';
-import CustomUserInfoCard from '../components/CustomUserInfoCard';
+import {openWhatsApp} from '../components/SocialLinking';
 const SupportScreen = ({navigation}) => {
+  const handlePress = async () => {
+    Linking.openURL(
+      'mailto:support@nextworktechnologies.com?subject=Help Regarding Next Assets&body=I need help with...',
+    ).catch(err => console.error('An error occurred', err));
+  };
   return (
     <View className="flex-1 bg-[#D0EDDB] px-2 pt-3">
       <View className="flex-row items-center justify-between w-[62%] mb-3">
@@ -13,7 +18,9 @@ const SupportScreen = ({navigation}) => {
           <Icon name={'chevron-left'} color="white" size={30} />
         </Pressable>
         <View className="">
-          <Text className="text-[#16a34a] font-psemibold text-2xl">Support</Text>
+          <Text className="text-[#16a34a] font-psemibold text-2xl">
+            Support
+          </Text>
         </View>
       </View>
       <View className="items-center">
@@ -24,10 +31,10 @@ const SupportScreen = ({navigation}) => {
       </View>
       <View className="mt-4 min-h-[300px] justify-evenly">
         <Pressable
-          onPress={() => navigation.navigate('ListedProperties')}
+          onPress={handlePress}
           className="flex-row items-center justify-between bg-[#16a34a] rounded-full px-3 py-3">
           <View className="flex-row items-center gap-2">
-            <Icon name={'mail'} size={24} color={'white'} className="pb-1" />
+            <Icon name={'mail'} size={24} color={'white'} />
             <Text className="text-lg font-psemibold text-white">Mail Us</Text>
           </View>
           <Icon name={'chevron-right'} size={24} color={'white'} />
@@ -35,7 +42,9 @@ const SupportScreen = ({navigation}) => {
         <Pressable
           onPress={() => navigation.navigate('ListedProperties')}
           className="flex-row items-center justify-between bg-[#16a34a] rounded-full px-3 py-3">
-          <View className="flex-row items-center gap-2">
+          <Pressable
+            onPress={openWhatsApp}
+            className="flex-row items-center gap-2">
             <FontAwesomeIcon
               name={'whatsapp'}
               size={24}
@@ -45,7 +54,7 @@ const SupportScreen = ({navigation}) => {
             <Text className="text-lg font-psemibold text-white">
               Connect on Whatsapp
             </Text>
-          </View>
+          </Pressable>
           <Icon name={'chevron-right'} size={24} color={'white'} />
         </Pressable>
       </View>

@@ -10,12 +10,14 @@ const ViewAllImages = ({navigation}) => {
 
   return (
     <SafeAreaView className="mx-2 mt-2">
-      <View className="flex-row max-w-[65%] justify-between">
-        <Pressable onPress={() => navigation.pop()}>
-          <Icon name={'arrow-back'} color={'black'} size={30} />
+      <View className="flex-row items-center justify-between z-10 w-[65%]">
+        <Pressable
+          onPress={() => navigation.goBack()}
+          className="bg-[#16a34a] rounded-full my-2 mx-2">
+          <Icon name={'chevron-left'} color="white" size={30} />
         </Pressable>
-        <Text className="text-2xl font-psemibold text-black">
-          Explore Property
+        <Text className="text-lg font-pmedium text-[#16a34a]">
+          Explore Images
         </Text>
       </View>
       <View className="items-center">

@@ -35,11 +35,11 @@ const EditGeneralDetails = ({route, navigation}) => {
     dispatch(setLocation(selectedProperty?.data?.location));
     dispatch(setType(selectedProperty?.data?.type));
   }, [selectedProperty, dispatch]);
-  const [localType, setTypeState] = useState(''); // Initialize the state for the property type
+  const [localType, setTypeState] = useState('');
 
   const handleSelect = selectedType => {
-    setTypeState(selectedType); // Update the local state
-    dispatch(setType(selectedType)); // Dispatch the selected type to redux
+    setTypeState(selectedType);
+    dispatch(setType(selectedType));
   };
   // Submit updated property details
   const handleUpdate = () => {
