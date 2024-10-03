@@ -2,12 +2,11 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {reset} from './NavigationService';
 import {logout} from '../../redux/slices/auth/authSlice'; // Adjust the path as necessary
-import {useDispatch} from 'react-redux';
 
 let dispatch;
 
 export const setDispatch = dispatchFunction => {
-  dispatch = dispatchFunction; 
+  dispatch = dispatchFunction;
 };
 
 export const logoutUser = () => {
@@ -33,8 +32,8 @@ import {Platform} from 'react-native';
 const getBaseURL = () => {
   if (Platform.OS === 'android') {
     // return 'http://10.0.2.2:6000/api/v1/users';
-    // return 'https://realestate-backend-bosp.onrender.com/api/v1/users';
-    return 'http://192.168.0.169:6000/api/v1/users';
+    return 'https://realestate-backend-bosp.onrender.com/api/v1/users';
+    // return 'http://192.168.0.169:6000/api/v1/users';
   } else if (Platform.OS === 'ios') {
     return 'https://realestate-backend-bosp.onrender.com/api/v1/users';
   }
@@ -116,8 +115,6 @@ const storeNewAccessToken = async newAccessToken => {
   }
 };
 
-
-
 AuthApiManager.interceptors.response.use(
   response => response,
   async error => {
@@ -129,7 +126,7 @@ AuthApiManager.interceptors.response.use(
         status === 500 &&
         data.message === 'Refresh token is expired or used'
       ) {
-        logoutUser(); 
+        logoutUser();
         return Promise.reject(
           new Error('Refresh token expired or used. Logging out.'),
         );
