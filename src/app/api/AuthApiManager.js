@@ -1,5 +1,34 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {reset} from './NavigationService';
+import {logout} from '../../redux/slices/auth/authSlice'; // Adjust the path as necessary
+import {useDispatch} from 'react-redux';
+
+let dispatch;
+
+export const setDispatch = dispatchFunction => {
+  dispatch = dispatchFunction; 
+};
+
+export const logoutUser = () => {
+  if (dispatch) {
+    dispatch(logout());
+    reset('Login');
+  } else {
+    console.error('Dispatch function is not set. Logout failed.');
+  }
+};
+const getRefreshTokenFromStorage = async () => {
+  try {
+    const refreshToken = await AsyncStorage.getItem('refreshToken');
+    return refreshToken;
+  } catch (error) {
+    console.error('Error retrieving refresh token from Async Storage', error);
+  }
+};
+
+getRefreshTokenFromStorage();
+
 import {Platform} from 'react-native';
 const getBaseURL = () => {
   if (Platform.OS === 'android') {
@@ -49,9 +78,7 @@ export const signIn = (email, password) => {
 export const forgotPassword = email => {
   return _post('/forgot-password', {email});
 };
-export const refreshAccessToken = refreshToken => {
-  return _post('/refresh-token', {refreshToken});
-};
+
 export const resetPassword = (token, password) => {
   return _post(`/reset-password?token=${token}`, {token: '', password});
 };
@@ -67,30 +94,74 @@ export const signOut = async () => {
   }
 };
 
+const refreshAccessToken = async refreshToken => {
+  console.log('refresh token', refreshToken);
+
+  try {
+    const response = await _post('/refresh-token', {refreshToken});
+    console.log('refresh access token function log', response);
+    return response.data.data;
+  } catch (error) {
+    console.error('Failed to refresh access token:', error.response);
+    throw error;
+  }
+};
+
+const storeNewAccessToken = async newAccessToken => {
+  try {
+    await AsyncStorage.setItem('accessToken', newAccessToken);
+    console.log('Access token updated in storage.');
+  } catch (error) {
+    console.error('Error storing new access token:', error);
+  }
+};
+
+
+
 AuthApiManager.interceptors.response.use(
   response => response,
   async error => {
-    console.log('inside interceptors');
-    const originalRequest = error.config;
     if (error.response) {
       const {status, data} = error.response;
+
+      // Check if the token is expired or used
       if (
         status === 500 &&
-        data.message === 'jwt expired' &&
-        !originalRequest._retry
+        data.message === 'Refresh token is expired or used'
       ) {
-        originalRequest._retry = true;
+        logoutUser(); 
+        return Promise.reject(
+          new Error('Refresh token expired or used. Logging out.'),
+        );
+      }
 
+      // Handle other scenarios (like refreshing the token)
+      if (status === 500 && data.message === 'jwt expired') {
         try {
-          const newAccessToken = await refreshAccessToken();
-          originalRequest.headers.Authorization = `${newAccessToken}`;
-          return AuthApiManager(originalRequest);
+          const refreshToken = await getRefreshTokenFromStorage();
+
+          if (refreshToken) {
+            const {accessToken} = await refreshAccessToken(refreshToken);
+            console.log('Refreshed Access Token:', accessToken);
+
+            // Store the new access token
+            await storeNewAccessToken(accessToken);
+
+            // Update the original request's Authorization header
+            error.config.headers.Authorization = `${accessToken}`;
+
+            // Retry the original request with the new access token
+            return AuthApiManager.request(error.config);
+          } else {
+            throw new Error('No refresh token available');
+          }
         } catch (refreshError) {
-          console.error('Unauthorized: Token refresh failed', refreshError);
+          console.error('Error refreshing access token:', refreshError);
           return Promise.reject(refreshError);
         }
       }
     }
+
     return Promise.reject(error);
   },
 );

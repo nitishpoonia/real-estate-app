@@ -58,8 +58,6 @@ export const loginUser = createAsyncThunk(
     try {
       dispatch(authStart());
       const response = await signIn(email, password);
-      console.log(response);
-
       Toast.show({
         type: 'success',
         text1: 'Login Successful',

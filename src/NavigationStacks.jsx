@@ -39,6 +39,7 @@ import EditPropertyImages from './screens/EditProduct.jsx/EditPropertyImages';
 import {Text} from 'react-native';
 import BuyPropertiesList from './screens/products/BuyPropertiesList';
 import RentPropertiesList from './screens/products/RentPropertiesList';
+import {navigationRef} from './app/api/NavigationService.js';
 // import UserTypeSelectionPage from './screens/UserTypeSelectionPage';
 
 const Tab = createBottomTabNavigator();
@@ -307,7 +308,7 @@ const NavigationStacks = () => {
   // }
 
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       {isAuthenticated ? <MainApp /> : <AuthStack />}
     </NavigationContainer>
   );
