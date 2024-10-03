@@ -55,8 +55,10 @@ const BasicProperties = ({navigation, useSorted = false}) => {
             handleCardPress={() =>
               navigation.navigate('ProductDetailPage', {_id: item?._id})
             }
+            containerStyles={'w-[263px]'}
           />
         )}
+        ItemSeparatorComponent={<View className="mr-2"></View>}
         keyExtractor={item => item?._id}
       />
     </View>

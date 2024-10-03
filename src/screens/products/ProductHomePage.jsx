@@ -44,7 +44,6 @@ const ProductHomePage = ({navigation}) => {
     }
   }, [userJSONString]);
 
-  const imageUri = user?.avatar;
   const inputRef = useRef(null);
   const handleNavigationOnFocus = () => {
     inputRef.current.blur();
@@ -178,24 +177,23 @@ const ProductHomePage = ({navigation}) => {
             />
           </View>
         </View>
-        {/* <View className="mx-2 mt-2">
+        <View className="mx-2 mt-2">
           <Text className="font-psemibold text-xl mb-1 text-black">
             You are looking to?
           </Text>
-          <View className="flex-row w-[55%] justify-between">
+          <View className="flex-row w-auto gap-x-2">
             <Pressable
               className="border-2 px-3 py-1 rounded-xl border-[#16a34a]"
-              onPress={() => navigation.navigate('SearchScreen')}>
+              onPress={() => navigation.navigate('BuyPropertiesList')}>
               <Text className="font-pmedium text-[#16a34a] ">Buy</Text>
             </Pressable>
-            <Pressable className="border-2 px-3 py-1 rounded-xl border-[#16a34a]">
+            <Pressable
+              onPress={() => navigation.navigate('RentPropertiesList')}
+              className="border-2 px-3 py-1 rounded-xl border-[#16a34a]">
               <Text className="font-pmedium text-[#16a34a]">Rent</Text>
             </Pressable>
-            <Pressable className="border-2 px-3 py-1 rounded-xl border-[#16a34a]">
-              <Text className="font-pmedium text-[#16a34a]">Sell</Text>
-            </Pressable>
           </View>
-        </View> */}
+        </View>
         <View>
           <View className="px-2 flex-row items-center justify-between mt-4">
             <Text className="text-xl text-black font-psemibold ">

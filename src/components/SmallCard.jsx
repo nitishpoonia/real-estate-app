@@ -19,6 +19,7 @@ const SmallCard = ({
   createdAt,
   type,
   category,
+  containerStyles,
 }) => {
   const daysSinceListed = moment().diff(createdAt, 'days');
 
@@ -29,7 +30,7 @@ const SmallCard = ({
     <Pressable
       key={ukey}
       onPress={handleCardPress}
-      className="w-[260px] rounded-lg shadow-lg bg-white border border-[#d6d6d6] mr-3">
+      className={` rounded-lg shadow-lg bg-white border border-[#d6d6d6] ${containerStyles}`}>
       <View className="bg-[#d1eddb] px-3 rounded-md top-2 left-2  absolute z-10">
         <Text className="text-[#16a34a]">
           {type?.charAt(0)?.toUpperCase() + type?.slice(1)}
@@ -43,8 +44,12 @@ const SmallCard = ({
         />
       </View>
       <View className="mx-2 my-2">
-        <View className="w-[35%]">
-          <PropertyTypeCard category={category} containerStyles={'p-0 mx-1 rounded-md'} textStyles={'text-sm'}/>
+        <View className="">
+          <PropertyTypeCard
+            category={category}
+            containerStyles={'mx-1 rounded-md w-1/3'}
+            textStyles={'text-sm'}
+          />
         </View>
         <Text className="font-pbold  text-black">
           ₹ {formatPriceInIndianStyle(price)}
@@ -55,11 +60,14 @@ const SmallCard = ({
           </View>
           <Text className="font-pregular text-black-200 my-1">{location}</Text>
         </View>
-        <View className="flex-row justify-between">
-          <FacilitiesCard iconName={'bed'} text={bedroom} />
-          <FacilitiesCard iconName={'shower'} text={bathroom} />
-          <FacilitiesCard iconName={'square-foot'} text={carpetArea} />
-        </View>
+        {category !== 'plot' ? (
+          <View className="flex-row justify-between">
+            <FacilitiesCard iconName={'bed'} text={bedroom} />
+            <FacilitiesCard iconName={'shower'} text={bathroom} />
+            <FacilitiesCard iconName={'square-foot'} text={carpetArea} />
+          </View>
+        ) : null}
+
         <View className="mt-2">
           <Text className="font-pregular text-[#aaaaaa]">
             Listed {daysSinceListed} days ago

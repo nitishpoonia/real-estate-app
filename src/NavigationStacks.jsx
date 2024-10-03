@@ -36,7 +36,9 @@ import EditGeneralDetails from './screens/EditProduct.jsx/EditGeneralDetails';
 import EditCity from './screens/EditProduct.jsx/EditCity';
 import EditPropertySpecifications from './screens/EditProduct.jsx/EditPropertySpecifications';
 import EditPropertyImages from './screens/EditProduct.jsx/EditPropertyImages';
-import { Text } from 'react-native';
+import {Text} from 'react-native';
+import BuyPropertiesList from './screens/products/BuyPropertiesList';
+import RentPropertiesList from './screens/products/RentPropertiesList';
 // import UserTypeSelectionPage from './screens/UserTypeSelectionPage';
 
 const Tab = createBottomTabNavigator();
@@ -84,6 +86,16 @@ const ProductStack = () => {
       <Stack.Screen
         name="ProductHomePage"
         component={ProductHomePage}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="BuyPropertiesList"
+        component={BuyPropertiesList}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="RentPropertiesList"
+        component={RentPropertiesList}
         options={{headerShown: false}}
       />
       <Stack.Screen

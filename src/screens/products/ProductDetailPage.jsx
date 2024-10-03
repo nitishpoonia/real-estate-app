@@ -26,6 +26,8 @@ const ProductDetailPage = ({navigation}) => {
   const {selectedProperty, loading, error} = useSelector(
     state => state.product,
   );
+  console.log(selectedProperty);
+
   const userId = selectedProperty?.data?.listedBy?._id;
   const itemId = selectedProperty?.data?._id;
   const {favorites} = useSelector(state => state.favorites);
@@ -91,7 +93,7 @@ const ProductDetailPage = ({navigation}) => {
           <Text className="text-lg font-pmedium text-[#16a34a]">
             Property Details
           </Text>
-          <Pressable
+          {/* <Pressable
             onPress={handleFavorite}
             className=" bg-white rounded-full p-1">
             <Icon
@@ -99,7 +101,7 @@ const ProductDetailPage = ({navigation}) => {
               size={30}
               color="#16a34a"
             />
-          </Pressable>
+          </Pressable> */}
         </View>
         <Image
           source={{uri: selectedProperty?.data?.mainImage}}

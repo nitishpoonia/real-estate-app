@@ -1,4 +1,5 @@
 // favoritesSlice.js
+// TODO: Fix the favorite slice
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import {
   saveToFavorite,
