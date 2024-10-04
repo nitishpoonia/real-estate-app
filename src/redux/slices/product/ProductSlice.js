@@ -14,12 +14,19 @@ const ProductSlice = createSlice({
     properties: [],
     selectedProperty: null,
     loading: false,
+    selectedPropertyLoading: false,
     error: null,
     createPropertyError: null,
     updatePropertyError: null,
     listedProperties: [],
   },
-  reducers: {},
+  reducers: {
+    clearSelectedProperty: state => {
+      state.selectedProperty = null;
+      state.selectedPropertyLoading = false; // Reset loading state
+      state.error = null; // Optionally reset error state
+    },
+  },
   extraReducers: builder => {
     builder
       // all properties
@@ -36,14 +43,15 @@ const ProductSlice = createSlice({
       })
       // by Id
       .addCase(fetchPropertyById.pending, state => {
-        state.loading = true;
+        state.selectedProperty = null;
+        state.selectedPropertyLoading = true;
       })
       .addCase(fetchPropertyById.fulfilled, (state, action) => {
-        state.loading = false;
+        state.selectedPropertyLoading = false;
         state.selectedProperty = action.payload;
       })
       .addCase(fetchPropertyById.rejected, (state, action) => {
-        state.loading = false;
+        state.selectedPropertyLoading = false;
         state.error = action.payload;
       })
       // Create Property
@@ -94,4 +102,5 @@ const ProductSlice = createSlice({
   },
 });
 
+export const {clearSelectedProperty} = ProductSlice.actions;
 export default ProductSlice;

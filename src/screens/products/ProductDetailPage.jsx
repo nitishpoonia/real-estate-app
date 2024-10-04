@@ -1,7 +1,7 @@
 import {ScrollView, View, Text, Image, Pressable, Alert} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import AmenitiesCard from '../../components/AmenitiesCard';
-import CustomButton from '../../components/CustomButton';
+// import CustomButton from '../../components/CustomButton';
 import ProductImages from '../../components/ProductImages';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useRoute} from '@react-navigation/native';
@@ -11,11 +11,13 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import images from '../../constants/images.js';
 import DescriptionComponent from '../../components/DescriptionComponent.jsx';
 import PropertyTypeCard from '../../components/PropertyTypeCard.jsx';
-import {
-  addFavorite,
-  removeFavorite,
-  fetchFavorites,
-} from '../../redux/slices/favoriteSlice.js';
+import {clearSelectedProperty} from '../../redux/slices/product/ProductSlice.js';
+// import {
+//   addFavorite,
+//   removeFavorite,
+//   fetchFavorites,
+// } from '../../redux/slices/favoriteSlice.js';
+import ProductDetailLoader from '../../components/Loaders/ProductDetailLoader.jsx';
 
 // import {getListedBy} from '../../app/api/AuthApiManager.js';
 const ProductDetailPage = ({navigation}) => {
@@ -23,22 +25,27 @@ const ProductDetailPage = ({navigation}) => {
   const route = useRoute();
   const dispatch = useDispatch();
   const {_id} = route.params;
-  const {selectedProperty, loading, error} = useSelector(
+  const {selectedProperty, selectedPropertyLoading, error} = useSelector(
     state => state.product,
   );
-  console.log(selectedProperty);
 
-  const userId = selectedProperty?.data?.listedBy?._id;
-  const itemId = selectedProperty?.data?._id;
-  const {favorites} = useSelector(state => state.favorites);
-  const [isFavorite, setIsFavorite] = useState(false);
+  // const userId = selectedProperty?.data?.listedBy?._id;
+  // const itemId = selectedProperty?.data?._id;
+  // const {favorites} = useSelector(state => state.favorites);
+  // const [isFavorite, setIsFavorite] = useState(false);
   const formatPriceInIndianStyle = price => {
     return new Intl.NumberFormat('en-IN').format(price);
   };
   useEffect(() => {
+    console.log('inside use Effect fetching property');
     dispatch(fetchPropertyById(_id));
-    dispatch(fetchFavorites(userId, itemId));
-  }, []);
+    // dispatch(fetchFavorites(userId, itemId));
+    return () => {
+      console.log('cleared on unmount');
+
+      dispatch(clearSelectedProperty()); // Clear selected property on unmount
+    };
+  }, [_id, dispatch]);
   // useEffect(() => {
   //   if (selectedProperty) {
   //     const isInFavorites = favorites.some(
@@ -48,39 +55,39 @@ const ProductDetailPage = ({navigation}) => {
   //   }
   // }, [selectedProperty, favorites]);
 
-  const handleFavorite = async () => {
-    try {
-      if (isFavorite) {
-        dispatch(
-          removeFavorite({
-            userId: selectedProperty.data.listedBy._id,
-            itemId: selectedProperty.data._id,
-          }),
-        );
-      } else {
-        dispatch(
-          addFavorite({
-            userId: selectedProperty.data.listedBy._id,
-            itemId: selectedProperty.data._id,
-          }),
-        );
-      }
-      setIsFavorite(!isFavorite);
-    } catch (error) {
-      Alert.alert('Error', 'error');
-    }
-  };
-  if (loading) {
-    return (
-      <View className="flex-1 items-center justify-center">
-        <Text className="text-2xl text-black">Loading...</Text>
-      </View>
-    );
+  // const handleFavorite = async () => {
+  //   try {
+  //     if (isFavorite) {
+  //       dispatch(
+  //         removeFavorite({
+  //           userId: selectedProperty.data.listedBy._id,
+  //           itemId: selectedProperty.data._id,
+  //         }),
+  //       );
+  //     } else {
+  //       dispatch(
+  //         addFavorite({
+  //           userId: selectedProperty.data.listedBy._id,
+  //           itemId: selectedProperty.data._id,
+  //         }),
+  //       );
+  //     }
+  //     setIsFavorite(!isFavorite);
+  //   } catch (error) {
+  //     Alert.alert('Error', 'error');
+  //   }
+  // };
+  if (selectedPropertyLoading || !selectedProperty) {
+    console.log('Inside if', selectedPropertyLoading);
+
+    return <ProductDetailLoader />;
   }
 
   if (error) {
     return <Text>Error: {error}</Text>;
   }
+  console.log('Outside if', selectedPropertyLoading);
+
   return (
     <ScrollView>
       <SafeAreaView className="mb-3 bg-white flex-1">

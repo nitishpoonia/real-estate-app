@@ -6,7 +6,7 @@ import {Easing} from 'react-native-reanimated';
 const SmallCardLoader = () => {
   return (
     <MotiView
-      from={{opacity: 0, scale: 0.95}}
+      from={{opacity: 0.5, scale: 0.95}}
       animate={{opacity: 1, scale: 1}}
       transition={{
         type: 'timing',
