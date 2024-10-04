@@ -84,7 +84,7 @@ const ProductDetailPage = ({navigation}) => {
   return (
     <ScrollView>
       <SafeAreaView className="mb-3 bg-white flex-1">
-        <View className="flex-row items-center justify-between z-10">
+        <View className="flex-row items-center justify-between z-10 w-[67%]">
           <Pressable
             onPress={() => navigation.goBack()}
             className="bg-[#16a34a] rounded-full my-2 mx-2">

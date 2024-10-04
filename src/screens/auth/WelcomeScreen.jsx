@@ -1,16 +1,14 @@
 import {View, Text, ScrollView} from 'react-native';
-import React from 'react';
-// import Ls from '../../assets/images/LandnigScreenImage.png';
-
+import React, {useEffect} from 'react';
 import CustomButton from '../../components/CustomButton';
 import LandingPageImage from '../../assets/images/LandnigScreenImage.svg';
 import WelcomeScreenBottomImage from '../../assets/images/WelcomeScreenBottom.svg';
+
 const WelcomeScreen = ({navigation}) => {
   return (
     <ScrollView className="flex-1">
       <View className="flex-1 justify-center mt-5">
         <View className="flex justify-center items-center">
-          {/* <Image source={images.Ls} height={100} width={100} /> */}
           <LandingPageImage />
         </View>
 
@@ -33,7 +31,7 @@ const WelcomeScreen = ({navigation}) => {
           <CustomButton
             title="Sign Up"
             containerStyles={
-              'max-w-[100%] w-96 z-20 mx-auto bg-[#16a34a] border-[#16a34a]]'
+              'max-w-[100%] w-96 z-20 mx-auto bg-[#16a34a] border-[#16a34a]'
             }
             textStyles={'text-white'}
             handlePress={() => navigation.navigate('SignUp')}
@@ -56,12 +54,6 @@ const WelcomeScreen = ({navigation}) => {
         </View>
 
         <View className="absolute bottom-0 right-0 z-0">
-          {/* <Image
-          className="realtive"
-          source={images.bgimg}
-          height={100}
-          width={100}
-        /> */}
           <WelcomeScreenBottomImage />
         </View>
       </View>

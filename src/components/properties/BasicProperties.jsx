@@ -3,6 +3,7 @@ import React, {useEffect, useMemo} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchProperties} from '../../redux/slices/product/ProductThunk.js';
 import SmallCard from '../SmallCard.jsx';
+import SmallCardLoader from '../Loaders/SmallCardLoader.jsx';
 
 const BasicProperties = ({navigation, useSorted = false}) => {
   const dispatch = useDispatch();
@@ -21,12 +22,7 @@ const BasicProperties = ({navigation, useSorted = false}) => {
 
   const data = useSorted ? sortedProperties : properties;
 
-  if (loading)
-    return (
-      <Text className="text-black font-pregular text-base items-center">
-        Loading...
-      </Text>
-    );
+  if (loading) return <SmallCardLoader />;
   if (error)
     return <Text>Error: {error.message || 'An unknown error occurred'}</Text>;
 

@@ -1,3 +1,5 @@
+import 'react-native-reanimated';
+import 'react-native-gesture-handler';
 import React, {useEffect} from 'react';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {Provider, useDispatch} from 'react-redux';
