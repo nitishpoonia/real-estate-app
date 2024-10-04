@@ -107,32 +107,40 @@ const EditPropertyImages = ({route, navigation}) => {
     setSelectedImages(!selectedImages);
     setModalVisible(!modalVisible);
   };
-  const handleEditSelectedImages = () => {
-    launchImageLibrary(
-      {
-        mediaType: 'photo',
-        quality: 0.5,
-        selectionLimit: indexOfSelectedImages.length,
-      },
-      response => {
-        if (response.didCancel) {
-          Alert.alert('User cancelled image picker');
-        } else if (response.errorCode) {
-          Alert.alert('ImagePicker Error: ', response.errorMessage);
-        } else {
-          const newImages = [...images];
-          indexOfSelectedImages.forEach((index, i) => {
-            if (response.assets[i]) {
-              newImages[index] = response.assets[i].uri;
-            }
-          });
-          dispatch(setImages(newImages));
-          setModalVisible(false);
-          setIndexOfSelectedImages([]);
-        }
-      },
-    );
-  };
+const handleEditSelectedImages = () => {
+  const maxImageLimit = 10;
+  const remainingSlots = maxImageLimit - images.length; // Calculate how many images can still be added
+  const selectionLimit = remainingSlots > 0 ? remainingSlots : 0;
+
+  launchImageLibrary(
+    {
+      mediaType: 'photo',
+      quality: 0.5,
+      selectionLimit,
+    },
+    response => {
+      if (response.didCancel) {
+        Alert.alert('User cancelled image picker');
+      } else if (response.errorCode) {
+        Alert.alert('ImagePicker Error: ', response.errorMessage);
+      } else {
+        const selectedUris = response.assets.map(asset => asset.uri);
+
+        // Combine existing images with the newly selected images up to the max limit
+        const updatedImages = [...images, ...selectedUris].slice(
+          0,
+          maxImageLimit,
+        );
+
+        // Dispatch and reset state as needed
+        dispatch(setImages(updatedImages));
+        setModalVisible(false);
+        setIndexOfSelectedImages([]);
+      }
+    },
+  );
+};
+
 
   // Function to delete selected images
   const handleDeleteSelectedImages = () => {
@@ -177,7 +185,6 @@ const EditPropertyImages = ({route, navigation}) => {
         navigation.goBack();
       })
       .catch(err => {
-        console.log(updatedData);
         Toast.show({
           type: 'error',
           text1: 'Error',

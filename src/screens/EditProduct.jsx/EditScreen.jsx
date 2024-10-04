@@ -6,20 +6,26 @@ import {fetchPropertyById} from '../../redux/slices/product/ProductThunk';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {FlatList} from 'react-native-gesture-handler';
 import {useIsFocused} from '@react-navigation/native';
+import ProductDetailLoader from '../../components/Loaders/ProductDetailLoader';
+import EditPropertyLoader from '../../components/Loaders/EditPropertyLoader';
 
 const EditScreen = ({route, navigation}) => {
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
   const {_id} = route.params;
 
-  const fetchProperties = useCallback(() => {
+  const fetchProperties = () => {
     dispatch(fetchPropertyById(_id));
-  }, [_id, dispatch]);
+  };
 
   useEffect(() => {
     fetchProperties();
   }, [_id, dispatch, isFocused]);
-  const {selectedProperty, loading} = useSelector(state => state.product);
+  const {selectedProperty, selectedPropertyLoading} = useSelector(
+    state => state.product,
+  );
+  console.log(selectedPropertyLoading);
+
   const formatPriceInIndianStyle = price => {
     return new Intl.NumberFormat('en-IN').format(price);
   };
@@ -28,14 +34,8 @@ const EditScreen = ({route, navigation}) => {
       <Image source={{uri: item}} className="w-[200px] h-[200px] rounded-lg" />
     );
   };
-  if (loading) {
-    return (
-      <SafeAreaView className="flex-1">
-        <View className="flex-1 justify-center items-center">
-          <Text>Loading...</Text>
-        </View>
-      </SafeAreaView>
-    );
+  if (selectedPropertyLoading || !selectedProperty) {
+    return <EditPropertyLoader />;
   }
 
   return (

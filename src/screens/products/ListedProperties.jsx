@@ -126,6 +126,7 @@ const ListedProperties = ({navigation}) => {
         handleCardPress={() =>
           navigation.navigate('ProductDetailPage', {_id: item?._id})
         }
+        showEditAndDelete={true}
       />
     );
   };

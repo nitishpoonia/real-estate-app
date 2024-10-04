@@ -23,6 +23,7 @@ const LongCard = ({
   category,
   handleEditButtonPress,
   handleDeleteButtonPress,
+  showEditAndDelete,
 }) => {
   const daysSinceListed = moment().diff(createdAt, 'days');
 
@@ -91,20 +92,22 @@ const LongCard = ({
             <Icon name="heart" size={30} color={'black'} />
           </Pressable>
         </View> */}
-        <View className="flex-row justify-end">
-          <CustomButton
-            title={'Delete'}
-            containerStyles={'w-[32%] bg-red-500 mr-3 h-10'}
-            textStyles={'text-base font-pregular'}
-            handlePress={handleDeleteButtonPress}
-          />
-          <CustomButton
-            title={'Edit'}
-            containerStyles={'w-[32%] px-2 bg-blue-500 h-10'}
-            textStyles={'text-base font-pregular'}
-            handlePress={handleEditButtonPress}
-          />
-        </View>
+        {showEditAndDelete && (
+          <View className="">
+            <CustomButton
+              title={'Delete'}
+              containerStyles={'bg-red-500 mr-3 h-10'}
+              textStyles={'text-base font-pregular'}
+              handlePress={handleDeleteButtonPress}
+            />
+            <CustomButton
+              title={'Edit'}
+              containerStyles={'px-2 bg-blue-500 h-10'}
+              textStyles={'text-base font-pregular'}
+              handlePress={handleEditButtonPress}
+            />
+          </View>
+        )}
       </View>
     </Pressable>
   );

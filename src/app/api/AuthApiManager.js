@@ -1,7 +1,7 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {reset} from './NavigationService';
-import {logout} from '../../redux/slices/auth/authSlice'; // Adjust the path as necessary
+import {logout} from '../../redux/slices/auth/authSlice'; 
 
 let dispatch;
 
@@ -120,8 +120,6 @@ AuthApiManager.interceptors.response.use(
   async error => {
     if (error.response) {
       const {status, data} = error.response;
-
-      // Check if the token is expired or used
       if (
         status === 500 &&
         data.message === 'Refresh token is expired or used'
@@ -132,7 +130,6 @@ AuthApiManager.interceptors.response.use(
         );
       }
 
-      // Handle other scenarios (like refreshing the token)
       if (status === 500 && data.message === 'jwt expired') {
         try {
           const refreshToken = await getRefreshTokenFromStorage();
@@ -140,14 +137,8 @@ AuthApiManager.interceptors.response.use(
           if (refreshToken) {
             const {accessToken} = await refreshAccessToken(refreshToken);
             console.log('Refreshed Access Token:', accessToken);
-
-            // Store the new access token
             await storeNewAccessToken(accessToken);
-
-            // Update the original request's Authorization header
             error.config.headers.Authorization = `${accessToken}`;
-
-            // Retry the original request with the new access token
             return AuthApiManager.request(error.config);
           } else {
             throw new Error('No refresh token available');

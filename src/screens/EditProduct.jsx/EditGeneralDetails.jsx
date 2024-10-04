@@ -115,7 +115,7 @@ const EditGeneralDetails = ({route, navigation}) => {
         <View>
           <Text className="text-black text-base font-pregular">Price</Text>
           <CustomTextInput
-            value={price.toString()} // Ensure price is converted to string for the TextInput
+            value={price?.toString()} // Ensure price is converted to string for the TextInput
             onChangeText={text => {
               const parsedPrice = parseFloat(text); // Convert to number
               dispatch(setPrice(isNaN(parsedPrice) ? '' : parsedPrice)); // Dispatch price action
@@ -136,22 +136,23 @@ const EditGeneralDetails = ({route, navigation}) => {
           <Text className="text-black text-base font-pregular">Type</Text>
           <View style={styles.container}>
             <Text style={styles.label}>Select Property Type:</Text>
+            <View className="flex-row gap-x-2">
+              <TouchableOpacity
+                style={
+                  localType === 'sell' ? styles.selectedButton : styles.button
+                }
+                onPress={() => handleSelect('sell')}>
+                <Text style={styles.buttonText}>Sell</Text>
+              </TouchableOpacity>
 
-            <TouchableOpacity
-              style={
-                localType === 'sell' ? styles.selectedButton : styles.button
-              }
-              onPress={() => handleSelect('sell')}>
-              <Text style={styles.buttonText}>Sell</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={
-                localType === 'rent' ? styles.selectedButton : styles.button
-              }
-              onPress={() => handleSelect('rent')}>
-              <Text style={styles.buttonText}>Rent</Text>
-            </TouchableOpacity>
+              <TouchableOpacity
+                style={
+                  localType === 'rent' ? styles.selectedButton : styles.button
+                }
+                onPress={() => handleSelect('rent')}>
+                <Text style={styles.buttonText}>Rent</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </View>
@@ -166,6 +167,7 @@ const styles = StyleSheet.create({
   label: {
     marginBottom: 10,
     fontSize: 16,
+    color: 'black',
   },
   button: {
     padding: 10,
@@ -180,6 +182,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#007BFF',
     borderRadius: 5,
+    color: 'white',
     marginVertical: 5,
     backgroundColor: '#007BFF',
   },

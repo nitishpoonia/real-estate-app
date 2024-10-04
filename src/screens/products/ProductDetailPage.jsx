@@ -1,5 +1,5 @@
-import {ScrollView, View, Text, Image, Pressable, Alert} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import {ScrollView, View, Text, Image, Pressable} from 'react-native';
+import React, {useEffect} from 'react';
 import AmenitiesCard from '../../components/AmenitiesCard';
 // import CustomButton from '../../components/CustomButton';
 import ProductImages from '../../components/ProductImages';
@@ -37,13 +37,10 @@ const ProductDetailPage = ({navigation}) => {
     return new Intl.NumberFormat('en-IN').format(price);
   };
   useEffect(() => {
-    console.log('inside use Effect fetching property');
     dispatch(fetchPropertyById(_id));
     // dispatch(fetchFavorites(userId, itemId));
     return () => {
-      console.log('cleared on unmount');
-
-      dispatch(clearSelectedProperty()); // Clear selected property on unmount
+      dispatch(clearSelectedProperty());
     };
   }, [_id, dispatch]);
   // useEffect(() => {
@@ -78,15 +75,12 @@ const ProductDetailPage = ({navigation}) => {
   //   }
   // };
   if (selectedPropertyLoading || !selectedProperty) {
-    console.log('Inside if', selectedPropertyLoading);
-
     return <ProductDetailLoader />;
   }
 
   if (error) {
     return <Text>Error: {error}</Text>;
   }
-  console.log('Outside if', selectedPropertyLoading);
 
   return (
     <ScrollView>
@@ -112,7 +106,7 @@ const ProductDetailPage = ({navigation}) => {
         </View>
         <Image
           source={{uri: selectedProperty?.data?.mainImage}}
-          className={`w-[100%] m-auto h-[200px]`}
+          className={'w-[100%] m-auto h-[200px]'}
           resizeMode="cover"
         />
         <View className="mx-2 mt-2 w-[20%]">

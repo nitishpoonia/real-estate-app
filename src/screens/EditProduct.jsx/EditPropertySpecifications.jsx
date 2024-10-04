@@ -167,7 +167,7 @@ const EditPropertySpecifications = ({route, navigation}) => {
       <View>
         <Text className="font-pmedium text-lg text-black">Bedrooms</Text>
         <CustomTextInput
-          value={bedrooms.toString()}
+          value={bedrooms?.toString()}
           onChangeText={text => dispatch(setBedrooms(text))}
           placeholder="Bedrooms"
         />
@@ -175,7 +175,7 @@ const EditPropertySpecifications = ({route, navigation}) => {
       <View>
         <Text className="font-pmedium text-lg text-black">Bathrooms</Text>
         <CustomTextInput
-          value={bathrooms.toString()}
+          value={bathrooms?.toString()}
           onChangeText={text => dispatch(setBathrooms(text))}
           placeholder="Bathrooms"
         />
@@ -183,7 +183,7 @@ const EditPropertySpecifications = ({route, navigation}) => {
       <View>
         <Text className="font-pmedium text-lg text-black">Carpert Area</Text>
         <CustomTextInput
-          value={carpetArea.toString()}
+          value={carpetArea?.toString()}
           onChangeText={text => dispatch(setCarpetArea(text))}
           placeholder="Carpet Area"
         />
