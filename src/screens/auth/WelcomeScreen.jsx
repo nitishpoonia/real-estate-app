@@ -53,7 +53,7 @@ const WelcomeScreen = ({navigation}) => {
           />
         </View>
 
-        <View className="absolute bottom-0 right-0 z-0">
+        <View className="absolute bottom-0 right-0 z-[-1]">
           <WelcomeScreenBottomImage />
         </View>
       </View>

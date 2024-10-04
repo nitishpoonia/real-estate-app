@@ -23,8 +23,11 @@ import {
 import {SafeAreaView} from 'react-native-safe-area-context';
 import LoginScreenImage from '../../assets/images/LoginScreenImage.svg';
 import LoginPageDown from '../../assets/images/LoginPageDownImage.svg';
+import {deviceWidth} from '../../redux/deviceDimensions';
 
 const Login = ({navigation}) => {
+  console.log(deviceWidth);
+
   const [submitError, setSubmitError] = useState('');
   const [keyboardVisible, setKeyboardVisible] = useState(false);
   const dispatch = useDispatch();
@@ -163,7 +166,7 @@ const Login = ({navigation}) => {
                 title={loading ? 'Logging In..' : 'Login'}
                 handlePress={onSubmit}
                 disabled={loading}
-                containerStyles={'max-w-[100%] w-96 mx-auto bg-[#16a34a]'}
+                containerStyles={'mx-auto bg-[#16a34a]'}
                 isLoading={loading}
               />
             </View>

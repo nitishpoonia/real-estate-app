@@ -1,6 +1,7 @@
 import React from 'react';
 import {ActivityIndicator, Text, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {deviceWidth} from '../redux/deviceDimensions';
 const CustomButton = ({
   title,
   handlePress,
@@ -12,10 +13,12 @@ const CustomButton = ({
   iconName,
   iconSize,
 }) => {
+  const buttonWidth = deviceWidth * 0.89;
   return (
     <View
       className={`bg-secondary rounded-xl h-12 px-4 my-4 flex-row
-      items-center ${containerStyles} ${isLoading ? 'opacity-50' : ''}`}>
+      items-center ${containerStyles} ${isLoading ? 'opacity-50' : ''}`}
+      style={{width: buttonWidth}}>
       <TouchableOpacity
         onPress={handlePress}
         activeOpacity={0.7}
